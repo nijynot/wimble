@@ -1,0 +1,40 @@
+@import 'src/scss/variables';
+
+.TransactionRow {
+  display: flex;
+  margin-bottom: $small;
+  border-bottom: 1px solid #999;
+  padding-bottom: $small;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.TransactionRow-action {
+  min-width: 200px;
+  flex-grow: 1;
+  margin-right: $base;
+}
+.TransactionRow-txtype {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.TransactionRow-time {
+  color: #999;
+  font-size: 13px;
+}
+.TransactionRow-amount {
+  flex-grow: 1;
+}
+.TransactionRow-credited {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 2px;
+  text-align: right;
+}
+.TransactionRow-debited {
+  text-align: right;
+  display: block;
+  color: #999;
+  font-size: 13px;
+}

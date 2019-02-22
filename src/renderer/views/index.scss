@@ -1,0 +1,123 @@
+@font-face {
+  font-family: 'Inter UI';
+  font-weight: 400;
+  src: url("./../../../vendor/fonts/Inter-UI-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter UI";
+  src: url("./../../../vendor/fonts/Inter-UI-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Inter UI';
+  font-weight: 500;
+  src: url("./../../../vendor/fonts/Inter-UI-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: 'Inter UI';
+  font-weight: 600;
+  src: url("./../../../vendor/fonts/Inter-UI-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter UI";
+  src: url("./../../../vendor/fonts/Inter-UI-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Inter UI";
+  src: url("./../../../vendor/fonts/Inter-UI-BoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Inter UI";
+  src: url("./../../../vendor/fonts/Inter-UI-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+}
+@font-face {
+  font-family: "Inter UI";
+  src: url("./../../../vendor/fonts/Inter-UI-ExtraBoldItalic.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Inter UI";
+  src: url("./../../../vendor/fonts/Inter-UI-Black.woff2") format("woff2");
+  font-weight: 900;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  border-radius: 4px;
+  color: black;
+  font-family: 'Inter UI';
+  font-size: 15px;
+  height: 100%;
+  background-color: white;
+}
+body {
+  height: 100%;
+}
+#root {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  margin: 0 auto 0 auto;
+  max-width: 900px;
+  height: 100%;
+}
+button {
+  font-size: 15px;
+}
+h1 {
+  font-size: 44px;
+  font-weight: 700;
+}
+h2 {
+  font-size: 32px;
+  font-weight: 700;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 19px;
+}
+small {
+  font-size: 14px;
+}
+pre {
+  display: inline-block;
+  font-family: monospace;
+}
+
+.jp {
+  font-family: 'Noto Serif JP', serif;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+  background: transparent; /* make scrollbar transparent */
+  // background-color: #060606;
+}
+// ::-webkit-scrollbar-button {
+//   background: transparent;
+// }
+// ::-webkit-resizer {
+//   background: transparent;
+// }
+// ::-webkit-scrollbar-track-piece {
+//   background: transparent;
+// }
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 7px;
+  padding-top: 3px;
+  background-clip: padding-box;
+  background-color: rgba(100, 100, 100, 0.88);
+  // background: transparent;
+}

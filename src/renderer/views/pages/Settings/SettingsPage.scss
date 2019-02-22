@@ -1,0 +1,77 @@
+@import 'src/scss/variables';
+
+.Settings {
+  padding-top: 40px;
+  position: relative;
+  justify-content: center;
+  flex-grow: 1;
+  display: flex;
+  // background-color: #e5e5e5;
+  background-color: white;
+  transition: all .5s cubic-bezier(.19, 1, .22, 1);
+}
+.Settings h4 {
+  font-weight: 600;
+  margin-bottom: $small;
+}
+.Settings-sidebar {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.Settings-sidebar ul {
+  width: 100%;
+  text-align: right;
+}
+.Settings-sidebar ul div {
+  // font-family: monospace;
+  padding: 6px $small;
+  color: #999;
+  font-weight: 600;
+  font-size: 12px;
+}
+.Settings-sidebar li {
+  cursor: pointer;
+  font-weight: 500;
+  padding: 10px $small;
+  &:hover {
+    background-color: rgba(0, 0, 0, .05);
+  }
+}
+.Settings-content {
+  position: relative;
+  padding: $base;
+  max-width: 500px;
+  background-color: white;
+  flex-grow: 5;
+}
+.Settings-close-btn {
+  outline: 0;
+  border: 0;
+  background: transparent;
+  padding: 4px;
+  position: absolute;
+  top: 18px;
+  right: -4px;
+  cursor: pointer;
+  &:hover > svg {
+    stroke: #080808;
+  }
+}
+.Settings-close-btn svg {
+  stroke: #888;
+  transition: all .15s ease;
+  vertical-align: top;
+}
+.Settings-setting {
+  margin-bottom: $small;
+}
+.Settings-setting-title {
+  display: block;
+  margin-bottom: 4px;
+}
+.Settings-setting-description {
+  color: #888;
+  font-size: 13px;
+}

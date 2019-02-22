@@ -1,0 +1,95 @@
+@import "src/scss/variables";
+
+.App {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-top: 40px;
+  // transition: all .3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all .3s cubic-bezier(.19, 1, .22, 1);
+  &.hide {
+    transform: scale(.9);
+  }
+}
+.App-toolbar {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.App-wallet {
+  padding: 8px $small 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  cursor: pointer;
+  color: #999;
+  transition: all .15s ease;
+  font-size: 14px;
+  &:hover {
+    color: black;
+  }
+  &:hover > svg {
+    opacity: 1;
+  }
+  &:active > svg{
+    stroke: #080808;
+  }
+}
+.App-wallet svg {
+  opacity: 0;
+  margin-left: 4px;
+  stroke: #888;
+  transition: all .15s ease;
+}
+.App-drag {
+  flex-grow: 1;
+  // vertical-align: top;
+  -webkit-app-region: drag;
+  height: 40px;
+}
+.App-settings-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 14px;
+  vertical-align: top;
+  cursor: pointer;
+  &:hover > svg {
+    fill: #080808;
+  }
+}
+.App-settings-btn svg {
+  vertical-align: middle;
+  fill: #888;
+  width: $base;
+  height: $base;
+  transition: all .15s ease;
+}
+.App-layer {
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  height: 100%;
+  transform: scale(1.15);
+  // transition: all .3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all .3s cubic-bezier(.19, 1, .22, 1);
+  // transition: all .3s ease;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  z-index: 10;
+  overflow: hidden;
+  &.active {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
