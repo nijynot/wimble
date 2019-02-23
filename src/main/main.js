@@ -8,8 +8,8 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 700,
-    height: 525,
+    width: 600,
+    height: 425,
     backgroundColor: '#060606',
     // transparent: true,
     webPreferences: {

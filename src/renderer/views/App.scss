@@ -2,7 +2,7 @@
 
 .App {
   position: relative;
-  overflow: hidden;
+  // overflow: hidden;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -60,6 +60,7 @@
   padding: 14px;
   vertical-align: top;
   cursor: pointer;
+  z-index: 1;
   &:hover > svg {
     fill: #080808;
   }
@@ -86,7 +87,7 @@
   bottom: 0;
   position: absolute;
   z-index: 10;
-  overflow: hidden;
+  // overflow: hidden;
   &.active {
     visibility: visible;
     opacity: 1;

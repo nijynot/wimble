@@ -7,8 +7,6 @@ require('./views/reset.css');
 require('./views/index.scss');
 
 ReactDOM.render(
-  <App>
-    <HomePage />
-  </App>,
+  <App />,
   document.getElementById('root')
 );
