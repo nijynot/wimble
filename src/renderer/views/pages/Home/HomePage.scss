@@ -21,9 +21,7 @@
   color: #999;
   font-size: 13px;
 }
-.Home-actions {
-  margin: $small 0;
-}
+.Home-actions {}
 .Home-action-btn {
   display: inline-block;
   background-color: rgba(0, 0, 0, .1);
@@ -46,58 +44,10 @@
   vertical-align: top;
 }
 .Home h2 {
-  margin-bottom: $tiny;
+  margin-bottom: 14px;
   text-align: center;
-  transition: 1s cubic-bezier(.19,1,.22,1);
+  transition: 1s cubic-bezier(.19, 1, .22, 1);
   // transform: scale(.95);
   // filter: blur(10px);
   // opacity: .3;
-}
-.Home-history {
-  background-color: rgba(0, 0, 0, .1);
-  flex-grow: 1;
-  padding-top: $base;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-}
-.Home-history-tabs {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-}
-.Home-history-tab {
-  border: 0;
-  background: transparent;
-  font-family: 'Inter UI';
-  font-weight: 600;
-  outline: 0;
-  cursor: pointer;
-  padding: 0 0 4px 0;
-  margin: 0 $tiny;
-  text-align: left;
-  font-size: 13px;
-  font-weight: 500;
-  border-bottom: 2px solid transparent;
-  &.active {
-    border-color: #080808;
-  }
-}
-.Home-history-tab-wrap {
-  flex: 1 1 0;
-  display: flex;
-  &:first-child {
-    justify-content: flex-end;
-  }
-  &:last-child {
-    justify-content: flex-start;
-  }
-}
-.Home-history-content {
-  overflow-y: scroll;
-  flex-grow: 1;
-  padding: $base;
-  max-width: 400px;
 }

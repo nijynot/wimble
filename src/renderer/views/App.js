@@ -4,6 +4,7 @@ import cx from 'classnames';
 import HomePage from './pages/Home/HomePage';
 import SettingsPage from './pages/Settings/SettingsPage';
 import SendPage from './pages/Send/SendPage';
+import ReceivePage from './pages/Receive/ReceivePage';
 require('./App.scss');
 
 export default function App(props) {
@@ -17,11 +18,15 @@ export default function App(props) {
     setSettingsActive(!isSettingsActive);
   }
 
+  function close() {
+    setSettingsActive(false);
+    setReceive(false);
+    setSend(false);
+  }
+
   function esc() {
     if (event.keyCode === 27) {
-      setSettingsActive(false);
-      setReceive(false);
-      setSend(false);
+      close();
     }
   }
 
@@ -48,6 +53,7 @@ export default function App(props) {
       <div className={cx('App', { hide: isLayerActive() })}>
         <HomePage
           setSend={() => setSend(true)}
+          setReceive={() => setReceive(true)}
         />
         <div
           className="App-settings-btn"
@@ -62,11 +68,16 @@ export default function App(props) {
           setDarkMode={setDarkMode}
           startOwner={startOwner}
           setStartOwner={setStartOwner}
-          close={() => toggle()}
+          close={() => close()}
         />
       </div>
       <div className={cx('App-layer', { active: isSendActive })}>
-        <SendPage />
+        <SendPage
+          close={() => close()}
+        />
+      </div>
+      <div className={cx('App-layer', { active: isReceiveActive })}>
+        <ReceivePage />
       </div>
     </React.Fragment>
   );

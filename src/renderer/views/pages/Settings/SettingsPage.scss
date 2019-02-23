@@ -40,16 +40,15 @@
 }
 .Settings-content {
   position: relative;
-  padding: $small;
+  padding: 0 $small $small $small;
   max-width: 500px;
   background-color: white;
   flex-grow: 5;
 }
 .Settings-close-wrap {
-  padding-right: $small;
   position: absolute;
-  top: 11px;
-  right: -43px;
+  top: -5px;
+  right: 19px;
 }
 .Settings-close-btn {
   outline: 0;
