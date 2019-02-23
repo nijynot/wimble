@@ -1,7 +1,7 @@
 @import 'src/scss/variables';
 
 .Settings {
-  padding-top: 40px;
+  padding-top: $large;
   position: relative;
   justify-content: center;
   flex-grow: 1;
@@ -41,19 +41,22 @@
 }
 .Settings-content {
   position: relative;
-  padding: $base;
+  padding: $small;
   max-width: 500px;
   background-color: white;
   flex-grow: 5;
+}
+.Settings-close-wrap {
+  padding-right: $small;
+  position: absolute;
+  top: 11px;
+  right: -43px;
 }
 .Settings-close-btn {
   outline: 0;
   border: 0;
   background: transparent;
   padding: 4px;
-  position: absolute;
-  top: 18px;
-  right: -4px;
   cursor: pointer;
   &:hover > svg {
     stroke: #080808;
@@ -65,7 +68,16 @@
   vertical-align: top;
 }
 .Settings-setting {
-  margin-bottom: $small;
+  display: flex;
+  margin-bottom: $base;
+}
+.Settings-setting-text {
+  flex-grow: 1;
+  margin-right: $small;
+}
+.Settings-setting-toggle {
+  justify-content: flex-end;
+  margin-right: $tiny;
 }
 .Settings-setting-title {
   display: block;
@@ -74,4 +86,19 @@
 .Settings-setting-description {
   color: #888;
   font-size: 13px;
+}
+.Settings-btn {
+  font-family: 'Inter UI';
+  border: 0;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: all .15s ease;
+  outline: 0;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
 }

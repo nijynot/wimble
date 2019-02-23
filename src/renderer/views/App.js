@@ -5,8 +5,9 @@ import SettingsPage from './pages/Settings/SettingsPage';
 require('./App.scss');
 
 export default function App(props) {
-  const [count, setCount] = useState(0);
   const [settingsActive, setSettingsActive] = useState(false);
+  const [startOwner, setStartOwner] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   function toggle() {
     setSettingsActive(!settingsActive);
@@ -14,7 +15,7 @@ export default function App(props) {
 
   function esc() {
     if (event.keyCode === 27 && settingsActive) {
-      toggle();
+      setSettingsActive(false);
     }
   }
 
@@ -45,6 +46,10 @@ export default function App(props) {
       </div>
       <div className={cx('App-layer', { active: settingsActive })}>
         <SettingsPage
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+          startOwner={startOwner}
+          setStartOwner={setStartOwner}
           close={() => toggle()}
         />
       </div>

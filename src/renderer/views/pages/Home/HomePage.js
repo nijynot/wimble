@@ -5,9 +5,6 @@ import TransactionRow from './components/TransactionRow';
 require('./HomePage.scss');
 
 export default function HomePage(props) {
-  const [sendAmount, setSendAmount] = useState(null);
-  const [addr, setAddr] = useState('');
-  const [history, setHistory] = useState('transactions');
   const summary = {
     last_confirmed_height: 55086,
     minimum_confirmations: 1,
@@ -17,7 +14,6 @@ export default function HomePage(props) {
     amount_currently_spendable: 420000000000,
     amount_locked: 0,
   };
-
   const txs = [
     { parent_key_id: '0200000000000000000000000000000000',
       id: 0,
@@ -66,87 +62,26 @@ export default function HomePage(props) {
     },
   ];
 
-  //TODO: add `ツ` to the end of the input, e.g. `15614 ツ`
   return (
     <div className="Home">
       <div className="Home-header">
         <div className="Home-balance">
           <span className="Home-balance-subheading">Balance <pre>@</pre> <pre>55086</pre></span>
-          {/*<pre>Balance @55086</pre>*/}
           <h2>{parseFloat(summary.total / 1000000000).toFixed(2)} <span className="jp">ツ</span></h2>
         </div>
         <div className="Home-actions">
           <button className="Home-action-btn">
             <span>Receive</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            {/*<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>*/}
           </button>
           <button className="Home-action-btn">
             <span>Send</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            {/*<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>*/}
           </button>
-        </div>
-      </div>
-      <div className="Home-history">
-        <div className="Home-history-tabs">
-          <div className="Home-history-tab-wrap">
-            <button
-              className={cx('Home-history-tab', {
-                active: history === 'transactions',
-              })}
-              onClick={() => setHistory('transactions')}
-            >
-              Transactions
-            </button>
-          </div>
-          <div className="Home-history-tab-wrap">
-            <button
-              className={cx('Home-history-tab', {
-                active: history === 'outputs',
-              })}
-              onClick={() => setHistory('outputs')}
-            >
-              Outputs
-            </button>
-          </div>
-        </div>
-        <div className="Home-history-content">
-          {txs.map((tx) => <TransactionRow tx={tx} />)}
         </div>
       </div>
     </div>
   );
-  // <div className="Home-send">
-  //   <h2>Send.</h2>
-  //   <input
-  //     className="Home-input"
-  //     placeholder="amount ツ"
-  //     value={sendAmount}
-  //     onChange={(e) => setSendAmount(e.target.value)}
-  //   />
-  //   <hr />
-  //   <div className="Home-send-addr">
-  //     <input
-  //       className="Home-input"
-  //       placeholder="192.168.0.1"
-  //       value={addr}
-  //       onChange={(e) => setAddr(e.target.value)}
-  //     />
-  //     <button className="Home-send-btn">Send</button>
-  //   </div>
-  //   <div className="Home-or">or</div>
-  //   <textarea
-  //     className="Home-slate"
-  //     placeholder="slate"
-  //   ></textarea>
-  // </div>
-  // <hr className="bold" />
-  // <div className="Home-receive">
-  //   <h2>Receive.</h2>
-  //   <input
-  //     className="Home-amount"
-  //     placeholder="amount ツ"
-  //     value={sendAmount}
-  //     onChange={(e) => setSendAmount(e.target.value)}
-  //   />
-  // </div>
 }

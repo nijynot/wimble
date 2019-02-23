@@ -13,9 +13,7 @@
   // }
 }
 .Home-header {}
-.Home-balance {
-  margin-top: $base;
-}
+.Home-balance {}
 .Home-balance-subheading {
   text-align: center;
   display: block;
@@ -24,7 +22,7 @@
   font-size: 13px;
 }
 .Home-actions {
-  margin: $base 0;
+  margin: $small 0;
 }
 .Home-action-btn {
   display: inline-block;
@@ -38,7 +36,7 @@
   font-weight: 600;
   margin: 0 $tiny;
   cursor: pointer;
-  width: 112px;
+  width: 115px;
   &:hover {
     background-color: rgba(0, 0, 0, .2);
   }
