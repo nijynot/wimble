@@ -26,9 +26,10 @@ export default function SendPage() {
   return (
     <div className="Send">
       <div className="Send-content">
+        <h4>Send Grin</h4>
         <div className="Send-row">
           <div className="Send-wrap">
-            <small>Send amount</small>
+            <small>Amount</small>
             <input
               className="Send-amount-ipt"
               placeholder="0.00"
