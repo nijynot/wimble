@@ -69,20 +69,3 @@ export default function SendPage() {
     </div>
   );
 }
-
-// <div className="Send-amount">
-//   <small>Send</small>
-//   <div className="">
-//   </div>
-//   <div className="Send-balance">Your balance is: 420.00 <span className="jp">ツ</span></div>
-// </div>
-// <div className="Send-addr">
-//   <small>To</small>
-//   <input
-//     className="Send-amount-ipt"
-//     placeholder="192.168.0.1"
-//   />
-// </div>
-// <button>
-//   Send
-// </button>
