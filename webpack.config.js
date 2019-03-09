@@ -33,4 +33,9 @@ module.exports = {
       { test: /\.(jpe?g|png|gif|svg|woff|woff2|eot)$/i, loader: 'file-loader' },
     ],
   },
+  resolve: {
+    alias: {
+      'components': path.resolve(__dirname, 'src/renderer/views/components'),
+    },
+  }
 };

@@ -19,32 +19,36 @@
   display: block;
   margin-bottom: 2px;
   color: #999;
-  font-size: 13px;
+  font-size: 11px;
 }
 .Home-actions {}
 .Home-action-btn {
-  display: inline-block;
-  background-color: rgba(0, 0, 0, .1);
+  background-color: rgba(0, 0, 0, 1);
   border: 0;
-  font-family: 'Inter UI';
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
   border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
   padding: 10px $small;
-  outline: 0;
-  transition: all .15s ease;
+  font-family: 'Inter UI';
   font-weight: 600;
   margin: 0 $tiny;
-  cursor: pointer;
-  width: 115px;
+  outline: 0;
+  transition: all .15s ease;
+  width: 125px;
   &:hover {
-    background-color: rgba(0, 0, 0, .2);
+    // background-color: rgba(0, 0, 0, 1);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.16);
+    transform: translateY(-1px);
   }
 }
 .Home-action-btn svg {
-  margin-left: 6px;
+  margin-left: 10px;
   vertical-align: top;
 }
 .Home h2 {
-  margin-bottom: 14px;
+  margin-bottom: 28px;
   text-align: center;
   transition: 1s cubic-bezier(.19, 1, .22, 1);
   // transform: scale(.95);

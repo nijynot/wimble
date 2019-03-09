@@ -17,7 +17,7 @@ export default function Toggle(props) {
 
 Toggle.propTypes = {
   active: PropTypes.bool.isRequired,
-  onClick: PropTypes.function,
+  onClick: PropTypes.func,
 };
 
 Toggle.defaultProps = {

@@ -14,7 +14,7 @@ export default function SettingsPage(props) {
             className="Settings-close-btn"
             onClick={props.close}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
           </button>
         </div>
         <h4>Settings</h4>
@@ -52,8 +52,8 @@ export default function SettingsPage(props) {
 
 SettingsPage.propTypes = {
   darkMode: PropTypes.bool,
-  setDarkMode: PropTypes.function,
+  setDarkMode: PropTypes.func,
   startOwner: PropTypes.bool,
-  setStartOwner: PropTypes.function,
-  close: PropTypes.function,
+  setStartOwner: PropTypes.func,
+  close: PropTypes.func,
 };
