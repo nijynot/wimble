@@ -11,7 +11,7 @@
   margin-top: 6px;
   outline: 0;
   position: relative;
-  transition: all .2s ease;
+  transition: all .5s ease;
   white-space: pre;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 6px;
@@ -27,7 +27,7 @@
   justify-content: center;
   height: 55px;
   align-items: center;
-  transition: all .25s cubic-bezier(.19, 1, .22, 1);
+  transition: all .5s cubic-bezier(.19, 1, .22, 1);
   &.active {
     color: black;
     height: 90px;
@@ -125,14 +125,20 @@
   font-size: 14px;
   padding: $tiny $small;
   outline: 0;
-  transition: all .2s ease;
-  &:hover {
+  transition: background-color .5s ease, transform .2s ease, box-shadow .2s ease;
+  &:hover:not([disabled]) {
     box-shadow: 0 7px 20px rgba(0, 0, 0, 0.16);
     transform: translateY(-1px) !important;
   }
   &:disabled {
+    cursor: not-allowed;
+    background-color: #222;
     color: #666 !important;
     text-decoration: line-through;
+  }
+  &.finalize {
+    background: black;
+    color: white;
   }
 }
 

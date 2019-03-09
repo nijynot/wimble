@@ -11,17 +11,30 @@ require('./SendPage.scss');
 
 export default function SendPage(props) {
   const METHOD = {
-    FILE: 'File & Base58-string',
-    HTTP: 'HTTP',
-    KEYBASE: 'Keybase',
+    FILE: {
+      title: 'File & Base58-string',
+      description: 'Send Grin using a file or string.'
+    },
+    HTTP: {
+      title: 'HTTP',
+      description: 'Send Grin to and IP address or domain.'
+    },
+    KEYBASE: {
+      title: 'Keybase',
+      description: 'Send Grin using Keybase.'
+    },
   };
   const [method, setMethod] = useState('FILE');
   const [amount, setAmount] = useState('');
 
   const routes = {
-    FILE: <FileMethod />,
+    FILE: <FileMethod amount={amount} />,
     HTTP: <HTTPMethod />,
   };
+
+  function router(route) {
+    return routes[route];
+  }
 
   return (
     <div className="Send">
@@ -31,7 +44,7 @@ export default function SendPage(props) {
             className="Settings-close-btn"
             onClick={props.close}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
         <div className="Send-tabs">
@@ -40,10 +53,21 @@ export default function SendPage(props) {
         </div>
         <div className="Send-column">
           <label className="Send-label">Method</label>
-          <Select selected={method} value={METHOD[method]}>
-            <Option onClick={() => setMethod('FILE')} value="FILE">{METHOD['FILE']}</Option>
-            <Option onClick={() => setMethod('HTTP')} value="HTTP">{METHOD['HTTP']}</Option>
-            <Option onClick={() => setMethod('KEYBASE')} value="KEYBASE">{METHOD['KEYBASE']}</Option>
+          <Select
+            selected={method}
+            value={(
+              <React.Fragment>
+                <div>{METHOD[method].title}</div>
+                <label>{METHOD[method].description}</label>
+              </React.Fragment>
+            )}
+          >
+            {['FILE', 'HTTP', 'KEYBASE'].map((m) => (
+              <Option onClick={() => setMethod(m)} value={m}>
+                <div>{METHOD[m].title}</div>
+                <label>{METHOD[m].description}</label>
+              </Option>
+            ))}
           </Select>
         </div>
         <div className="Send-row">
@@ -70,7 +94,7 @@ export default function SendPage(props) {
           </div>
         </div>
         <div className="Send-column">
-          {routes[method]}
+          {router(method)}
         </div>
       </div>
     </div>

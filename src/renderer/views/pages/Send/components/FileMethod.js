@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 require('./FileMethod.scss');
 
-export default function FileMethod() {
+export default function FileMethod(props) {
   const exSlate = {
     "num_participants": 5,
     "id": "3d4fc46c-dffd-4275-b0ad-dea6ae195d",
@@ -62,13 +62,13 @@ export default function FileMethod() {
           </button>
         </div> : null}
       </div>
-      {/*<button className="FileMethod-save-btn">
-        Save as file
-      </button>*/}
       <div className="FileMethod-footer">
         <button
-          className="FileMethod-end-btn"
+          className={cx('FileMethod-end-btn', {
+            finalize: stage === 'finalize',
+          })}
           onClick={() => generateSlate()}
+          disabled={(!props.amount)}
         >
           {(stage === 'slate') ? 'Generate Slate' : 'Continue to Finalize ' + String.fromCharCode(8594)}
           <svg

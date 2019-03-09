@@ -20,6 +20,7 @@ export default function App() {
       mass: 1,
       tension: 450,
       friction: 40,
+      velocity: 5,
     },
     from: {
       position: 'absolute',
