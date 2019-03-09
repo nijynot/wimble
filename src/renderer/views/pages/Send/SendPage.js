@@ -23,8 +23,6 @@ export default function SendPage(props) {
     HTTP: <HTTPMethod />,
   };
 
-  console.log('mount me!');
-
   return (
     <div className="Send">
       <div className="Send-content">

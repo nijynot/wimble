@@ -1,9 +1,0 @@
-.Scale {
-  opacity: 0;
-  transform: scale(1.15);
-  transition: all .45s cubic-bezier(.19, 1, .22, 1);
-  &.active {
-    opacity: 1;
-    transform: scale(1);
-  }
-}

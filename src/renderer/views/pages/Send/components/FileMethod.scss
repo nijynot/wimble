@@ -6,48 +6,24 @@
 .FileMethod-slate {
   border-radius: 4px;
   border: 1px solid #ddd;
-  // // cursor: pointer;
   font-family: monospace;
   font-size: 13px;
   margin-top: 6px;
-  // max-height: 110px;
-  // min-width: 0;
-  // overflow: hidden;
   outline: 0;
-  // padding: $tiny;
   position: relative;
-  // resize: none;
   transition: all .2s ease;
   white-space: pre;
-  // &::after {
-  //   content: "";
-  //   position: absolute;
-  //   left: 0;
-  //   right: 0;
-  //   top: 0;
-  //   bottom: 0;
-  //   background: linear-gradient(0deg, #fff, hsla(0,0%,100%,0) 40px);
-  // }
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 6px;
     border-color: rgb(221, 221, 221);
   }
 }
-// .Send-wrap.slate {
-//   position: relative;
-// }
 .FileMethod-copy {
   display: flex;
   padding: 8px;
   overflow: hidden;
   position: relative;
   color: #999;
-  // position: absolute;
-  // left: 0;
-  // right: 0;
-  // bottom: 0;
-  // top: 0;
-  // display: flex;
   justify-content: center;
   height: 55px;
   align-items: center;
@@ -77,7 +53,6 @@
   padding: $tiny;
 }
 .FileMethod-copy-btn {
-  // background-color: #efefef;
   background-color: black;
   border: 0;
   border-radius: 25px;
@@ -88,7 +63,6 @@
   font-family: 'Inter UI';
   font-size: 14px;
   padding: $tiny $small;
-  // position: absolute;
   opacity: 0;
   outline: 0;
   top: 30%;
@@ -109,26 +83,6 @@
     margin-left: $tiny;
   }
 }
-// .FileMethod-save-btn {
-//   background-color: white;
-//   border: 0;
-//   color: #666;
-//   cursor: pointer;
-//   font-weight: 600;
-//   margin-top: $tiny;
-//   padding: 4px 6px 6px 6px;
-//   font-size: 14px;
-//   outline: 0;
-//   transition: all .15s ease;
-//   width: 100%;
-//   &:hover {
-//     color: #080808;
-//   }
-//   &:disabled {
-//     color: #666 !important;
-//     text-decoration: line-through;
-//   }
-// }
 .FileMethod-save {
   border-top: 1px solid #ddd;
 }
@@ -146,7 +100,6 @@
   &:hover {
     color: black;
     background-color: #f2f2f2;
-    // transform: translateY(1px);
   }
   & svg {
     vertical-align: bottom;

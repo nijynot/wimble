@@ -75,28 +75,6 @@
   height: $base;
   transition: all .15s ease;
 }
-.App-layer {
-  background-color: white;
-  display: flex;
-  visibility: hidden;
-  opacity: 0;
-  height: 100%;
-  transform: scale(1.15);
-  overflow-y: auto;
-  // transition: all .3s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all .45s cubic-bezier(.19, 1, .22, 1);
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  position: absolute;
-  z-index: 1001;
-  &.active {
-    visibility: visible;
-    opacity: 1;
-    transform: scale(1);
-  }
-}
 .App-animation {
   z-index: 10000;
 }

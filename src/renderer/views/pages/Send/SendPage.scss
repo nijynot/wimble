@@ -69,9 +69,6 @@
   margin-bottom: $small;
   min-width: 0;
   position: relative;
-  // &:last-child {
-  //   margin-bottom: $large;
-  // }
 }
 .Send-label {
   margin-bottom: 6px;
@@ -89,45 +86,6 @@
   font-weight: 600;
   padding: 8px 0 8px 14px;
 }
-// .Send-wrap {
-//   display: flex;
-//   flex-direction: column;
-//   min-width: 0;
-//   flex-grow: 1;
-// }
-// .Send-amount-ipt {
-//   // max-width: 250px;
-//   // font-size: $h2;
-//   font-size: $h4;
-//   font-weight: 700;
-//   outline: 0;
-//   border: 0;
-//   min-width: 0;
-// }
-// .Send-sign {
-//   height: 35px;
-//   width: 35px;
-//   display: inline-block;
-//   font-size: $h2;
-//   margin-left: $tiny;
-//   position: relative;
-//   // top: -18px;
-//   top: -5px;
-// }
-// .Send-balance {
-//   font-size: 13px;
-//   // color:
-// }
-// .Send-addr-ipt {
-//   margin-top: 4px;
-//   // max-width: 285px;
-//   // width: 293px;
-//   font-size: $h4;
-//   font-weight: 700;
-//   outline: 0;
-//   border: 0;
-//   min-width: 0;
-// }
 ::placeholder {
   color: #999;
 }
