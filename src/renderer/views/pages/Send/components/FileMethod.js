@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
+import { withRouter } from 'react-router-dom';
 
 require('./FileMethod.scss');
 
-export default function FileMethod(props) {
+function FileMethod(props) {
   const exSlate = {
     "num_participants": 5,
     "id": "3d4fc46c-dffd-4275-b0ad-dea6ae195d",
@@ -30,11 +31,19 @@ export default function FileMethod(props) {
       setSlate(JSON.stringify(exSlate, null, 2));
       setLoading(false);
       setStage('finalize');
-    }, 1500);
+    }, 1000);
   }
 
   function toFinalize() {
+    props.history.push('/send/finalize');
+  }
 
+  function submit() {
+    if (stage === 'slate') {
+      generateSlate();
+    } else {
+      toFinalize();
+    }
   }
 
   return (
@@ -52,13 +61,13 @@ export default function FileMethod(props) {
             disabled={(slate) ? false : true}
           >
             Copy to clipboard
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
           </button>
         </div>
         {(slate) ? <div className="FileMethod-save">
           <button className="FileMethod-save-btn">
             Save as File
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
           </button>
         </div> : null}
       </div>
@@ -67,7 +76,7 @@ export default function FileMethod(props) {
           className={cx('FileMethod-end-btn', {
             finalize: stage === 'finalize',
           })}
-          onClick={() => generateSlate()}
+          onClick={() => submit()}
           disabled={(!props.amount)}
         >
           {(stage === 'slate') ? 'Generate Slate' : 'Continue to Finalize ' + String.fromCharCode(8594)}
@@ -87,3 +96,5 @@ export default function FileMethod(props) {
     </div>
   );
 }
+
+export default withRouter(FileMethod);

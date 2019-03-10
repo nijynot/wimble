@@ -29,7 +29,7 @@ export default function Select(props) {
         className={cx('Select-options', { hide: !show })}
         onClick={() => setShow(false)}
       >
-        {_.sortBy(props.children, (c) => (c.props.value === props.selected) ? -1 : 0)}
+        {props.children}
       </div>
     </OutsideClickHandler>
   )

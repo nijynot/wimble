@@ -36,6 +36,7 @@ module.exports = {
   resolve: {
     alias: {
       'components': path.resolve(__dirname, 'src/renderer/views/components'),
+      'hooks': path.resolve(__dirname, 'src/renderer/views/hooks'),
     },
   }
 };

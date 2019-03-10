@@ -1,8 +1,10 @@
 @import 'src/scss/variables';
 
 .ReceivePage {
+  position: absolute;
   padding-top: $large;
   width: 100%;
   background-color: white;
   display: flex;
+  height: 100%;
 }

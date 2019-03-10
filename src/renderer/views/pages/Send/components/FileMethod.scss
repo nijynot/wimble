@@ -75,8 +75,9 @@
     transform: translateY(-1px) !important;
   }
   &:disabled {
-    color: #666 !important;
-    text-decoration: line-through;
+    cursor: not-allowed;
+    background-color: #c7c7c7;
+    color: #efefef !important;
   }
   & svg {
     vertical-align: bottom;
@@ -132,9 +133,8 @@
   }
   &:disabled {
     cursor: not-allowed;
-    background-color: #222;
-    color: #666 !important;
-    text-decoration: line-through;
+    background-color: #c7c7c7;
+    color: #efefef !important;
   }
   &.finalize {
     background: black;

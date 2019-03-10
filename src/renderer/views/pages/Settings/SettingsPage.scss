@@ -8,6 +8,8 @@
   flex-grow: 1;
   display: flex;
   background-color: white;
+  position: absolute;
+  z-index: 10000;
 }
 .Settings h4 {
   font-weight: 600;
@@ -47,8 +49,8 @@
 }
 .Settings-close-wrap {
   position: absolute;
-  top: 4px;
-  right: 10px;
+  top: -4px;
+  right: 17px;
 }
 .Settings-close-btn {
   outline: 0;
@@ -79,7 +81,7 @@
 }
 .Settings-setting-title {
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 .Settings-setting-description {
   color: #888;

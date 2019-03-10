@@ -1,11 +1,13 @@
 @import 'src/scss/variables';
 
 .Send {
+  position: absolute;
   padding-top: $large;
   width: 100%;
   background-color: white;
   display: flex;
   height: 100%;
+  z-index: 10000
 }
 .Send-tabs {
   display: flex;
@@ -85,6 +87,11 @@
 .Send-amount-ctrl {
   font-weight: 600;
   padding: 8px 0 8px 14px;
+}
+.Send-close-wrap {
+  position: absolute;
+  top: 4px;
+  right: 10px;
 }
 ::placeholder {
   color: #999;

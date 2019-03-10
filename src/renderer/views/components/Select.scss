@@ -44,12 +44,23 @@
   align-items: center;
 }
 .Select-options {
-  background-color: inherit;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
   position: absolute;
   top: 0;
+  transition: all .2s ease;
   width: 100%;
   z-index: 10001;
   &.hide {
     display: none;
+  }
+  & > a {
+    color: black;
+    text-decoration: none;
+  }
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 6px;
+    border-color: rgb(221, 221, 221);
   }
 }
