@@ -44,7 +44,7 @@ function App(props) {
     },
   };
 
-  const transitions = useTransition(location, location => location.pathname, {
+  const transitions = useTransition(location, location => location.pathname.split('/')[1], {
     ...animation,
   })
 
@@ -78,13 +78,13 @@ function App(props) {
         <div className="App-drag"></div>
       </div>
       <Route path="/" render={() => (
-        // <div className={cx('App', { hide: (isSettingsActive || isReceiveActive || isSendActive) })}>
-        <div className={cx('App')}>
+        <div className={cx('App', { hide: (isSettingsActive || isReceiveActive || isSendActive) })}>
+        {/*<div className={cx('App')}>*/}
           <HomePage
             setSend={() => setSend(true)}
             setReceive={() => setReceive(true)}
           />
-          {location.pathname}
+          {/*location.pathname*/}
           <Link to="/settings">
             <button
               className="App-settings-btn"
@@ -95,19 +95,29 @@ function App(props) {
           </Link>
         </div>
       )} />
-      <Switch>
-        <Route path="/send/:method" render={() => <SendPage />} />
-        <Route path="/receive" render={() => <ReceivePage />} />
-        <Route path="/settings" render={() => (
-          <SettingsPage
-            darkMode={darkMode}
-            setDarkMode={setDarkMode}
-            startOwner={startOwner}
-            setStartOwner={setStartOwner}
-            close={() => close()}
-          />
-        )} />
-      </Switch>
+      {transitions.map(({ item, key, props }) => {
+        return <animated.div key={key} style={{
+          ...props,
+          background: 'white',
+          zIndex: 10000,
+          width: (item.pathname.split('/')[1] !== '') ? '100%' : null,
+          height: (item.pathname.split('/')[1] !== '') ? '100%' : null,
+        }}>
+        <Switch location={item}>
+          <Route path="/send/:method" render={() => <SendPage />} />
+          <Route path="/receive" render={() => <ReceivePage />} />
+          <Route path="/settings" render={() => (
+            <SettingsPage
+              darkMode={darkMode}
+              setDarkMode={setDarkMode}
+              startOwner={startOwner}
+              setStartOwner={setStartOwner}
+              close={() => close()}
+            />
+          )} />
+        </Switch>
+        </animated.div>;
+      })}
     </React.Fragment>
   );
 }

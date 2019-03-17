@@ -5,7 +5,6 @@ import { Route, Link, Switch, withRouter } from 'react-router-dom';
 
 import Send from './components/Send';
 import Finalize from './components/Finalize';
-// import useRouter from 'hooks/useRouter';
 require('./SendPage.scss');
 
 function SendPage(props) {

@@ -10,10 +10,10 @@ export default function HomePage(props) {
   const summary = {
     last_confirmed_height: 55086,
     minimum_confirmations: 1,
-    total: 420000000000,
+    total: 360000000000,
     amount_awaiting_confirmation: 0,
     amount_immature: 0,
-    amount_currently_spendable: 420000000000,
+    amount_currently_spendable: 360000000000,
     amount_locked: 0,
   };
   const txs = [

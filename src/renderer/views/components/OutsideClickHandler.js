@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import { addEventListener } from 'consolidated-events';
-// import objectValues from 'object.values';
 
 const DISPLAY = {
   BLOCK: 'block',

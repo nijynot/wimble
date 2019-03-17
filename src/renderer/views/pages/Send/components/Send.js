@@ -71,7 +71,7 @@ export default function Send(props) {
           <Input
             rootClassName="Send-amount"
             className="Send-amount-ctrl"
-            value={(props.amount) ? `420 - ${props.amount} ≈ ${420 - parseInt(props.amount)}` : '420'}
+            value={(props.amount) ? `360 - ${props.amount} ≈ ${360 - parseInt(props.amount)}` : '360'}
             disabled
           />
         </div>
@@ -79,8 +79,6 @@ export default function Send(props) {
       <div className="Send-column">
         <Route path="/send/file" render={() => <FileMethod amount={props.amount} />} />
         <Route path="/send/http" exact render={() => <HTTPMethod />} />
-        <Switch>
-        </Switch>
       </div>
     </React.Fragment>
   );
