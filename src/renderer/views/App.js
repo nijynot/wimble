@@ -121,6 +121,12 @@ function App(props) {
                 />
               )}
             />
+            <Route
+              path="/receive"
+              render={() => (
+                <ReceivePage close={() => close()} />
+              )}
+            />
           </Switch>
         </animated.div>
       ))}
