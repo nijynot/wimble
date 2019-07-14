@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import useInterval from 'hooks/useInterval';
 import grin from 'client/grin';
@@ -12,7 +12,7 @@ import SmallTransactionCard from 'components/SmallTransactionCard';
 import Wimble from 'svg/Wimble';
 require('./HomePage.scss');
 
-export default function HomePage(props) {
+function HomePage({ location, history, ...props }) {
   const tx = transactions[0];
   const [height, setHeight] = useState(0);
   const [peers, setPeers] = useState(0);
@@ -47,7 +47,6 @@ export default function HomePage(props) {
           <div className="Home_detail height">
             <label>Block Height</label>
             <h4>#{formatNumber(height)}</h4>
-            {/*<span className="grey">out of #{formatNumber(height)}</span>*/}
             <span className="grey">{tipHash.slice(0, 12)}...</span>
           </div>
           <div className="Home_detail peers">
@@ -67,10 +66,10 @@ export default function HomePage(props) {
           </div>
         </div>
       </div>
-      {/*<Link to="/send/amount" className="App_standard-button">Send</Link>*/}
     </div>
   );
 }
+export default withRouter((props) => <HomePage {...props} />);
 
 HomePage.propTypes = {
 };

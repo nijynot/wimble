@@ -8,17 +8,18 @@ import Big from 'big.js';
 import grin from 'client/grin';
 import { perfectMatch, match, validateAmount, toNanoGrin } from 'utils/util';
 import useInterval from 'hooks/useInterval';
+import useHistory from 'hooks/useHistory';
 require('./StandardButton.scss');
 
 function StandardButton({
   location,
-  history,
   amount,
   setAmount,
   txId,
   ...props
 }) {
   const { pathname } = location;
+  const history = useHistory(props.history);
   const [loading, setLoading] = useState(false);
   const buttons = {
     home: {
@@ -26,7 +27,7 @@ function StandardButton({
       className: 'black',
       onClick: ({ history, setAmount }) => {
         setAmount('0');
-        history.push('/send');
+        history.push('/send', { enter: 'zoom', scale: '1.15' });
       },
     },
     send: {
@@ -43,7 +44,7 @@ function StandardButton({
         setLoading(true);
         setTimeout(() => {
           setLoading(false);
-          history.push('/tx');
+          history.push('/tx', { enter: 'fade', leave: 'fade', scale: '1' });
         }, 800);
         // if (validateAmount(Big(amount))) {
         //   grin.initSendTx({ amount }).then((res) => {
@@ -55,12 +56,12 @@ function StandardButton({
       text: 'Finalize',
       className: 'black',
       onClick: ({ history }) => {
-        history.push('/finalize');
+        history.push('/finalize', { enter: 'fade', leave: 'fade', scale: '1' });
       },
       secondary: {
         text: 'Finalize later',
         onClick: ({ history }) => {
-          history.push('/');
+          history.push('/', { leave: 'zoom', scale: '1.15' });
         },
       },
     },
@@ -68,7 +69,13 @@ function StandardButton({
       text: 'Confirm',
       className: 'black',
       onClick: ({ history }) => {
-        history.push('/');
+        history.push('/', { leave: 'zoom', scale: '1.15' });
+      },
+    },
+    receive: {
+      text: 'Receive',
+      className: 'black',
+      onClick: ({ history }) => {
       },
     },
   };
@@ -83,6 +90,8 @@ function StandardButton({
       return buttons.tx;
     } else if (match(pathname, '/finalize')) {
       return buttons.finalize;
+    } else if (match(pathname, '/receive')) {
+      return buttons.receive;
     }
   }
 

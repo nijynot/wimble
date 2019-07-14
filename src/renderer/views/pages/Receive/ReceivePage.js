@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSpring, animated } from 'react-spring';
+import { withRouter } from 'react-router-dom';
 import cx from 'classnames';
 import fs from 'fs-extra';
 import { remote } from 'electron';
@@ -11,7 +12,7 @@ import Close from 'svg/Close';
 import TransactionCard from 'components/TransactionCard';
 require('./ReceivePage.scss');
 
-export default function ReceivePage(props) {
+function ReceivePage({ history, ...props }) {
   const [dragOver, setDragOver] = useState(false);
 
   const onDrop = (e) => {
@@ -41,10 +42,15 @@ export default function ReceivePage(props) {
     });
   };
 
+  const linker = (from, enter, leave) => {
+    history.push('/', { from, enter, leave });
+  };
+
   return (
     <div className="FinalizePage">
       <Wimble />
-      <Close onClick={props.close} />
+      <Close />
+      <button onClick={() => linker('zoom', 'zoom', 'zoom')}>close me</button>
       <div className="Finalize_slate">
         <small>RECEIVE TRANSACTION SLATE</small>
         <textarea
@@ -79,6 +85,7 @@ export default function ReceivePage(props) {
     </div>
   );
 }
+export default withRouter((props) => <ReceivePage {...props} />);
 
 ReceivePage.propTypes = {
   close: PropTypes.func,

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSpring, animated } from 'react-spring';
+import { withRouter } from 'react-router-dom';
 import cx from 'classnames';
 import fs from 'fs-extra';
 import { remote } from 'electron';
@@ -11,7 +12,7 @@ import Close from 'svg/Close';
 import TransactionCard from 'components/TransactionCard';
 require('./FinalizePage.scss');
 
-export default function FinalizePage(props) {
+function FinalizePage({ history, ...props }) {
   const [dragOver, setDragOver] = useState(false);
   const tx = {
     amount_credited: '60000000000',
@@ -95,6 +96,7 @@ export default function FinalizePage(props) {
     </div>
   );
 }
+export default withRouter((props) => <FinalizePage {...props} />);
 
 FinalizePage.propTypes = {
   close: PropTypes.func,

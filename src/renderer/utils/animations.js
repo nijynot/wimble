@@ -1,108 +1,63 @@
 import querystring from 'querystring';
 
-export const animationPaths = {
-  zoomInZoomOut: [
-  ],
-  zoomInFadeOut: [
-    '/send',
-  ],
-  fadeInFadeOut: [
-    '/tx',
-    '/tx/:id',
-    '/finalize',
-  ],
+export const animationPaths = [
+  '/tx',
+  '/tx/:id',
+  '/finalize',
+  '/send',
+  '/receive',
+];
+
+const fade = {
+  enter: {
+    opacity: 1,
+  },
+  leave: {
+    opacity: 0,
+  },
+};
+
+const zoom = {
+  enter: {
+    opacity: 1,
+    transform: 'scale(1)',
+  },
+  leave: {
+    opacity: 0,
+    transform: 'scale(1.15)',
+  },
 };
 
 export const animations = {
-  zoomInZoomOut: {
-    config: {
-      mass: 1,
-      tension: 450,
-      friction: 40,
-      velocity: 5,
-    },
-    from: {
-      background: 'white',
-      zIndex: 10000,
-      position: 'absolute',
-      opacity: 0,
-      transform: 'scale(1.15)',
-    },
-    enter: {
-      opacity: 1,
-      transform: 'scale(1)',
-    },
-    leave: {
-      opacity: 0,
-      transform: 'scale(1.15)',
-    },
-  },
-  zoomInFadeOut: {
-    config: {
-      mass: 1,
-      tension: 450,
-      friction: 40,
-      velocity: 5,
-    },
-    from: {
-      background: 'white',
-      zIndex: 10000,
-      position: 'absolute',
-      opacity: 0,
-      transform: 'scale(1.15)',
-    },
-    enter: {
-      opacity: 1,
-      transform: 'scale(1)',
-    },
-    leave: (item) => {
-      if (item.transition === 'zoom') {
-        return {
-          opacity: 0,
-          transform: 'scale(1.15)',
-        };
-      } else if (item.transition === 'fade') {
-        return {
-          opacity: 0,
-        };
-      } else {
-        return {
-          opacity: 0,
-        };
-      }
-    },
-  },
-  fadeInFadeOut: {
+  animation: {
     config: {
       mass: 1,
       tension: 400,
       friction: 40,
       velocity: 5,
     },
-    from: {
-      background: 'white',
-      zIndex: 10000,
-      position: 'absolute',
-      transform: 'scale(1)',
-      opacity: 0,
+    from: (item) => {
+      const scale = (item.state && item.state.scale) ? item.state.scale : '1';
+      return {
+        background: 'white',
+        zIndex: 10000,
+        position: 'absolute',
+        opacity: 0,
+        transform: `scale(${scale})`,
+      };
     },
-    enter: {
-      opacity: 1,
+    enter: (item) => {
+      if (item.state && item.state.enter === 'zoom') {
+        return zoom.enter;
+      } else {
+        return fade.enter;
+      }
     },
     leave: (item) => {
-      if (item.transition === 'fade') {
-        return {
-          opacity: 0,
-        };
-      } else if (item.transition === 'zoom') {
-        return {
-          opacity: 0,
-          transform: 'scale(1.15)',
-        };
+      if (item.state && item.state.leave === 'zoom') {
+        return zoom.leave;
       } else {
-        return {
-          opacity: 0,
-        };
+        return fade.leave;
       }
     },
   },

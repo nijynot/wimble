@@ -9,6 +9,7 @@ import Big from 'big.js';
 import grin from 'client/grin';
 import { matchAny } from 'utils/util';
 import { animations, animationPaths } from 'utils/animations';
+import useHistory from 'hooks/useHistory';
 import Amount from 'pages/Amount/AmountPage';
 import StandardButton from 'components/StandardButton';
 import TransactionPage from 'pages/Transaction/TransactionPage';
@@ -22,33 +23,21 @@ Big.NE = -10;
 Big.PE = 30;
 
 function App(props) {
-  const { location, history } = props;
+  const { location } = props;
+  const history = useHistory(props.history);
 
   const [amount, setAmount] = useState('0');
   const [startOwner, setStartOwner] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const [transition, setTransition] = useState('fade');
-  const zooms = useTransition(
-    location,
+  const transitions = useTransition(
+    { ...location },
     location => location.pathname,
-    { ...animations.zoomInZoomOut }
-  );
-  const fades = useTransition(
-    { ...location, transition },
-    location => location.pathname,
-    { ...animations.fadeInFadeOut }
-  );
-  const mixes = useTransition(
-    { ...location, transition },
-    location => location.pathname,
-    { ...animations.zoomInFadeOut }
+    { ...animations.animation }
   );
 
   function close() {
-    setTransition('zoom');
-    history.push('/');
     setAmount('0');
-    setTransition('fade');
+    history.push('/', { leave: 'zoom', scale: '1.15' });
   }
 
   function esc() {
@@ -74,22 +63,12 @@ function App(props) {
           <HomePage />
         </div>
       )} />
-      {zooms.map(({ item, key, props }) => (
-        <animated.div key={key} style={{
-          ...props,
-          width: (animationPaths.zoomInZoomOut.includes(item.pathname)) ? '100%' : null,
-          height: (animationPaths.zoomInZoomOut.includes(item.pathname)) ? '100%' : null,
-        }}>
-          <Switch location={item}>
-          </Switch>
-        </animated.div>
-      ))}
-      {fades.map(({ item, key, props }) => {
+      {transitions.map(({ item, key, props }) => {
         return (
           <animated.div key={key} style={{
             ...props,
-            width: (matchAny(item.pathname, animationPaths.fadeInFadeOut)) ? '100%' : null,
-            height: (matchAny(item.pathname, animationPaths.fadeInFadeOut)) ? '100%' : null,
+            width: (matchAny(item.pathname, animationPaths)) ? '100%' : null,
+            height: (matchAny(item.pathname, animationPaths)) ? '100%' : null,
           }}>
             <Switch location={item}>
               <Route
@@ -100,36 +79,24 @@ function App(props) {
                 path="/finalize"
                 render={() => <FinalizePage close={() => close()} />}
               />
+              <Route
+                path="/send"
+                render={() => (
+                  <Amount
+                    amount={amount}
+                    onChangeAmount={setAmount}
+                    close={() => close()}
+                  />
+                )}
+              />
+              <Route
+                path="/receive"
+                render={() => <ReceivePage close={() => close()} />}
+              />
             </Switch>
           </animated.div>
         );
       })}
-      {mixes.map(({ item, key, props }) => (
-        <animated.div key={key} style={{
-          ...props,
-          width: (matchAny(item.pathname, animationPaths.zoomInFadeOut)) ? '100%' : null,
-          height: (matchAny(item.pathname, animationPaths.zoomInFadeOut)) ? '100%' : null,
-        }}>
-          <Switch location={item}>
-            <Route
-              path="/send"
-              render={() => (
-                <Amount
-                  amount={amount}
-                  onChangeAmount={setAmount}
-                  close={() => close()}
-                />
-              )}
-            />
-            <Route
-              path="/receive"
-              render={() => (
-                <ReceivePage close={() => close()} />
-              )}
-            />
-          </Switch>
-        </animated.div>
-      ))}
       <StandardButton
         amount={amount}
         setAmount={setAmount}
