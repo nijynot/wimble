@@ -1,0 +1,96 @@
+.FinalizePage {
+  background-color: #f2f2f2;
+  height: 100%;
+  padding: 128px 16px 0 16px;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 170px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+    pointer-events: none;
+  }
+}
+.FinalizePage_hint {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #B7B7B7;
+  text-align: center;
+}
+.Finalize_slate {
+  background-color: white;
+  border-radius: 16px;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  z-index: 10;
+  small {
+    display: block;
+    font-size: 11px;
+    padding-top: 12px;
+    color: #888888;
+    padding-bottom: 8px;
+    text-align: center;
+  }
+}
+.Finalize_textarea {
+  width: calc(100% - 32px);
+  border: 0;
+  background-color: #F2F2F2;
+  vertical-align: top;
+  padding: 10px 12px;
+  border-radius: 16px;
+  margin: 0 16px;
+  height: 120px;
+  resize: none;
+  outline: 0;
+}
+.Finalize_separator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Finalize_line {
+  height: 1px;
+  background-color: #EAEAEA;
+  flex-grow: 1;
+  margin: 16px;
+}
+.Finalise_separator-text {
+  font-size: 11px;
+  color: #888;
+}
+.Finalize_droparea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px dashed #eaeaea;
+  border-radius: 16px;
+  width: calc(100% - 32px);
+  margin: 0 16px 16px 16px;
+  height: 120px;
+  font-size: 11px;
+  &.active {
+    background-color: #f2f2f2;
+  }
+}
+.Finalize_file-btn {
+  border-radius: 64px;
+  background-color: #101010;
+  color: white;
+  padding: 7px 14px;
+  font-size: 11px;
+  border: 0;
+  font-weight: 500;
+  margin-top: 8px;
+  outline: 0;
+  transition: color .2s, background-color .2s;
+  &:hover {
+    background-color: #FEF102;
+    color: black;
+  }
+}

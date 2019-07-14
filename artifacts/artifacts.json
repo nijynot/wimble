@@ -1,0 +1,61 @@
+{
+  "transactions": [
+    {
+      "parent_key_id": "0200000000000000000000000000000000",
+      "id": 0,
+      "tx_slate_id": null,
+      "tx_type": "ConfirmedCoinbase",
+      "creation_ts": "2019-02-20T20:40:49.930196221Z",
+      "confirmation_ts": "2019-02-20T20:40:49.930196470Z",
+      "confirmed": true,
+      "num_inputs": 0,
+      "num_outputs": 1,
+      "amount_credited": 60000000000,
+      "amount_debited": 0,
+      "fee": null,
+      "messages": null,
+      "stored_tx": null
+    },
+    {
+      "parent_key_id": "0200000000000000000000000000000000",
+      "id": 1,
+      "tx_slate_id": null,
+      "tx_type": "ConfirmedCoinbase",
+      "creation_ts": "2019-02-20T20:44:14.783736129Z",
+      "confirmation_ts": "2019-02-20T20:44:14.783736350Z",
+      "confirmed": true,
+      "num_inputs": 0,
+      "num_outputs": 1,
+      "amount_credited": 60000000000,
+      "amount_debited": 0,
+      "fee": null,
+      "messages": null,
+      "stored_tx": null
+    },
+    {
+      "parent_key_id": "0200000000000000000000000000000000",
+      "id": 2,
+      "tx_slate_id": "9d99f04d-1894-4922-8a8f-0b99827a1217",
+      "tx_type": "TxReceived",
+      "creation_ts": "2019-01-31T00:15:07.379475861Z",
+      "confirmation_ts": "2019-01-31T00:25:56.787830602Z",
+      "confirmed": true,
+      "num_inputs": 0,
+      "num_outputs": 1,
+      "amount_credited": 4992632000,
+      "amount_debited": 0,
+      "fee": null,
+      "messages": null,
+      "stored_tx": null
+    }
+  ],
+  "summary": {
+    "last_confirmed_height": 55086,
+    "minimum_confirmations": 1,
+    "total": 360000000000,
+    "amount_awaiting_confirmation": 0,
+    "amount_immature": 0,
+    "amount_currently_spendable": 360000000000,
+    "amount_locked": 0
+  }
+}

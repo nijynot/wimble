@@ -8,16 +8,16 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 600,
-    height: 485,
+    width: 375,
+    height: 812,
     backgroundColor: '#060606',
     // transparent: true,
     webPreferences: {
       nodeIntegration: true,
     },
-    minWidth: 300,
+    minWidth: 375,
     maxWidth: 900,
-    minHeight: 300,
+    minHeight: 812,
     useContentSize: true,
     // autoHideMenuBar: true,
     frame: false,

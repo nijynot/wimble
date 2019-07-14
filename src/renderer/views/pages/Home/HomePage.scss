@@ -6,54 +6,91 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // &:hover > h2 {
-  //   opacity: 1;
-  //   transform: scale(1);
-  //   filter: blur(0px);
-  // }
 }
-.Home-header {
-  margin-top: 48px;
-}
-.Home-balance {}
-.Home-balance-subheading {
+.Home_header {
   text-align: center;
-  display: block;
-  margin-bottom: 2px;
-  color: #999;
-  font-size: 11px;
-}
-.Home-actions {}
-.Home-action-btn {
-  background-color: rgba(0, 0, 0, 1);
-  border: 0;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
-  border-radius: 25px;
-  color: white;
-  cursor: pointer;
-  display: inline-block;
-  padding: 10px $small;
-  font-family: 'Inter UI';
-  font-weight: 600;
-  margin: 0 $tiny;
-  outline: 0;
-  transition: all .15s ease;
-  width: 125px;
-  &:hover {
-    // background-color: rgba(0, 0, 0, 1);
-    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.16);
-    transform: translateY(-1px);
+  small {
+    color: #999;
+    font-size: 18px;
+    font-weight: normal;
   }
 }
-.Home-action-btn svg {
-  margin-left: 10px;
-  vertical-align: top;
+.Home_transactions {
+  width: 100%;
+  padding: 16px 16px 16px 16px;
+  margin-bottom: 16px;
+  position: relative;
 }
-.Home h2 {
-  margin-bottom: 28px;
-  text-align: center;
-  transition: 1s cubic-bezier(.19, 1, .22, 1);
-  // transform: scale(.95);
-  // filter: blur(10px);
-  // opacity: .3;
+.Home_transaction-layer {
+  position: absolute;
+  height: 100px;
+  border-radius: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  &.layer-2 {
+    width: calc(100% - 64px);
+    z-index: 2;
+    bottom: -0px;
+    background-color: #F7F7F7;
+  }
+  &.layer-3 {
+    width: calc(100% - 96px);
+    z-index: 0;
+    bottom: -13px;
+    background-color: #EDEDED;
+  }
+}
+.Home_details {
+  display: flex;
+  width: 100%;
+  padding: 16px;
+}
+.Home_detail {
+  background-color: white;
+  border-radius: 16px;
+  padding: 10px 14px;
+  label {
+    font-size: 15px;
+    padding-bottom: 2px;
+    display: inline-block;
+  }
+  h4 {
+    display: block;
+    margin-bottom: 2px;
+  }
+  h4, h6 {
+    font-weight: 500;
+  }
+  &.height {
+    margin-right: 8px;
+    margin-bottom: 8px;
+    flex-grow: 1;
+    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+  }
+  &.peers {
+    margin-right: 8px;
+  }
+  &.node {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+  }
+  & > .difficulty {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    margin-top: 16px;
+    h6 {
+      word-break: break-all;
+    }
+  }
+}
+.Home_detail-steps {
+  font-size: 15px;
+  margin-top: 4px;
+  display: inline-block;
 }

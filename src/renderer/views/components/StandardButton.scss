@@ -1,0 +1,98 @@
+.StandardButton {
+  position: absolute;
+  bottom: 58px;
+  min-width: 180px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 64px;
+  padding: 13px 0px;
+  border: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  outline: 0;
+  z-index: 1000000;
+  color: white;
+  background-color: #101010;
+  text-align: center;
+  transition: all .2s ease;
+  word-break: keep-all;
+  &.loading {
+  }
+  &.wide {
+    min-width: 240px;
+  }
+  &.grey {
+    background-color: rgb(33, 33, 33);
+    color: white;
+  }
+  &.white {
+    background-color: #fff;
+    color: black;
+  }
+  &.black {
+    background-color: #101010;
+    color: white;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+.StandardButton_text {
+  opacity: 1;
+  transition: all .2s ease;
+  &.hide {
+    opacity: 0;
+  }
+}
+
+// Loading animation
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes void-animation-out {
+  0%,
+  to {
+    opacity: 1;
+  }
+}
+
+.svg-spinner {
+  opacity: 0;
+  vertical-align: top;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: all .2s ease;
+  // transition: all .2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  &.active {
+    opacity: 1;
+  }
+}
+.border {
+  animation: spin 1s linear infinite;
+  stroke-dasharray: 53;
+  stroke-dashoffset: 27.9;
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.StandardButton_secondary-btn {
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  font-size: 13px;
+  color: #7b7b7b;
+  padding: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 32px;
+  z-index: 1000000;
+}

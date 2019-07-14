@@ -8,5 +8,5 @@ require('./views/index.scss');
 
 ReactDOM.render(
   <App />,
-  document.getElementById('root')
+  document.getElementById('react-root')
 );

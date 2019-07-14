@@ -1,0 +1,15 @@
+.TransactionPage {
+  background-color: #f2f2f2;
+  height: 100%;
+  padding: 128px 16px 0 16px;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 170px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+    pointer-events: none;
+  }
+}

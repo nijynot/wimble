@@ -2,15 +2,15 @@
 
 .App {
   position: relative;
-  // overflow: hidden;
+  background-color: #f2f2f2;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  // padding-top: 40px;
-  // transition: all .3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  opacity: 1;
   transition: all .45s cubic-bezier(.19, 1, .22, 1);
   &.hide {
     transform: scale(.9);
+    opacity: 0
   }
 }
 .App-toolbar {
@@ -77,4 +77,26 @@
 }
 .App-animation {
   z-index: 10000;
+}
+.App_standard-button {
+  position: absolute;
+  bottom: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  padding: 12px;
+  min-width: 180px;
+  border: 1px solid black;
+  border-radius: 64px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  transition: color .2s, background-color .2s, border-color .2s;
+  &:hover {
+    background-color: white;
+    color: #101010;
+    border-color: white;
+  }
 }

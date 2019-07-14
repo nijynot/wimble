@@ -37,6 +37,12 @@ module.exports = {
     alias: {
       'components': path.resolve(__dirname, 'src/renderer/views/components'),
       'hooks': path.resolve(__dirname, 'src/renderer/views/hooks'),
+      'artifacts': path.resolve(__dirname, 'artifacts'),
+      'svg': path.resolve(__dirname, 'src/renderer/views/svg'),
+      'pages': path.resolve(__dirname, 'src/renderer/views/pages'),
+      'utils': path.resolve(__dirname, 'src/renderer/utils'),
+      'bin': path.resolve(__dirname, 'bin'),
+      'client': path.resolve(__dirname, 'src/client'),
     },
   }
 };

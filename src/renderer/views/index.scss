@@ -61,7 +61,7 @@ html {
 body {
   height: 100%;
 }
-#root {
+#react-root {
   position: relative;
   overflow: hidden;
   display: flex;
@@ -78,29 +78,55 @@ input {
   font-size: 15px;
 }
 h1 {
-  font-size: 44px;
+  font-size: 56px;
   font-weight: 700;
 }
 h2 {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
 }
 h3 {
-  font-size: 24px;
+  font-size: 28px;
 }
 h4 {
-  font-size: 19px;
+  font-size: 24px;
+}
+h5 {
+  font-size: 22px
+}
+h6 {
+  font-size: 18px;
 }
 small {
   font-size: 14px;
+}
+strong {
+  font-weight: 700;
+}
+em {
+  font-style: italic;
 }
 pre {
   display: inline-block;
   font-family: monospace;
 }
+button{
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+}
 
 .jp {
   font-family: 'Noto Serif JP', serif;
+}
+.grey {
+  color: #888;
+}
+.basis-50 {
+  flex-basis: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 ::-webkit-scrollbar {

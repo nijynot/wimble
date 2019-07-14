@@ -1,0 +1,76 @@
+.Amount {
+  background-color: #101010;
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+}
+.Amount_total {
+  display: inline-block;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.07);
+  border-radius: 32px;
+  margin-top: 52px;
+  span {
+    color: #7b7b7b;
+  }
+}
+.Amount_content {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-bottom: 168px;
+  width: 100%;
+}
+.Amount_input {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.Amount_amount {
+  word-break: break-all;
+  &.error {
+    color: #EC4D40;
+  }
+}
+.Amount_suffix {
+  color: #7b7b7b;
+  font-weight: 500;
+  &.error {
+    color: #EC4D40;
+  }
+}
+.Amount_number-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding: 4px 16px;
+}
+.Amount_number {
+  background-color: transparent;
+  font-size: 18px;
+  border: 0;
+  color: white;
+  padding: 12px 16px;
+  text-align: center;
+  width: 13px;
+  box-sizing: content-box;
+  outline: 0;
+}
+.Amount_create-btn {
+  display: block;
+  background-color: rgba(255, 255, 255, 0.07);
+  margin-bottom: 58px;
+  color: white;
+  min-width: 240px;
+  padding: 14px 0;
+  text-align: center;
+  border-radius: 64px;
+  font-weight: 700;
+  font-size: 16px;
+}
