@@ -12,7 +12,9 @@ import { animations, animationPaths } from 'utils/animations';
 import useHistory from 'hooks/useHistory';
 import Amount from 'pages/Amount/AmountPage';
 import StandardButton from 'components/StandardButton';
+import ResultPage from 'pages/Result/ResultPage';
 import TransactionPage from 'pages/Transaction/TransactionPage';
+import TransactionsPage from 'pages/Transactions/TransactionsPage';
 import HomePage from 'pages/Home/HomePage';
 import SettingsPage from './pages/Settings/SettingsPage';
 import ReceivePage from './pages/Receive/ReceivePage';
@@ -38,6 +40,10 @@ function App(props) {
   function close() {
     setAmount('0');
     history.push('/', { leave: 'zoom', scale: '1.15' });
+  }
+
+  function back() {
+    history.goBack();
   }
 
   function esc() {
@@ -66,40 +72,46 @@ function App(props) {
           <HomePage />
         </div>
       )} />
-      {transitions.map(({ item, key, props }) => {
-        return (
-          <animated.div key={key} style={{
-            ...props,
-            width: (matchAny(item.pathname, animationPaths)) ? '100%' : null,
-            height: (matchAny(item.pathname, animationPaths)) ? '100%' : null,
-          }}>
-            <Switch location={item}>
-              <Route
-                path="/tx"
-                render={() => <TransactionPage close={() => close()} />}
-              />
-              <Route
-                path="/finalize"
-                render={() => <FinalizePage close={() => close()} />}
-              />
-              <Route
-                path="/send"
-                render={() => (
-                  <Amount
-                    amount={amount}
-                    onChangeAmount={setAmount}
-                    close={() => close()}
-                  />
-                )}
-              />
-              <Route
-                path="/receive"
-                render={() => <ReceivePage close={() => close()} />}
-              />
-            </Switch>
-          </animated.div>
-        );
-      })}
+      {transitions.map(({ item, key, props }) => (
+        <animated.div key={key} style={{
+          ...props,
+          width: (matchAny(item.pathname, animationPaths)) ? '100%' : null,
+          height: (matchAny(item.pathname, animationPaths)) ? '100%' : null,
+        }}>
+          <Switch location={item}>
+            <Route
+              path="/result/:id?"
+              render={() => <ResultPage close={() => close()} />}
+            />
+            <Route
+              path="/tx/:id?"
+              render={() => <TransactionPage back={() => back()} />}
+            />
+            <Route
+              path="/txs"
+              render={() => <TransactionsPage close={() => close()} />}
+            />
+            <Route
+              path="/finalize"
+              render={() => <FinalizePage close={() => close()} />}
+            />
+            <Route
+              path="/send"
+              render={() => (
+                <Amount
+                  amount={amount}
+                  onChangeAmount={setAmount}
+                  close={() => close()}
+                />
+              )}
+            />
+            <Route
+              path="/receive"
+              render={() => <ReceivePage close={() => close()} />}
+            />
+          </Switch>
+        </animated.div>
+      ))}
       <StandardButton
         amount={amount}
         setAmount={setAmount}

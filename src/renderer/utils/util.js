@@ -30,7 +30,7 @@ export function formatTxType(txType) {
 export function formatTxStatus(tx) {
   if (tx.tx_type === 'TxSent') {
     return (tx.confirmed) ? 'Transaction completed' : 'Waiting for response slate';
-  } else if (tx.type === 'TxReceived') {
+  } else if (tx.tx_type === 'TxReceived') {
     return (tx.confirmed) ? 'Transaction completed' : 'Waiting for finalization';
   } else if (tx.tx_type === 'TxSentCancelled' || tx.tx_type === 'TxReceivedCancelled') {
     return 'Cancelled';
@@ -43,9 +43,7 @@ export function formatTxStatus(tx) {
  * @returns {string}
  */
 export function txNetDifference(tx) {
-  if (tx && tx.tx_type === 'TxSent') {
-    return Big(tx.amount_debited).sub(tx.amount_credited).toString();
-  }
+  return Big(tx.amount_debited).sub(tx.amount_credited).abs().toString();
 }
 
 export function perfectMatch(pathname, match) {

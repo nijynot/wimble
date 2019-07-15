@@ -5,11 +5,11 @@ import { useSpring, animated } from 'react-spring';
 import grin from 'client/grin';
 import { animations } from 'utils/animations';
 import Wimble from 'svg/Wimble';
-import Back from 'svg/Back';
+import Close from 'svg/Close';
 import TransactionCard from 'components/TransactionCard';
-require('./TransactionPage.scss');
+require('./ResultPage.scss');
 
-export default function TransactionPage({ id, ...props }) {
+export default function ResultPage({ id, ...props }) {
   const [tx, setTx] = useState(null);
   const spring = useSpring({ ...animations.springIn });
 
@@ -33,9 +33,9 @@ export default function TransactionPage({ id, ...props }) {
   }, []);
 
   return (
-    <div className="TransactionPage">
+    <div className="ResultPage">
       <Wimble />
-      <Back onClick={props.back} />
+      <Close onClick={props.close} />
       <animated.div style={spring}>
         <TransactionCard tx={tx} hint="Send the slate to the recipient." />
       </animated.div>
@@ -43,7 +43,7 @@ export default function TransactionPage({ id, ...props }) {
   );
 }
 
-TransactionPage.propTypes = {
+ResultPage.propTypes = {
   id: PropTypes.string.required,
-  back: PropTypes.func,
+  close: PropTypes.func,
 };

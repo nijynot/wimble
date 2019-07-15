@@ -27,12 +27,12 @@ function StandardButton({
       className: 'black',
       onClick: ({ history, setAmount }) => {
         setAmount('0');
-        history.push('/send', { enter: 'zoom', scale: '1.15' });
+        history.push('/send', { enter: 'zoom', leave: 'zoom', scale: '1.15' });
       },
       secondary: {
         text: 'Receive',
         onClick: ({ history }) => {
-          history.push('/receive', { enter: 'zoom', scale: '1.15' });
+          history.push('/receive', { enter: 'zoom', leave: 'zoom', scale: '1.15' });
         },
       },
     },
@@ -50,7 +50,7 @@ function StandardButton({
         setLoading(true);
         setTimeout(() => {
           setLoading(false);
-          history.push('/tx', { enter: 'fade', leave: 'fade', scale: '1' });
+          history.push('/result', { enter: 'fade', leave: 'fade', scale: '1' });
         }, 800);
         // if (validateAmount(Big(amount))) {
         //   grin.initSendTx({ amount }).then((res) => {
@@ -58,24 +58,38 @@ function StandardButton({
         // }
       },
     },
-    tx: {
-      text: 'Finalize',
+    result: {
+      text: 'Close',
       className: 'black',
       onClick: ({ history }) => {
-        history.push('/finalize', { enter: 'fade', leave: 'fade', scale: '1' });
+        history.push('/', { enter: 'zoom', leave: 'zoom', scale: '1.15' });
       },
       secondary: {
-        text: 'Finalize later',
+        text: 'Finalize',
         onClick: ({ history }) => {
-          history.push('/', { leave: 'zoom', scale: '1.15' });
+          history.push('/finalize', { enter: 'fade', leave: 'fade', scale: '1' });
         },
+      },
+    },
+    tx: {
+      text: 'Close',
+      className: 'black',
+      onClick: ({ history }) => {
+        history.goBack();
+      },
+    },
+    txs: {
+      text: 'Close',
+      className: 'black',
+      onClick: ({ history }) => {
+        history.push('/', { enter: 'zoom', leave: 'zoom', scale: '1.15' });
       },
     },
     finalize: {
       text: 'Finalize',
       className: 'black',
       onClick: ({ history }) => {
-        history.push('/', { leave: 'zoom', scale: '1.15' });
+        history.push('/', { enter: 'zoom', leave: 'zoom', scale: '1.15' });
       },
     },
     receive: {
@@ -92,12 +106,16 @@ function StandardButton({
       return buttons.home;
     } else if (match(pathname, '/send')) {
       return buttons.send;
-    } else if (match(pathname, '/tx')) {
-      return buttons.tx;
+    } else if (match(pathname, '/result')) {
+      return buttons.result;
     } else if (match(pathname, '/finalize')) {
       return buttons.finalize;
     } else if (match(pathname, '/receive')) {
       return buttons.receive;
+    } else if (match(pathname, '/tx')) {
+      return buttons.tx;
+    } else if (match(pathname, '/txs')) {
+      return buttons.txs;
     }
   }
 

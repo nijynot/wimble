@@ -69,6 +69,9 @@ body {
   max-width: 900px;
   height: 100%;
 }
+#scroll-root {
+  overflow: overlay;
+}
 button {
   font-family: 'Inter UI';
   font-size: 15px;
@@ -132,7 +135,7 @@ a {
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
-  background: transparent; /* make scrollbar transparent */
+  background: #f2f2f2; /* make scrollbar transparent */
   // background-color: #060606;
 }
 // ::-webkit-scrollbar-button {
@@ -149,6 +152,6 @@ a {
   border-radius: 7px;
   padding-top: 3px;
   background-clip: padding-box;
-  background-color: rgba(100, 100, 100, 0.88);
+  background-color: #101010;
   // background: transparent;
 }

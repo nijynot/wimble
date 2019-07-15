@@ -20,7 +20,10 @@ export default function SmallTransactionCard({ tx, privacy, ...props }) {
   const height = (outputs && outputs.length > 0) ? outputs[0].output.height : '0';
 
   return (
-    <div className={cx('SmallTransactionCard', { privacy })}>
+    <div
+      className={cx('SmallTransactionCard', { privacy })}
+      onClick={props.onClick}
+    >
       <div className="SmallTransactionCard_header">
         <strong>{formatTxType(tx && tx.tx_type)}</strong>
         <span className="grey">
@@ -46,6 +49,7 @@ export default function SmallTransactionCard({ tx, privacy, ...props }) {
 SmallTransactionCard.propTypes = {
   tx: PropTypes.object,
   privacy: PropTypes.boolean,
+  onClick: PropTypes.func,
 };
 
 SmallTransactionCard.defaultProps = {

@@ -1,7 +1,9 @@
 import querystring from 'querystring';
 
 export const animationPaths = [
+  '/result',
   '/tx',
+  '/txs',
   '/tx/:id',
   '/finalize',
   '/send',

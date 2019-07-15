@@ -10,6 +10,7 @@ import { formatNumber, toGrin } from 'utils/util';
 import { summary, transactions } from 'artifacts/artifacts';
 import StandardButton from 'components/StandardButton';
 import SmallTransactionCard from 'components/SmallTransactionCard';
+import TransactionsPage from 'pages/Transactions/TransactionsPage';
 import Wimble from 'svg/Wimble';
 require('./HomePage.scss');
 
@@ -17,6 +18,7 @@ function HomePage({ location, history, ...props }) {
   const [privacy, setPrivacy] = useState(false);
   const [spendable, setSpendable] = useState('0');
   const [txs, setTxs] = useState([]);
+  const [showTxs, setShowTxs] = useState(false);
   const [height, setHeight] = useState(0);
   const [peers, setPeers] = useState(0);
   const [tipHash, setTipHash] = useState('000000');
@@ -52,7 +54,10 @@ function HomePage({ location, history, ...props }) {
         <h1>{(privacy) ? '1984' : toGrin(Big(spendable)).toString()}</h1>
         <small>GRIN</small>
       </div>
-      <div className="Home_transactions">
+      <div
+        className="Home_transactions"
+        onClick={() => history.push('/txs', { enter: 'zoom', leave: 'zoom', scale: '1.15' })}
+      >
         <SmallTransactionCard privacy={privacy} tx={txs[0]} />
         <div className="Home_transaction-layer layer-2"></div>
         <div className="Home_transaction-layer layer-3"></div>
