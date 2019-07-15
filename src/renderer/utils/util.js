@@ -19,15 +19,21 @@ export function formatNumber(x) {
 }
 
 export function formatTxType(txType) {
-  return (
-    txType === 'ConfirmedCoinbase' ||
-    txType === 'TxReceived'
-  ) ? 'Receive Grin' : 'Send Grin';
+  if (txType === 'ConfirmedCoinbase') {
+    return 'Coinbase';
+  } else if (txType === 'TxReceived') {
+    return 'Receive Grin';
+  }
+  return 'Send Grin';
 };
 
 export function formatTxStatus(tx) {
   if (tx.tx_type === 'TxSent') {
     return (tx.confirmed) ? 'Transaction completed' : 'Waiting for response slate';
+  } else if (tx.type === 'TxReceived') {
+    return (tx.confirmed) ? 'Transaction completed' : 'Waiting for finalization';
+  } else if (tx.tx_type === 'TxSentCancelled' || tx.tx_type === 'TxReceivedCancelled') {
+    return 'Cancelled';
   }
 };
 

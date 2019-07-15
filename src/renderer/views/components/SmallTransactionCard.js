@@ -24,7 +24,7 @@ export default function SmallTransactionCard({ tx, privacy, ...props }) {
       <div className="SmallTransactionCard_header">
         <strong>{formatTxType(tx && tx.tx_type)}</strong>
         <span className="grey">
-          &nbsp;&bull;&nbsp; Height #{formatNumber(parseInt(height, 10))}
+          &nbsp;&bull;&nbsp;Height #{formatNumber(parseInt(height, 10))}
         </span>
         <span className="SmallTransactionCard_timestamp">
           {moment(tx && tx.creation_ts).fromNow()}

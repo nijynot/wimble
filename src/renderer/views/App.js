@@ -48,6 +48,9 @@ function App(props) {
 
   useEffect(() => {
     document.addEventListener('keydown', esc, false);
+    grin.wallet.retrieveTxs().then((res) => {
+      console.log(res);
+    });
     return function() {
       document.removeEventListener('keydown', esc, false);
     }

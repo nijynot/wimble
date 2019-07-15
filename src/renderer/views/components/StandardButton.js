@@ -31,6 +31,9 @@ function StandardButton({
       },
       secondary: {
         text: 'Receive',
+        onClick: ({ history }) => {
+          history.push('/receive', { enter: 'zoom', scale: '1.15' });
+        },
       },
     },
     send: {
@@ -69,7 +72,7 @@ function StandardButton({
       },
     },
     finalize: {
-      text: 'Confirm',
+      text: 'Finalize',
       className: 'black',
       onClick: ({ history }) => {
         history.push('/', { leave: 'zoom', scale: '1.15' });

@@ -49,8 +49,7 @@ function ReceivePage({ history, ...props }) {
   return (
     <div className="FinalizePage">
       <Wimble />
-      <Close />
-      <button onClick={() => linker('zoom', 'zoom', 'zoom')}>close me</button>
+      <Close onClick={props.close} />
       <div className="Finalize_slate">
         <small>RECEIVE TRANSACTION SLATE</small>
         <textarea
