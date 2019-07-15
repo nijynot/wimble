@@ -1,25 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import cx from 'classnames';
 
-import { formatTxType } from 'utils/util';
+import grin from 'client/grin';
+import { formatTxType, formatNumber, toGrin, PRICE, txNetDifference, toUSD, formatTxStatus } from 'utils/util';
+import Fetch from 'components/Fetch';
 require('./SmallTransactionCard.scss');
 
-export default function SmallTransactionCard({ type, tx, ...props }) {
+export default function SmallTransactionCard({ tx, privacy, ...props }) {
+  const [outputs, setOutputs] = useState([]);
+
+  useEffect(() => {
+    grin.wallet.retrieveOutputs(true, true, tx && tx.id).then((res) => {
+      setOutputs(res.reverse());
+    });
+  }, []);
+
+  const height = (outputs && outputs.length > 0) ? outputs[0].output.height : '0';
+
   return (
-    <div className="SmallTransactionCard">
+    <div className={cx('SmallTransactionCard', { privacy })}>
       <div className="SmallTransactionCard_header">
-        <strong>{formatTxType(tx.tx_type)}</strong>
-        <span className="grey">&nbsp;&bull;&nbsp;Height #145,234</span>
-        <span className="SmallTransactionCard_timestamp">Just now</span>
+        <strong>{formatTxType(tx && tx.tx_type)}</strong>
+        <span className="grey">
+          &nbsp;&bull;&nbsp; Height #{formatNumber(parseInt(height, 10))}
+        </span>
+        <span className="SmallTransactionCard_timestamp">
+          {moment(tx && tx.creation_ts).fromNow()}
+        </span>
       </div>
       <div className="SmallTransactionCard_details">
         <div className="SmallTransactionCard_detail">
-          <h2>$432</h2>
-          <div className="grey">53.24 GRIN</div>
+          <h2>${tx && toUSD(toGrin(txNetDifference(tx)))}</h2>
+          <div className="grey">{tx && toGrin(txNetDifference(tx))} GRIN</div>
         </div>
         <div className="SmallTransactionCard_status">
-          Waiting for<br />
-          response slate
+          {tx && formatTxStatus(tx)}
         </div>
       </div>
     </div>
@@ -27,6 +44,10 @@ export default function SmallTransactionCard({ type, tx, ...props }) {
 }
 
 SmallTransactionCard.propTypes = {
-  type: PropTypes.string,
   tx: PropTypes.object,
+  privacy: PropTypes.boolean,
+};
+
+SmallTransactionCard.defaultProps = {
+  privacy: false,
 };

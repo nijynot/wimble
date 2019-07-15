@@ -29,6 +29,9 @@ function StandardButton({
         setAmount('0');
         history.push('/send', { enter: 'zoom', scale: '1.15' });
       },
+      secondary: {
+        text: 'Receive',
+      },
     },
     send: {
       text: 'Create transaction',

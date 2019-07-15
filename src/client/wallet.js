@@ -63,6 +63,42 @@ function retrieve_txs(txId, txSlateId) {
 }
 
 /**
+ * Retreive outputs with an optional transaction id.
+ * @param {boolean} includeSpent
+ * @param {boolean} refreshFromNode
+ * @param {number} txId
+ * @returns {array}
+ */
+function retrieve_outputs(includeSpent = true, refreshFromNode = true, txId) {
+  if (
+    typeof txId !== 'number' &&
+    typeof txId !== 'undefined' &&
+    txId !== null
+  ) {
+    throw new Error(`Expected \`txId\` to be a number, null or undefined - but got \`${txId}\`.`);
+  }
+
+  const body = {
+    jsonrpc: '2.0',
+    method: 'retrieve_outputs',
+    id: '1',
+    params: [includeSpent, refreshFromNode, txId],
+  };
+
+  return fetch('http://127.0.0.1:3420/v2/owner', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Basic ${Buffer.from('grin:TTX3j673vGnD2R0Q8WoR').toString('base64')}`
+    },
+    body: JSON.stringify(body),
+  }).then((res) => {
+    return res.json();
+  }).then((res) => {
+    return res.result.Ok[1];
+  });
+}
+
+/**
  * Calls the `init_send_tx` JSON-RPC method.
  * Resource: https://docs.rs/grin_wallet_libwallet/2.0.0/grin_wallet_libwallet/api_impl/types/struct.InitTxArgs.html
  * @param {object} options
@@ -313,6 +349,7 @@ function verify_slate_messages(slate) {
 export default {
   retrieveSummaryInfo: retrieve_summary_info,
   retrieveTxs: retrieve_txs,
+  retrieveOutputs: retrieve_outputs,
   initSendTx: init_send_tx,
   txLockOutputs: tx_lock_outputs,
   cancelTx: cancel_tx,

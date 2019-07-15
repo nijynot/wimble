@@ -9,10 +9,26 @@
 }
 .Home_header {
   text-align: center;
+  transition: all .4s cubic-bezier(.19, 1, .22, 1);
+  filter: blur(0);
+  cursor: pointer;
+  &:hover {
+    filter: blur(14px);
+  }
+  &:hover + .Home_transactions {
+    .SmallTransactionCard {
+      div {
+        filter: blur(10px);
+      }
+    }
+  }
+  &.privacy {
+    filter: blur(14px);
+  }
   small {
     color: #999;
-    font-size: 18px;
-    font-weight: normal;
+    font-size: 16px;
+    font-weight: 500;
   }
 }
 .Home_transactions {
