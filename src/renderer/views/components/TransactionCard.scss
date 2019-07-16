@@ -28,6 +28,16 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+  font-weight: 500;
+  &.cancelled {
+    color: #EC4D40;
+  }
+  &.complete {
+    color: #1BB118;
+  }
+  &.waiting {
+    color: #FEF102;
+  }
 }
 .TransactionCard_line {
   width: 100%;

@@ -8,6 +8,10 @@ export const animationPaths = [
   '/finalize',
   '/send',
   '/receive',
+  '/welcome',
+  '/seed',
+  '/introduction',
+  '/restore',
 ];
 
 const fade = {
@@ -75,5 +79,21 @@ export const animations = {
       transform: 'scale(1)',
       bottom: '0px',
     },
-  }
+  },
+  standardSlideInFromBottom: {
+    from: {
+      opacity: 0,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      position: 'absolute',
+      bottom: '-58px',
+    },
+    to: {
+      opacity: 1,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      position: 'absolute',
+      bottom: '0px',
+    },
+  },
 };

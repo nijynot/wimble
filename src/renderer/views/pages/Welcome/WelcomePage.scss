@@ -1,0 +1,12 @@
+.Welcome {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  h2 {
+    width: 100%;
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

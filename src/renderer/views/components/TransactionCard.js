@@ -1,29 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import moment from 'moment';
 
-import { formatTxType } from 'utils/util';
+import grin from 'client/grin';
+import {
+  formatTxType,
+  formatNumber,
+  txNetDifference,
+  toGrin,
+  toUSD,
+  formatTxStatus,
+  classNameTxStatus,
+} from 'utils/util';
 require('./TransactionCard.scss');
 
-export default function TransactionCard(props) {
+export default function TransactionCard({ tx, ...props }) {
   const [show, setShow] = useState(false);
+  const [outputs, setOutputs] = useState([]);
+
+  useEffect(() => {
+    grin.wallet.retrieveOutputs(true, true, tx && tx.id).then((res) => {
+      setOutputs(res.reverse());
+    });
+  }, []);
+
+  const height = (outputs && outputs.length > 0) ? outputs[0].output.height : null;
 
   return (
     <>
       <div className="TransactionCard">
         <div className="TransactionCard_header">
-          <strong>{formatTxType(props.tx && props.tx.tx_type)}</strong>
-          <span className="grey">&nbsp;&bull;&nbsp;Height #145,234</span>
-          <span className="TransactionCard_timestamp">Just now</span>
+          <strong>{formatTxType(tx && tx.tx_type)}</strong>
+          <span className="grey">
+            {height ? (
+              <>&nbsp;&bull;&nbsp;Height #{formatNumber(parseInt(height, 10))}</>
+            ) : <>&nbsp;&bull;&nbsp; ID — {tx && tx.id}</>}
+          </span>
+          <span className="TransactionCard_timestamp">
+            {moment(tx && tx.creation_ts).fromNow()}
+          </span>
         </div>
         <div className="TransactionCard_details">
           <div className="TransactionCard_detail">
-            <h2>$432</h2>
-            <div className="grey">53.24 GRIN</div>
+            <h2>${tx && toUSD(toGrin(txNetDifference(tx)))}</h2>
+            <div className="grey">{tx && toGrin(txNetDifference(tx))} GRIN</div>
           </div>
-          <div className="TransactionCard_status">
-            Waiting for<br />
-            response slate
+          <div className={cx('TransactionCard_status', tx && classNameTxStatus(tx))}>
+            {tx && formatTxStatus(tx)}
           </div>
         </div>
         <div className="TransactionCard_line"></div>

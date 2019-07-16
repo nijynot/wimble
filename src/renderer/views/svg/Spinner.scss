@@ -1,0 +1,35 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes void-animation-out {
+  0%,
+  to {
+    opacity: 1;
+  }
+}
+
+.Spinner {
+  opacity: 0;
+  vertical-align: top;
+  // position: absolute;
+  // left: 50%;
+  // transform: translateX(-50%);
+  transition: all .2s ease;
+  // transition: all .2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  &.active {
+    opacity: 1;
+  }
+}
+.Spinner_circle {
+  animation: spin 1s linear infinite;
+  stroke-dasharray: 53;
+  stroke-dashoffset: 27.9;
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}

@@ -1,0 +1,24 @@
+.Checkbox {
+  cursor: pointer;
+  &.checked .Checkbox_box {
+    background-color: #101010;
+  }
+}
+.Checkbox_box {
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background-color: white;
+  transition: all .2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Checkbox_check {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: white;
+  transition: all .2s ease;
+}

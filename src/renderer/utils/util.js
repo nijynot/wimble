@@ -37,6 +37,16 @@ export function formatTxStatus(tx) {
   }
 };
 
+export function classNameTxStatus(tx) {
+  if (tx.tx_type === 'TxSent') {
+    return (tx.confirmed) ? 'complete' : 'waiting';
+  } else if (tx.tx_type === 'TxReceived') {
+    return (tx.confirmed) ? 'complete' : 'waiting';
+  } else if (tx.tx_type === 'TxSentCancelled' || tx.tx_type === 'TxReceivedCancelled') {
+    return 'cancelled';
+  }
+};
+
 /**
  * Return the net difference of a transaction.
  * @param {object} tx

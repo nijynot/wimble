@@ -6,6 +6,7 @@
   z-index: 10;
   position: relative;
   width: 100%;
+  min-width: calc(375px - 32px);
   transition: transform .2s ease;
   transform: scale(1);
   &.privacy div {
@@ -39,4 +40,14 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+  font-weight: 500;
+  &.cancelled {
+    color: #EC4D40;
+  }
+  &.complete {
+    color: #1BB118;
+  }
+  &.waiting {
+    color: #FEF102;
+  }
 }

@@ -27,7 +27,10 @@ function TransactionsPage(props) {
       {txs && txs.map((tx) => (
         <SmallTransactionCard
           tx={tx}
-          onClick={() => history.push('/tx', { enter: 'fade', leave: 'fade', scale: '1' })}
+          onClick={() => history.push(
+            `/tx/${tx.id}`,
+            { enter: 'fade', leave: 'fade', scale: '1' }
+          )}
         />
       ))}
     </div>

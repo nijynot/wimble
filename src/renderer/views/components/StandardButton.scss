@@ -1,21 +1,22 @@
 .StandardButton {
   position: absolute;
-  bottom: 58px;
+  bottom: 68px;
   min-width: 180px;
   font-size: 16px;
   font-weight: 700;
   border-radius: 64px;
   padding: 13px 0px;
   border: 0;
+  // margin-bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
   outline: 0;
-  z-index: 1000000;
   color: white;
   background-color: #101010;
   text-align: center;
-  transition: all .2s ease;
+  transition: width .2s, color .2s, background-color .2s, min-width .2s, opacity .2s;
   word-break: keep-all;
+  pointer-events: all;
   &.loading {
   }
   &.wide {
@@ -91,8 +92,9 @@
   color: #7b7b7b;
   padding: 0;
   position: absolute;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 32px;
-  z-index: 1000000;
+  white-space: nowrap;
+  pointer-events: all;
 }

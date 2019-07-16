@@ -4,7 +4,16 @@ import moment from 'moment';
 import cx from 'classnames';
 
 import grin from 'client/grin';
-import { formatTxType, formatNumber, toGrin, PRICE, txNetDifference, toUSD, formatTxStatus } from 'utils/util';
+import {
+  formatTxType,
+  formatNumber,
+  toGrin,
+  PRICE,
+  txNetDifference,
+  toUSD,
+  formatTxStatus,
+  classNameTxStatus,
+} from 'utils/util';
 import Fetch from 'components/Fetch';
 require('./SmallTransactionCard.scss');
 
@@ -15,9 +24,9 @@ export default function SmallTransactionCard({ tx, privacy, ...props }) {
     grin.wallet.retrieveOutputs(true, true, tx && tx.id).then((res) => {
       setOutputs(res.reverse());
     });
-  }, []);
+  }, [tx]);
 
-  const height = (outputs && outputs.length > 0) ? outputs[0].output.height : '0';
+  const height = (outputs && outputs.length > 0) ? outputs[0].output.height : null;
 
   return (
     <div
@@ -27,7 +36,9 @@ export default function SmallTransactionCard({ tx, privacy, ...props }) {
       <div className="SmallTransactionCard_header">
         <strong>{formatTxType(tx && tx.tx_type)}</strong>
         <span className="grey">
-          &nbsp;&bull;&nbsp;Height #{formatNumber(parseInt(height, 10))}
+          {height ? (
+            <>&nbsp;&bull;&nbsp;Height #{formatNumber(parseInt(height, 10))}</>
+          ) : <>&nbsp;&bull;&nbsp; ID — {tx && tx.id}</>}
         </span>
         <span className="SmallTransactionCard_timestamp">
           {moment(tx && tx.creation_ts).fromNow()}
@@ -38,7 +49,7 @@ export default function SmallTransactionCard({ tx, privacy, ...props }) {
           <h2>${tx && toUSD(toGrin(txNetDifference(tx)))}</h2>
           <div className="grey">{tx && toGrin(txNetDifference(tx))} GRIN</div>
         </div>
-        <div className="SmallTransactionCard_status">
+        <div className={cx('SmallTransactionCard_status', tx && classNameTxStatus(tx))}>
           {tx && formatTxStatus(tx)}
         </div>
       </div>

@@ -9,7 +9,7 @@ module.exports = {
     publicPath: './../../dist/',
     filename: '[name].js',
   },
-  target: 'electron-main',
+  target: 'electron-renderer',
   node: {
     __dirname: false,
     __filename: false,

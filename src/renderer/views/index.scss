@@ -72,6 +72,16 @@ body {
 #scroll-root {
   overflow: overlay;
 }
+#standard-button-root {
+  position: absolute;
+  z-index: 1000000;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 200px;
+  overflow: hidden;
+  pointer-events: none;
+}
 button {
   font-family: 'Inter UI';
   font-size: 15px;
