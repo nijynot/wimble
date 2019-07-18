@@ -1,63 +1,54 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-import Toggle from './components/Toggle';
+import Wimble from 'svg/Wimble';
+import Close from 'svg/Close';
+import useHistory from 'hooks/useHistory';
 require('./SettingsPage.scss');
 
-export default function SettingsPage(props) {
+function SettingsPage(props) {
+  const history = useHistory(props.history);
   return (
     <div className="Settings">
-      <div className="Settings-content">
-        <Link to="/">
-          <div className="Settings-close-wrap">
-            <button
-              className="Settings-close-btn"
-              onClick={props.close}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              {/*<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>*/}
-            </button>
+      <Wimble />
+      <Close onClick={() => history.push('/', { leave: 'zoom', scale: '1.15' })} />
+      <div className="Settings_content">
+        <section className="Settings_field">
+          <div className="Settings_field-text">
+            <div className="Settings_field-name">Hide values</div>
+            <div className="Settings_field-description">Will hide values when starting Wimble</div>
           </div>
-        </Link>
-        <h4>Settings</h4>
-        <div className="Settings-setting">
-          <div className="Settings-setting-text">
-            <span className="Settings-setting-title">Auto-start Owner API</span>
-            <span className="Settings-setting-description">Will call <pre>grin wallet owner_api</pre> when the this app starts.</span>
+          <div className="Settings_field-action">
+            <button>Press me!</button>
           </div>
-          <div className="Settings-setting-toggle">
-            <Toggle active={props.startOwner} onClick={() => props.setStartOwner(!props.startOwner)} />
+        </section>
+        <div className="Settings_separator"></div>
+        <section className="Settings_field">
+          <div className="Settings_field-text">
+            <div className="Settings_field-name">Check UTXO</div>
+            <div className="Settings_field-description">This will update which outputs that belong to you.</div>
           </div>
-        </div>
-        <div className="Settings-setting">
-          <div className="Settings-setting-text">
-            <span className="Settings-setting-title">Check UTXO</span>
-            <span className="Settings-setting-description">Scan UTXO for outputs that belong to you.</span>
+          <div className="Settings_field-action">
+            <button>Run</button>
           </div>
-          <div className="Settings-setting-toggle">
-            <button className="Settings-btn">Scan</button>
+        </section>
+        <div className="Settings_separator"></div>
+        <section className="Settings_field">
+          <div className="Settings_field-text">
+            <div className="Settings_field-name">API Secret</div>
+            <div className="Settings_field-description">Keep this safe. It's used for accessing the `.wimble` wallet.</div>
           </div>
-        </div>
-        <div className="Settings-setting">
-          <div className="Settings-setting-text">
-            <span className="Settings-setting-title">Dark Mode</span>
-            <span className="Settings-setting-description">Everyone likes dark mode.</span>
+          <div className="Settings_field-action">
+            <button>Run</button>
           </div>
-          <div className="Settings-setting-toggle">
-            <Toggle active={props.darkMode} onClick={() => props.setDarkMode(!props.darkMode)} />
-          </div>
-        </div>
+        </section>
       </div>
     </div>
   );
 }
+export default withRouter((props) => <SettingsPage {...props} />);
 
 SettingsPage.propTypes = {
-  darkMode: PropTypes.bool,
-  setDarkMode: PropTypes.func,
-  startOwner: PropTypes.bool,
-  setStartOwner: PropTypes.func,
-  close: PropTypes.func,
 };

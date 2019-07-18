@@ -59,7 +59,7 @@ export default function SmallTransactionCard({ tx, privacy, ...props }) {
 
 SmallTransactionCard.propTypes = {
   tx: PropTypes.object,
-  privacy: PropTypes.boolean,
+  privacy: PropTypes.bool,
   onClick: PropTypes.func,
 };
 

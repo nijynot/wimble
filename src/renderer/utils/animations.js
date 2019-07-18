@@ -12,6 +12,8 @@ export const animationPaths = [
   '/seed',
   '/introduction',
   '/restore',
+  '/settings',
+  '/password',
 ];
 
 const fade = {

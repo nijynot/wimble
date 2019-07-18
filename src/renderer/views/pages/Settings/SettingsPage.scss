@@ -3,102 +3,34 @@
 .Settings {
   width: 100%;
   height: 100%;
-  padding-top: $large;
-  justify-content: center;
-  flex-grow: 1;
-  display: flex;
+  padding: 128px 16px 16px;
+  background-color: #f2f2f2;
+}
+.Settings_content {
   background-color: white;
-  position: absolute;
-  z-index: 10000;
+  border-radius: 16px;
+  padding: 14px 16px;
 }
-.Settings h4 {
-  font-weight: 600;
-  margin-bottom: $small;
+.Settings_separator {
+  height: 1px;
+  border-top: 1px solid #eaeaea;
+  margin: 16px 0;
 }
-.Settings-sidebar {
-  flex-grow: 1;
+.Settings_field {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
 }
-.Settings-sidebar ul {
-  width: 100%;
-  text-align: right;
+.Settings_field-text {
+  flex-grow: 1;
+  margin-right: 16px;
 }
-.Settings-sidebar ul div {
-  // font-family: monospace;
-  padding: 6px $small;
-  color: #999;
-  font-weight: 600;
+.Settings_field-name {
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+.Settings_field-description {
   font-size: 12px;
-}
-.Settings-sidebar li {
-  cursor: pointer;
-  font-weight: 500;
-  padding: 10px $small;
-  &:hover {
-    background-color: rgba(0, 0, 0, .05);
-  }
-}
-.Settings-content {
-  position: relative;
-  padding: 0 $small $small $small;
-  max-width: 500px;
-  background-color: white;
-  flex-grow: 5;
-}
-.Settings-close-wrap {
-  position: absolute;
-  top: -4px;
-  right: 17px;
-}
-.Settings-close-btn {
-  outline: 0;
-  border: 0;
-  background: transparent;
-  padding: 4px;
-  cursor: pointer;
-  &:hover > svg {
-    stroke: #080808;
-  }
-}
-.Settings-close-btn svg {
-  stroke: #888;
-  transition: all .15s ease;
-  vertical-align: top;
-}
-.Settings-setting {
-  display: flex;
-  margin-bottom: $base;
-}
-.Settings-setting-text {
-  flex-grow: 1;
-  margin-right: $small;
-}
-.Settings-setting-toggle {
-  justify-content: flex-end;
-  margin-right: $tiny;
-}
-.Settings-setting-title {
-  display: block;
-  margin-bottom: 3px;
-}
-.Settings-setting-description {
   color: #888;
-  font-size: 13px;
 }
-.Settings-btn {
-  font-family: 'Inter UI';
-  border: 0;
-  border-radius: 20px;
-  padding: 6px 12px;
-  font-weight: 500;
-  font-size: 13px;
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.1);
-  transition: all .15s ease;
-  outline: 0;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-  }
+.Settings_field-action {
+  flex-shrink: 0;
 }

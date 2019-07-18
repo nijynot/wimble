@@ -8,7 +8,7 @@ import HomePage from './views/pages/Home/HomePage';
 require('./views/reset.css');
 require('./views/index.scss');
 
-fs.pathExists(`${remote.app.getPath('home')}/.wimble/wallet_data/wallet.seed`, (err, exists) => {
+fs.pathExists(`${remote.app.getPath('home')}/.wimble/main/wallet_data/wallet.seed`, (err, exists) => {
   if (err) console.error(err);
   ReactDOM.render(
     <App wallet={exists} />,

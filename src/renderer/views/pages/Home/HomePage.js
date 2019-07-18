@@ -51,7 +51,10 @@ function HomePage({ location, history, ...props }) {
         className="Home_finalize-btn"
         onClick={() => history.push('/finalize', { enter: 'zoom', scale: '1.15' })}
       >Finalize</button>
-      <button className="Home_settings-btn">Settings</button>
+      <button
+        className="Home_settings-btn"
+        onClick={() => history.push('/settings', { enter: 'zoom', scale: '1.15' })}
+      >Settings</button>
       <div
         className={cx('Home_header', { privacy })}
         onClick={() => setPrivacy(!privacy)}

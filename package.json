@@ -2,11 +2,11 @@
   "name": "grin-wallet-gui",
   "version": "0.1.0",
   "description": "",
-  "main": "src/main/main.js",
+  "main": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "webpack": "webpack --mode=development",
+    "webpack": "webpack --mode=development --config ./webpack.renderer.config.js --config ./webpack.main.config.js",
     "build": "npm run webpack && npm run start",
     "grin": "./bin/grin",
     "grin-wallet": "./bin/grin-wallet owner_api"
@@ -51,6 +51,7 @@
     "classnames": "^2.2.6",
     "consolidated-events": "^2.0.2",
     "date-fns": "^1.30.1",
+    "execa": "^2.0.3",
     "fs-extra": "^8.1.0",
     "grin-client": "git+https://github.com/nijynot/grin-client-js.git",
     "lodash": "^4.17.11",
@@ -61,5 +62,6 @@
     "react-dom": "^16.8.2",
     "react-router-dom": "^4.4.0-beta.7",
     "react-spring": "^8.0.27"
-  }
+  },
+  "type": "module"
 }

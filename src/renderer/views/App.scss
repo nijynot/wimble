@@ -12,6 +12,9 @@
     transform: scale(.9);
     opacity: 0
   }
+  &.none {
+    display: none;
+  }
 }
 .App-toolbar {
   display: flex;

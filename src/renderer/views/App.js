@@ -5,6 +5,7 @@ import { Transition } from 'react-spring/renderprops';
 import { BrowserRouter as Router, Switch, Route, Link, withRouter, Redirect } from 'react-router-dom';
 import fs from 'fs-extra';
 import Big from 'big.js';
+import { ipcRenderer } from 'electron';
 
 import grin from 'client/grin';
 import { matchAny } from 'utils/util';
@@ -23,6 +24,7 @@ import WelcomePage from './pages/Welcome/WelcomePage';
 import SeedPage from './pages/Seed/SeedPage';
 import IntroductionPage from './pages/Introduction/IntroductionPage';
 import RestorePage from './pages/Restore/RestorePage';
+import PasswordPage from './pages/Password/PasswordPage';
 require('./App.scss');
 
 Big.NE = -10;
@@ -32,7 +34,8 @@ function App(props) {
   const { location } = props;
   const history = useHistory(props.history);
 
-  const [walletExists, setWalletExists] = useState(props.wallet);
+  const [doesWalletExist, setDoesWalletExist] = useState(props.wallet);
+  const [isOwnerActive, setIsOwnerActive] = useState(false);
   const [amount, setAmount] = useState('0');
   const [startOwner, setStartOwner] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -43,11 +46,18 @@ function App(props) {
   );
 
   const close = () => {
-    if (walletExists) {
+    if (doesWalletExist && isOwnerActive) {
       setAmount('0');
       history.push('/', { leave: 'zoom', scale: '1.15' });
     }
   }
+
+  const onClickLogin = (password) => {
+    // Send `password` to main.js to check if `owner_api` starts
+    if (password) {
+      ipcRenderer.send('start-owner', password);
+    }
+  };
 
   function back() {
     history.goBack();
@@ -60,14 +70,28 @@ function App(props) {
   }
 
   useEffect(() => {
-    document.addEventListener('keydown', esc, false);
-    if (!walletExists) {
+    if (!doesWalletExist) {
       history.push('/welcome', { enter: 'fade', leave: 'fade', scale: '1' });
+    } else if (doesWalletExist && !isOwnerActive) {
+      history.push('/password', { enter: 'fade', leave: 'fade', scale: '1' });
     }
+  }, [doesWalletExist]);
+
+  useEffect(() => {
+    // Detect if `esc` is pressed.
+    document.addEventListener('keydown', esc, false);
+
+    // Navigate to `/` if password was correct and `owner_api` was started.
+    ipcRenderer.on('login', (e, arg) => {
+      if (arg) {
+        setIsOwnerActive(true);
+        history.push('/', { leave: 'zoom', scale: '1.15' });
+      }
+    });
     return function() {
       document.removeEventListener('keydown', esc, false);
     }
-  }, [walletExists]);
+  }, []);
 
   return (
     <>
@@ -75,7 +99,7 @@ function App(props) {
         <div className="App-drag"></div>
       </div>
       <Route path="/" render={() => (
-        walletExists ? (
+        (doesWalletExist && isOwnerActive) ? (
           <div className={cx('App', { hide: location.pathname !== '/' })}>
             <HomePage />
           </div>
@@ -103,6 +127,14 @@ function App(props) {
             <Route
               path="/restore"
               render={() => <RestorePage />}
+            />
+            <Route
+              path="/settings"
+              render={() => <SettingsPage />}
+            />
+            <Route
+              path="/password"
+              render={() => <PasswordPage onClickLogin={onClickLogin} />}
             />
             <Route
               path="/result/:id?"
@@ -140,7 +172,7 @@ function App(props) {
       <StandardButton
         amount={amount}
         setAmount={setAmount}
-        setWalletExists={setWalletExists}
+        setDoesWalletExist={setDoesWalletExist}
       />
     </>
   );

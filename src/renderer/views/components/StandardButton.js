@@ -19,7 +19,7 @@ function StandardButton({
   location,
   amount,
   setAmount,
-  setWalletExists,
+  setDoesWalletExist,
   txId,
   ...props
 }) {
@@ -121,8 +121,8 @@ function StandardButton({
       text: 'Continue',
       className: 'black',
       onClick: ({ history }) => {
-        fs.ensureFile(remote.app.getPath('home') + '/.wimble/wallet_data/wallet.seed').then((err) => {
-          setWalletExists(true);
+        fs.ensureFile(remote.app.getPath('home') + '/.wimble/main/wallet_data/wallet.seed').then((err) => {
+          setDoesWalletExist(true);
           history.push('/introduction', { leave: 'fade', scale: '1' });
         });
       },
@@ -146,6 +146,17 @@ function StandardButton({
       onClick: ({ history }) => {
         history.push('/', { leave: 'zoom', scale: '1.15' });
       },
+    },
+    settings: {
+      text: 'Close',
+      className: 'black',
+      onClick: ({ history }) => {
+        history.push('/', { leave: 'zoom', scale: '1.15' });
+      },
+    },
+    password: {
+      text: '',
+      className: 'hide',
     },
   };
   const [button, setButton] = useState(buttons.home);
@@ -173,6 +184,10 @@ function StandardButton({
       return buttons.introduction;
     } else if (match(pathname, '/restore')) {
       return buttons.restore;
+    } else if (match(pathname, '/settings')) {
+      return buttons.settings;
+    } else if (match(pathname, '/password')) {
+      return buttons.password;
     }
   }
 
@@ -228,5 +243,5 @@ StandardButton.propTypes = {
   amount: PropTypes.string,
   txId: PropTypes.string,
   setAmount: PropTypes.func,
-  setWalletExists: PropTypes.func,
+  setDoesWalletExist: PropTypes.func,
 };

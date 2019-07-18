@@ -9,12 +9,18 @@
   border: 0;
   // margin-bottom: 16px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(0px);
   outline: 0;
   color: white;
   background-color: #101010;
   text-align: center;
-  transition: width .2s, color .2s, background-color .2s, min-width .2s, opacity .2s;
+  transition:
+    width .2s,
+    color .2s,
+    background-color .2s,
+    min-width .2s,
+    opacity .2s,
+    transform .2s;
   word-break: keep-all;
   pointer-events: all;
   &.loading {
@@ -34,14 +40,20 @@
     background-color: #101010;
     color: white;
   }
+  &.hide {
+    display: none;
+  }
   &:disabled {
     cursor: not-allowed;
     opacity: 0.6;
   }
+  &:not([disabled]):hover {
+    transform: translateX(-50%) translateY(-2px);
+  }
 }
 .StandardButton_text {
   opacity: 1;
-  transition: all .2s ease;
+  // transition: all .2s ease;
   &.hide {
     opacity: 0;
   }
