@@ -9,12 +9,6 @@ require('./PasswordPage.scss');
 function PasswordPage({ onClickLogin, ...props }) {
   const [password, setPassword] = useState('');
 
-  useEffect(() => {
-    execa('echo', ['something something!']).then(({ stdout }) => {
-      console.log(stdout);
-    });
-  }, []);
-
   return (
     <div className="Password">
       <Wimble className="white" />

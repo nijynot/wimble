@@ -70,6 +70,9 @@ function App(props) {
   }
 
   useEffect(() => {
+    // Navigate to `/welcome` if wallet.seed file does not exist in
+    // `.wimble/{net}/wallet_data`.
+    // If it exists, navigate to the password page.
     if (!doesWalletExist) {
       history.push('/welcome', { enter: 'fade', leave: 'fade', scale: '1' });
     } else if (doesWalletExist && !isOwnerActive) {
