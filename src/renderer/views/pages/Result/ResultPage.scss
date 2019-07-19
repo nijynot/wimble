@@ -1,7 +1,8 @@
 .ResultPage {
   background-color: #f2f2f2;
   height: 100%;
-  padding: 128px 16px 0 16px;
+  padding: 128px 16px 128px 16px;
+  overflow-y: overlay;
   &::after {
     content: '';
     position: absolute;

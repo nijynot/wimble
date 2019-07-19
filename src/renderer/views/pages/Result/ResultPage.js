@@ -10,21 +10,26 @@ import Close from 'svg/Close';
 import TransactionCard from 'components/TransactionCard';
 require('./ResultPage.scss');
 
-function ResultPage({ id, match, ...props }) {
+function ResultPage({ match, ...props }) {
   const [tx, setTx] = useState(null);
-  const spring = useSpring({ ...animations.springIn });
+  const spring = useSpring({ delay: 400, ...animations.springIn });
 
   useEffect(() => {
     let id;
-    if (match && typeof match.params.id === 'string' && match.params.id.length !== 36) {
-      id = parseInt(match.params.id, 10);
+    console.log(match);
+    if (match && typeof match.params.id === 'string' && match.params.id.length === 36) {
+      console.log(1);
+      grin.wallet.retrieveTxs(null, id).then((res) => {
+        console.log(2);
+        console.log(res);
+        setTx(res.reverse()[0]);
+      });
     } else {
       id = match && match.params.id || null;
+      grin.wallet.retrieveTxs(id).then((res) => {
+        setTx(res.reverse()[0]);
+      });
     }
-
-    grin.wallet.retrieveTxs(id).then((res) => {
-      setTx(res[0]);
-    });
     // setTx({
     //   amount_credited: '60000000000',
     //   amount_debited: '0',

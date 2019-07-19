@@ -2,6 +2,7 @@ import querystring from 'querystring';
 
 export const animationPaths = [
   '/result',
+  '/result/:id',
   '/tx',
   '/txs',
   '/tx/:id',

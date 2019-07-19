@@ -50,6 +50,7 @@ function retrieve_txs(txId, txSlateId) {
   if (typeof txId === 'number') {
     parameters = `true,${parseInt(txId, 10)},null`;
   } else if (typeof txSlateId === 'string' && txSlateId.length === 36) {
+    console.log(4);
     parameters = `true,null,${txSlateId}`;
   } else {
     parameters = 'true,null,null';
@@ -117,7 +118,7 @@ function retrieve_outputs(includeSpent = true, refreshFromNode = true, txId) {
  * @param {string} options.message
  * @param {number} options.targetSlateVersion
  * @param {boolean} options.estimateOnly
- * @returns {Object}
+ * @returns {Promise.<Object>}
  */
 function init_send_tx(options) {
   if (
@@ -136,7 +137,7 @@ function init_send_tx(options) {
   const optionsCopy = {};
   optionsCopy.src_acct_name = options.srcAcctName || null;
   optionsCopy.amount = options.amount;
-  optionsCopy.minimum_confirmations = options.minimumConfirmations || 1;
+  optionsCopy.minimum_confirmations = options.minimumConfirmations || 10;
   optionsCopy.max_outputs = options.maxOutputs || 500;
   optionsCopy.num_change_outputs = options.numChangeOutputs || 1;
   optionsCopy.selection_strategy_is_use_all = (

@@ -36,7 +36,7 @@
     color: #1BB118;
   }
   &.waiting {
-    color: #FEF102;
+    color: #cec300;
   }
 }
 .TransactionCard_line {
@@ -188,6 +188,9 @@
   &:hover {
     background-color: white;
     color: #ff1500;
+    circle {
+      stroke: #ff1500;
+    }
   }
 }
 .TransactionCard_hint {

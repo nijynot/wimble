@@ -8,6 +8,7 @@ import { useSpring, animated } from 'react-spring';
 import { remote } from 'electron';
 import fs from 'fs-extra';
 
+import { app } from 'utils/app';
 import grin from 'client/grin';
 import { perfectMatch, match, validateAmount, toNanoGrin } from 'utils/util';
 import { animations } from 'utils/animations';
@@ -48,16 +49,31 @@ function StandardButton({
       disabled: ({ amount }) => {
         return (!validateAmount(Big(amount)) || Big(amount).cmp(0) === 0);
       },
-      onClick: ({ history, amount }) => {
-        // call `initSendTx`
-        // call `txLockOutputs`
-        // return the /tx/:id with the id.
-        // let id;
+      onClick: async ({ history, amount }) => {
         setLoading(true);
-        setTimeout(() => {
+        try {
+          const slate = await grin.wallet.initSendTx({ amount: toNanoGrin(amount) });
+          const locked = await grin.wallet.txLockOutputs(slate, 0);
+          if (locked) {
+            fs.outputJsonSync(
+              `${app.getPath('home')}/.grin/main/wallet_data/wimble_txs/${slate.id}.tx`,
+              slate
+            );
+            setLoading(false);
+            history.push(`/result/${slate.id}`, { enter: 'fade', leave: 'fade', scale: '1' });
+          } else {
+            console.log('not locked!');
+            // history.push('/404', { enter: 'fade', leave: 'fade', scale: '1' });
+          }
+        } catch (e) {
+          console.log(e);
           setLoading(false);
-          history.push('/result', { enter: 'fade', leave: 'fade', scale: '1' });
-        }, 800);
+          // history.push('/404', { enter: 'fade', leave: 'fade', scale: '1' });
+        }
+        // setTimeout(() => {
+        //   setLoading(false);
+        //   history.push('/result', { enter: 'fade', leave: 'fade', scale: '1' });
+        // }, 800);
         // if (validateAmount(Big(amount))) {
         //   grin.initSendTx({ amount }).then((res) => {
         //   })

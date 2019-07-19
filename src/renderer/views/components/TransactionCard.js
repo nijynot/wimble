@@ -6,6 +6,7 @@ import fs from 'fs-extra';
 import { get } from 'lodash';
 import { useSpring, animated } from 'react-spring';
 import { clipboard, remote } from 'electron';
+import { withRouter } from 'react-router-dom';
 
 import grin from 'client/grin';
 import {
@@ -21,9 +22,14 @@ import {
   isCancelled,
 } from 'utils/util';
 import { app } from 'utils/app';
+import useHistory from 'hooks/useHistory';
+import Spinner from 'svg/Spinner';
 require('./TransactionCard.scss');
 
-export default function TransactionCard({ tx, ...props }) {
+function TransactionCard({ tx, ...props }) {
+  const history = useHistory(props.history);
+  const [loadingCancel, setLoadingCancel] = useState(false);
+  const [cancelled, setCancelled] = useState(false);
   const [expand, setExpand] = useState(false);
   const [outputs, setOutputs] = useState([]);
   const [slate, setSlate] = useState(null);
@@ -43,6 +49,23 @@ export default function TransactionCard({ tx, ...props }) {
     });
   };
 
+  const onClickCancel = () => {
+    if (!cancelled) {
+      setLoadingCancel(true);
+      grin.wallet.cancelTx(tx.id).then((res) => {
+        if (res) {
+          setTimeout(() => {
+            setLoadingCancel(false);
+            setCancelled(true);
+          }, 200);
+        }
+      }).catch((e) => {
+        console.log(e);
+        setLoadingCancel(false);
+      });
+    }
+  };
+
   useEffect(() => {
     if (tx && typeof parseInt(tx.id) === 'number') {
       grin.wallet.retrieveOutputs(true, true, tx && tx.id).then((res) => {
@@ -55,8 +78,6 @@ export default function TransactionCard({ tx, ...props }) {
       }
     }
   }, [tx]);
-
-console.log(tx);
 
   const height = get(outputs, '[0].output.height', null);
 
@@ -127,7 +148,14 @@ console.log(tx);
               </div>
             </div>
             {(tx && !tx.confirmed && !isCancelled(tx)) && (
-              <button className="TransactionCard_cancel-btn">Cancel transaction</button>
+              <button
+                className={cx('TransactionCard_cancel-btn')}
+                onClick={() => onClickCancel()}
+              >
+                {(!loadingCancel && !cancelled) && 'Cancel transaction'}
+                {(loadingCancel) && <Spinner active />}
+                {cancelled && 'Cancelled'}
+              </button>
             )}
           </div>
         </animated.div>
@@ -144,6 +172,7 @@ console.log(tx);
     </>
   );
 }
+export default withRouter((props) => <TransactionCard {...props} />);
 
 TransactionCard.propTypes = {
   tx: PropTypes.object,

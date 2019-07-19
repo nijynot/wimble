@@ -1,3 +1,4 @@
+import React from 'react';
 import { matchPath } from 'react-router-dom';
 import Big from 'big.js';
 import fs from 'fs-extra';
@@ -63,7 +64,7 @@ export function formatTxType(txType) {
 
 export function formatTxStatus(tx) {
   if (tx.tx_type === 'TxSent') {
-    return (tx.confirmed) ? 'Transaction completed' : 'Waiting for response slate';
+    return (tx.confirmed) ? 'Transaction completed' : <>Waiting for<br />response slate</>;
   } else if (tx.tx_type === 'TxReceived') {
     return (tx.confirmed) ? 'Transaction completed' : 'Waiting for finalization';
   } else if (tx.tx_type === 'TxSentCancelled' || tx.tx_type === 'TxReceivedCancelled') {

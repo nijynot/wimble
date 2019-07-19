@@ -32,7 +32,7 @@ function HomePage({ location, history, ...props }) {
     grin.wallet.retrieveSummaryInfo().then((res) => {
       setSpendable(res.amount_currently_spendable);
     });
-  }, []);
+  }, [location.pathname]);
 
   useInterval(() => {
     grin.status().then((res) => {

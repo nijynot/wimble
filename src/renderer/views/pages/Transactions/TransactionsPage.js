@@ -40,4 +40,4 @@ export default withRouter((props) => <TransactionsPage {...props} />);
 
 TransactionsPage.propTypes = {
   close: PropTypes.func,
-}
+};
