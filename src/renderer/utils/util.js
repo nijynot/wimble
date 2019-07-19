@@ -1,5 +1,8 @@
 import { matchPath } from 'react-router-dom';
 import Big from 'big.js';
+import fs from 'fs-extra';
+
+import { app } from 'utils/app';
 
 export const PRICE = '3.2';
 export const GRIN = '1000000000';
@@ -184,4 +187,47 @@ export function toUSD(amount) {
     throw new Error(`Expected \`amount\` to be greater or equal to 1 nanogrin and less or equal to 1e+9 grins.`);
   }
   return amountCopy.times(PRICE).toString();
+}
+
+/**
+ * Retrive the latest slate, in the order of:
+ * - `uuid.final.tx
+ * - `uuid.response.tx`
+ * - `uuid.tx`
+ * @param {string} uuid
+ * @returns {Promise.<Object>|null}
+ */
+export function retrieveSlate(uuid) {
+  const basePath = `${app.getPath('home')}/.grin/main/wallet_data/wimble_txs`;
+  if (fs.pathExistsSync(`${basePath}/${uuid}.final.tx`)) {
+    return fs.readJsonSync(`${basePath}/${uuid}.final.tx`);
+  } else if (fs.pathExistsSync(`${basePath}/${uuid}.response.tx`)) {
+    return fs.readJsonSync(`${basePath}/${uuid}.response.tx`);
+  } else if (fs.pathExistsSync(`${basePath}/${uuid}.tx`)) {
+    return fs.readJsonSync(`${basePath}/${uuid}.tx`);
+  }
+  return null;
+}
+
+export function formatSlateFilename(uuid) {
+  const basePath = `${app.getPath('home')}/.grin/main/wallet_data/wimble_txs`;
+  if (fs.pathExistsSync(`${basePath}/${uuid}.final.tx`)) {
+    return `${uuid}.final.tx`;
+  } else if (fs.pathExistsSync(`${basePath}/${uuid}.response.tx`)) {
+    return `${uuid}.response.tx`;
+  } else if (fs.pathExistsSync(`${basePath}/${uuid}.tx`)) {
+    return `${uuid}.tx`;
+  }
+  return null;
+}
+
+export function isBase64(string) {
+  return Buffer.from(str, 'base64').toString('base64') === str;
+}
+
+export function isCancelled(tx) {
+  if (tx.tx_type === 'TxSentCancelled' || tx.tx_type === 'TxReceivedCancelled') {
+    return true;
+  }
+  return false;
 }

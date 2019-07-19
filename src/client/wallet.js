@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import { app } from 'utils/app';
 
-const apiSecret = fs.readFileSync(`${app().getPath('home')}/.grin/main/.api_secret`).toString().trim();
+const apiSecret = fs.readFileSync(`${app.getPath('home')}/.wimble/main/.api_secret`).toString().trim();
 const auth = `grin:${apiSecret}`;
 
 function retrieve_summary_info() {
@@ -22,7 +22,7 @@ function retrieve_summary_info() {
  * Retreive txs with an optional transaction id.
  * @param {number} txId
  * @param {string} txSlateId - UUID
- * @returns {array}
+ * @returns {Object[]}
  */
 function retrieve_txs(txId, txSlateId) {
   if (
@@ -73,7 +73,7 @@ function retrieve_txs(txId, txSlateId) {
  * @param {boolean} includeSpent
  * @param {boolean} refreshFromNode
  * @param {number} txId
- * @returns {array}
+ * @returns {Object[]}
  */
 function retrieve_outputs(includeSpent = true, refreshFromNode = true, txId) {
   if (
@@ -107,7 +107,7 @@ function retrieve_outputs(includeSpent = true, refreshFromNode = true, txId) {
 /**
  * Calls the `init_send_tx` JSON-RPC method.
  * Resource: https://docs.rs/grin_wallet_libwallet/2.0.0/grin_wallet_libwallet/api_impl/types/struct.InitTxArgs.html
- * @param {object} options
+ * @param {Object} options
  * @param {string} options.srcAcctName
  * @param {string} options.amount
  * @param {number} options.minimumConfirmations
@@ -117,7 +117,7 @@ function retrieve_outputs(includeSpent = true, refreshFromNode = true, txId) {
  * @param {string} options.message
  * @param {number} options.targetSlateVersion
  * @param {boolean} options.estimateOnly
- * @returns {object}
+ * @returns {Object}
  */
 function init_send_tx(options) {
   if (
@@ -170,7 +170,7 @@ function init_send_tx(options) {
 
 /**
  * Locks the outputs of a slate.
- * @param {object} slate
+ * @param {Object} slate
  * @param {number} participantId
  * @returns {boolean}
  */
@@ -263,10 +263,10 @@ function cancel_tx(txId, txSlateId) {
 
 /**
  * Receive a transaction through a slate.
- * @param {object} slate
+ * @param {Object} slate
  * @param {string} destAcctName
  * @param {string} message
- * @returns {object}
+ * @returns {Object}
  */
 function receive_tx(slate, destAcctName = null, message = null) {
   if (typeof slate !== 'object') {
@@ -295,8 +295,8 @@ function receive_tx(slate, destAcctName = null, message = null) {
 
 /**
  * Finalize a transaction given a response slate.
- * @param {object} slate
- * @returns {object}
+ * @param {Object} slate
+ * @returns {Object}
  */
 function finalize_tx(slate) {
   if (typeof slate !== 'object') {
@@ -325,7 +325,7 @@ function finalize_tx(slate) {
 
 /**
  * Verify message signature in the slate.
- * @param {object} slate
+ * @param {Object} slate
  * @returns {boolean}
  */
 function verify_slate_messages(slate) {

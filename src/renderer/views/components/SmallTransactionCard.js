@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import cx from 'classnames';
+import { get } from 'lodash';
 
 import grin from 'client/grin';
 import {
@@ -21,12 +22,14 @@ export default function SmallTransactionCard({ tx, privacy, ...props }) {
   const [outputs, setOutputs] = useState([]);
 
   useEffect(() => {
-    grin.wallet.retrieveOutputs(true, true, tx && tx.id).then((res) => {
-      setOutputs(res.reverse());
-    });
+    if (tx && typeof parseInt(tx.id) === 'number') {
+      grin.wallet.retrieveOutputs(true, true, tx && tx.id).then((res) => {
+        setOutputs(res.reverse());
+      });
+    }
   }, [tx]);
 
-  const height = (outputs && outputs.length > 0) ? outputs[0].output.height : null;
+  const height = get(outputs, '[0].output.height', null);
 
   return (
     <div
@@ -40,7 +43,7 @@ export default function SmallTransactionCard({ tx, privacy, ...props }) {
             <span className="grey">
               {height ? (
                 <>&nbsp;&bull;&nbsp;Height #{formatNumber(parseInt(height, 10))}</>
-              ) : <>&nbsp;&bull;&nbsp; ID — {tx && tx.id}</>}
+              ) : <>&nbsp;&bull;&nbsp; ID: {tx && tx.id}</>}
             </span>
             <span className="SmallTransactionCard_timestamp">
               {moment(tx && tx.creation_ts).fromNow()}

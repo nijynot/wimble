@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import moment from 'moment';
+import fs from 'fs-extra';
+import { get } from 'lodash';
+import { useSpring, animated } from 'react-spring';
+import { clipboard, remote } from 'electron';
 
 import grin from 'client/grin';
 import {
@@ -12,20 +16,49 @@ import {
   toUSD,
   formatTxStatus,
   classNameTxStatus,
+  retrieveSlate,
+  formatSlateFilename,
+  isCancelled,
 } from 'utils/util';
+import { app } from 'utils/app';
 require('./TransactionCard.scss');
 
 export default function TransactionCard({ tx, ...props }) {
-  const [show, setShow] = useState(false);
+  const [expand, setExpand] = useState(false);
   const [outputs, setOutputs] = useState([]);
+  const [slate, setSlate] = useState(null);
+  const springExpand = useSpring({
+    opacity: expand ? 1 : 0,
+    height: expand ? `${document.getElementById('expand').clientHeight}px` : '0px',
+  });
+
+  // Overwrites the filename with the transaction slate.
+  const onClickSave = () => {
+    remote.dialog.showSaveDialog({
+      defaultPath: formatSlateFilename(tx.tx_slate_id),
+    }, (filename) => {
+      if (filename) {
+        fs.outputJsonSync(filename, retrieveSlate(tx.tx_slate_id), { spaces: 2 });
+      }
+    });
+  };
 
   useEffect(() => {
-    grin.wallet.retrieveOutputs(true, true, tx && tx.id).then((res) => {
-      setOutputs(res.reverse());
-    });
-  }, []);
+    if (tx && typeof parseInt(tx.id) === 'number') {
+      grin.wallet.retrieveOutputs(true, true, tx && tx.id).then((res) => {
+        setOutputs(res.reverse());
+      });
 
-  const height = (outputs && outputs.length > 0) ? outputs[0].output.height : null;
+      const rawSlate = retrieveSlate(tx.tx_slate_id);
+      if (rawSlate) {
+        setSlate(Buffer.from(JSON.stringify(rawSlate)).toString('base64'));
+      }
+    }
+  }, [tx]);
+
+console.log(tx);
+
+  const height = get(outputs, '[0].output.height', null);
 
   return (
     <>
@@ -35,7 +68,7 @@ export default function TransactionCard({ tx, ...props }) {
           <span className="grey">
             {height ? (
               <>&nbsp;&bull;&nbsp;Height #{formatNumber(parseInt(height, 10))}</>
-            ) : <>&nbsp;&bull;&nbsp; ID — {tx && tx.id}</>}
+            ) : <>&nbsp;&bull;&nbsp; ID: {tx && tx.id}</>}
           </span>
           <span className="TransactionCard_timestamp">
             {moment(tx && tx.creation_ts).fromNow()}
@@ -54,44 +87,60 @@ export default function TransactionCard({ tx, ...props }) {
         <small className="TransactionCard_slate-heading">TRANSACTION SLATE</small>
         <div className="TransactionCard_slate">
           <div className="TransactionCard_inner-slate">
-            ewogICAgIm51bV9wYXJ0aWNpcGFudHMiOiAyLAogICAgImlkIjogIjhiOTc1OWI2LWQ3ZTEtNDg4Yi1izLTc2MTRjODQzZWY0ZSIsCiAgICAidHgiOiB7CiAgICAgICJvZmZzZXQiOiBbMTY1XSwKICAgICAgImJvZHkiOiB7CiAgICAgICAgImlucHV0cyI6IFsKICAgICAgICAgIHsKICAgICAgICZmZzZXQiOiBbMTY1XSwKICAgICAgImJvZHkiOiB7CiAgICAgICAgImlucHV0cyI6IFsKICAgICAgICAgIHsKICAgICAgICAgIHsKICAgICAgICAgIHsKIC...
+            {(slate) ? slate : 'No slate was found.'}
           </div>
           <div className="TransactionCard_actions">
-            <div className="TransactionCard_action">Save</div>
-            <div className="TransactionCard_action">Copy</div>
+            <div
+              onClick={() => onClickSave()}
+              className="TransactionCard_action"
+            >Save</div>
+            <div
+              onClick={() => clipboard.writeText(slate)}
+              className="TransactionCard_action"
+            >Copy</div>
           </div>
         </div>
-        <div className={cx('TransactionCard_expansion', { hide: !show })}>
-          <div className="TransactionCard_table">
-            <div className="TransactionCard_row">
-              <label>UUID</label>
-              <div className="TransactionCard_cell">856c3c85-0cb9-4951-9f33-124f032ac21e</div>
+        <animated.div style={{
+          ...springExpand,
+          overflow: 'hidden',
+        }}>
+          <div id="expand" className={cx('TransactionCard_expansion', { hide: !expand })}>
+            <div className="TransactionCard_table">
+              <div className="TransactionCard_row">
+                <label>ID / UUID</label>
+                <div className="TransactionCard_cell">
+                  ID: {tx && tx.id}<br />
+                  UUID: {tx && tx.tx_slate_id}
+                </div>
+              </div>
+              <div className="TransactionCard_row">
+                <label>OUTPUTS {tx && `(IN: ${tx.num_inputs}, OUT: ${tx.num_outputs})`}</label>
+                <div className="TransactionCard_cell">
+                  {(outputs.length > 0) ?outputs.map((output, i) => (
+                    <div className="TransactionCard_output">[{i}]: {output.commit}</div>
+                  )) : 'N/A'}
+                </div>
+              </div>
+              <div className="TransactionCard_row">
+                <label>FEE</label>
+                <div className="TransactionCard_cell">{tx && tx.fee && toGrin(tx.fee) || 'N/A'}</div>
+              </div>
             </div>
-            <div className="TransactionCard_row">
-              <label>OUTPUTS</label>
-              <div className="TransactionCard_cell">08ad4948a215e22e37f7909c7e36460afa5e38d6696361b0a27b983b38e78540c5</div>
-            </div>
-            <div className="TransactionCard_row">
-              <label>INPUTS</label>
-              <div className="TransactionCard_cell">08ad4948a215e22e37f7909c7e36460afa5e38d</div>
-            </div>
-            <div className="TransactionCard_row">
-              <label>FEE</label>
-              <div className="TransactionCard_cell">0.006 GRIN</div>
-            </div>
+            {(tx && !tx.confirmed && !isCancelled(tx)) && (
+              <button className="TransactionCard_cancel-btn">Cancel transaction</button>
+            )}
           </div>
-          <button className="TransactionCard_cancel-btn">Cancel transaction</button>
-        </div>
+        </animated.div>
         <div
           className="TransactionCard_three-dots"
-          onClick={() => setShow(!show)}
+          onClick={() => setExpand(!expand)}
         >
-          <div className={cx('TransactionCard_dot', { hide: show })}></div>
+          <div className={cx('TransactionCard_dot', { hide: expand })}></div>
           <div className="TransactionCard_dot"></div>
-          <div className={cx('TransactionCard_dot', { hide: show })}></div>
+          <div className={cx('TransactionCard_dot', { hide: expand })}></div>
         </div>
       </div>
-      {!show && <div className="TransactionCard_hint">{props.hint}</div>}
+      {!expand && <div className="TransactionCard_hint">{props.hint}</div>}
     </>
   );
 }

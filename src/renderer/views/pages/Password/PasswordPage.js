@@ -34,6 +34,12 @@ function PasswordPage({ onClickLogin, ...props }) {
     },
   });
 
+  const onEnter = (e) => {
+    if (e.keyCode === 13) {
+      onClickLogin(password);
+    }
+  }
+
   return (
     <div className="Password">
       <animated.div style={springLogo}>
@@ -44,6 +50,7 @@ function PasswordPage({ onClickLogin, ...props }) {
           <input
             placeholder="password" type="password"
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => onEnter(e)}
           />
           <button
             className="Password_login-btn"

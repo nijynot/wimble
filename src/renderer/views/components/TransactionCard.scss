@@ -54,6 +54,11 @@
 }
 .TransactionCard_slate {
   position: relative;
+  background-color: #EBEBEB;
+  padding: 10px 12px;
+  font-family: 'Courier', monospace;
+  font-size: 11px;
+  border-radius: 16px;
   &:hover > .TransactionCard_inner-slate {
     opacity: 0.2;
   }
@@ -62,13 +67,14 @@
   }
 }
 .TransactionCard_inner-slate {
-  background-color: #EBEBEB;
-  padding: 10px 12px;
-  font-family: 'Courier', monospace;
-  font-size: 11px;
-  border-radius: 16px;
   word-break: break-all;
   transition: all .2s ease;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 88px;
 }
 .TransactionCard_actions {
   position: absolute;
@@ -125,7 +131,6 @@
   }
 }
 .TransactionCard_expansion {
-  max-height: 250px;
   opacity: 1;
   display: block;
   pointer-events: all;
@@ -133,7 +138,6 @@
   overflow: hidden;
   &.hide {
     pointer-events: none;
-    max-height: 0;
     opacity: 0;
   }
   table {
@@ -158,6 +162,11 @@
   font-family: 'Courier', monospace;
   &:nth-child(2) {
     word-break: break-all;
+  }
+}
+.TransactionCard_output {
+  &:not([first-child]) {
+    margin-bottom: 4px;
   }
 }
 .TransactionCard_cancel-btn {
