@@ -9,6 +9,7 @@
   min-width: calc(375px - 32px);
   transition: transform .2s ease;
   transform: scale(1);
+  min-height: 100px;
   &.privacy div {
     filter: blur(10px);
   }
@@ -50,4 +51,11 @@
   &.waiting {
     color: #FEF102;
   }
+}
+.SmallTransactionCard_placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888;
+  font-size: 13px;
 }

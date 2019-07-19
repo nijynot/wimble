@@ -6,7 +6,7 @@ import Big from 'big.js';
 
 import useInterval from 'hooks/useInterval';
 import grin from 'client/grin';
-import { formatNumber, toGrin } from 'utils/util';
+import { formatNumber, toGrin, toBoolean } from 'utils/util';
 import { summary, transactions } from 'artifacts/artifacts';
 import StandardButton from 'components/StandardButton';
 import SmallTransactionCard from 'components/SmallTransactionCard';
@@ -15,7 +15,8 @@ import Wimble from 'svg/Wimble';
 require('./HomePage.scss');
 
 function HomePage({ location, history, ...props }) {
-  const [privacy, setPrivacy] = useState(false);
+  const [privacy, setPrivacy] = useState(toBoolean(localStorage.getItem('hide-values')));
+  const [version, setVersion] = useState(null);
   const [spendable, setSpendable] = useState('0');
   const [txs, setTxs] = useState([]);
   const [showTxs, setShowTxs] = useState(false);
@@ -39,10 +40,14 @@ function HomePage({ location, history, ...props }) {
       setTipHash(res.tip.last_block_pushed);
       setPeers(res.connections);
       setDifficulty(res.tip.total_difficulty);
+      setVersion({
+        protocolVersion: res.protocol_version,
+        userAgent: res.user_agent,
+      });
     }).catch((e) => {
       console.error(e);
     });
-  }, 10000);
+  }, 5000);
 
   return (
     <div className="Home">
@@ -85,8 +90,10 @@ function HomePage({ location, history, ...props }) {
         <div className="basis-50">
           <div className="Home_detail node">
             <label>Node</label>
-            <h6>Downloading headers...</h6>
-            <span className="Home_detail-steps grey">Step 1 of 4</span>
+            <h6>{version && version.userAgent}</h6>
+            <span className="Home_detail-steps grey">
+              {version && `Protocol version: ${version.protocolVersion}`}
+            </span>
             <div className="difficulty">
               <label>Difficulty</label>
               <h6>{difficulty}</h6>

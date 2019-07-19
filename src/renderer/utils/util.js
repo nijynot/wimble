@@ -10,6 +10,37 @@ export function isNumeric(num) {
   return !isNaN(num);
 }
 
+export function toBoolean(booleanString) {
+  if (typeof booleanString === 'string') {
+    if (booleanString === 'false') {
+      return false;
+    } else if (booleanString === 'true') {
+      return true;
+    }
+    return new Error(
+      'Expected boolean string to be either `true` or `false`, but got' +
+      booleanString + '.'
+    );
+  }
+
+  if (typeof booleanString === 'boolean') {
+    return booleanString;
+  }
+}
+
+function setIntervalX(callback, delay, repetitions) {
+  let x = 0;
+  let interval = setInterval(() => {
+    callback();
+
+    if (++x === repetitions) {
+      clearInterval(interval);
+    }
+  }, delay);
+
+  return interval;
+}
+
 export function formatNumber(x) {
   if (typeof x === 'number') {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

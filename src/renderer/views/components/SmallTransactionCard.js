@@ -33,26 +33,34 @@ export default function SmallTransactionCard({ tx, privacy, ...props }) {
       className={cx('SmallTransactionCard', { privacy })}
       onClick={props.onClick}
     >
-      <div className="SmallTransactionCard_header">
-        <strong>{formatTxType(tx && tx.tx_type)}</strong>
-        <span className="grey">
-          {height ? (
-            <>&nbsp;&bull;&nbsp;Height #{formatNumber(parseInt(height, 10))}</>
-          ) : <>&nbsp;&bull;&nbsp; ID — {tx && tx.id}</>}
-        </span>
-        <span className="SmallTransactionCard_timestamp">
-          {moment(tx && tx.creation_ts).fromNow()}
-        </span>
-      </div>
-      <div className="SmallTransactionCard_details">
-        <div className="SmallTransactionCard_detail">
-          <h2>${tx && toUSD(toGrin(txNetDifference(tx)))}</h2>
-          <div className="grey">{tx && toGrin(txNetDifference(tx))} GRIN</div>
+      {(tx) ? (
+        <>
+          <div className="SmallTransactionCard_header">
+            <strong>{formatTxType(tx && tx.tx_type)}</strong>
+            <span className="grey">
+              {height ? (
+                <>&nbsp;&bull;&nbsp;Height #{formatNumber(parseInt(height, 10))}</>
+              ) : <>&nbsp;&bull;&nbsp; ID — {tx && tx.id}</>}
+            </span>
+            <span className="SmallTransactionCard_timestamp">
+              {moment(tx && tx.creation_ts).fromNow()}
+            </span>
+          </div>
+          <div className="SmallTransactionCard_details">
+            <div className="SmallTransactionCard_detail">
+              <h2>${tx && toUSD(toGrin(txNetDifference(tx)))}</h2>
+              <div className="grey">{tx && toGrin(txNetDifference(tx))} GRIN</div>
+            </div>
+            <div className={cx('SmallTransactionCard_status', tx && classNameTxStatus(tx))}>
+              {tx && formatTxStatus(tx)}
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="SmallTransactionCard_placeholder">
+          No transactions yet.
         </div>
-        <div className={cx('SmallTransactionCard_status', tx && classNameTxStatus(tx))}>
-          {tx && formatTxStatus(tx)}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

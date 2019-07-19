@@ -1,8 +1,14 @@
+import fs from 'fs-extra';
+import { app } from 'utils/app';
+
+const apiSecret = fs.readFileSync(`${app().getPath('home')}/.grin/main/.api_secret`).toString().trim();
+const auth = `grin:${apiSecret}`;
+
 function retrieve_summary_info() {
   return fetch('http://127.0.0.1:3420/v2/owner', {
     method: 'POST',
     headers: {
-      'Authorization': `Basic ${Buffer.from('grin:TTX3j673vGnD2R0Q8WoR').toString('base64')}`
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
     },
     body: '{"jsonrpc":"2.0","method":"retrieve_summary_info","params":[true,10],"id":1}',
   }).then((res) => {
@@ -52,7 +58,7 @@ function retrieve_txs(txId, txSlateId) {
   return fetch('http://127.0.0.1:3420/v2/owner', {
     method: 'POST',
     headers: {
-      'Authorization': `Basic ${Buffer.from('grin:TTX3j673vGnD2R0Q8WoR').toString('base64')}`
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
     },
     body: `{"jsonrpc":"2.0","method":"retrieve_txs","params":[${parameters}],"id":1}`,
   }).then((res) => {
@@ -88,7 +94,7 @@ function retrieve_outputs(includeSpent = true, refreshFromNode = true, txId) {
   return fetch('http://127.0.0.1:3420/v2/owner', {
     method: 'POST',
     headers: {
-      'Authorization': `Basic ${Buffer.from('grin:TTX3j673vGnD2R0Q8WoR').toString('base64')}`
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
     },
     body: JSON.stringify(body),
   }).then((res) => {
@@ -152,7 +158,7 @@ function init_send_tx(options) {
   return fetch('http://127.0.0.1:3420/v2/owner', {
     method: 'POST',
     headers: {
-      'Authorization': `Basic ${Buffer.from('grin:TTX3j673vGnD2R0Q8WoR').toString('base64')}`
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
     },
     body: JSON.stringify(body),
   }).then((res) => {
@@ -179,7 +185,7 @@ function tx_lock_outputs(slate, participantId) {
   return fetch('http://127.0.0.1:3420/v2/owner', {
     method: 'POST',
     headers: {
-      'Authorization': `Basic ${Buffer.from('grin:TTX3j673vGnD2R0Q8WoR').toString('base64')}`
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
     },
     body: JSON.stringify(body),
   }).then((res) => {
@@ -242,7 +248,7 @@ function cancel_tx(txId, txSlateId) {
   return fetch('http://127.0.0.1:3420/v2/owner', {
     method: 'POST',
     headers: {
-      'Authorization': `Basic ${Buffer.from('grin:TTX3j673vGnD2R0Q8WoR').toString('base64')}`
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
     },
     body: JSON.stringify(body),
   }).then((res) => {
@@ -277,7 +283,7 @@ function receive_tx(slate, destAcctName = null, message = null) {
   return fetch('http://127.0.0.1:3420/v2/foreign', {
     method: 'POST',
     headers: {
-      'Authorization': `Basic ${Buffer.from('grin:TTX3j673vGnD2R0Q8WoR').toString('base64')}`
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
     },
     body: JSON.stringify(body),
   }).then((res) => {
@@ -307,7 +313,7 @@ function finalize_tx(slate) {
   return fetch('http://127.0.0.1:3420/v2/owner', {
     method: 'POST',
     headers: {
-      'Authorization': `Basic ${Buffer.from('grin:TTX3j673vGnD2R0Q8WoR').toString('base64')}`
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
     },
     body: JSON.stringify(body),
   }).then((res) => {
@@ -333,7 +339,38 @@ function verify_slate_messages(slate) {
   return fetch('http://127.0.0.1:3420/v2/owner', {
     method: 'POST',
     headers: {
-      'Authorization': `Basic ${Buffer.from('grin:TTX3j673vGnD2R0Q8WoR').toString('base64')}`
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
+    },
+    body: JSON.stringify(body),
+  }).then((res) => {
+    return res.json();
+  }).then((res) => {
+    if (res.result && (res.result.Ok === null)) {
+      return true;
+    }
+    return false;
+  });
+}
+
+/**
+ * Scans the entire UTXO set from the node, identify which outputs belong to
+ * the given wallet update the wallet state to be consistent with what's
+ * currently in the UTXO set.
+ * @param {boolean} deleteUnconfirmed
+ *
+ */
+function check_repair(deleteUnconfirmed) {
+  const body = {
+    jsonrpc: '2.0',
+    method: 'check_repair',
+    id: '1',
+    params: [deleteUnconfirmed],
+  };
+
+  return fetch('http://127.0.0.1:3420/v2/owner', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
     },
     body: JSON.stringify(body),
   }).then((res) => {

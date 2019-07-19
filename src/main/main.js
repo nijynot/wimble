@@ -1,8 +1,6 @@
-const { app, BrowserWindow, dialog, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, remote } = require('electron');
 import grin from 'client/grin';
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 let grinServer;
 let grinWallet;
@@ -19,8 +17,9 @@ function createWindow () {
     maxWidth: 900,
     minHeight: 812,
     useContentSize: true,
+    titleBarStyle: 'hidden',
     // autoHideMenuBar: true,
-    frame: false,
+    frame: (process.platform === 'darwin') ? false : true,
   });
 
   // Load index.html
@@ -32,7 +31,7 @@ function createWindow () {
     }
 
     if (grinServer) {
-      grinServer.kill('SIGTERM', { forceKillAfterTimeout: 10000 });
+      grinServer.kill('SIGTERM', { forceKillAfterTimeout: 2000 });
     }
   });
 
@@ -42,19 +41,33 @@ function createWindow () {
 }
 
 ipcMain.on('start-owner', async (e, password) => {
-  if (password) {
-    let loginTimeout;
-    grinWallet = grin.commands.startOwner(password);
+  try {
+    // Try if `owner_api` is already running, if it is, login directly.
+    const status = await grin.wallet.status();
+    if (status) {
+      loginTimeout = setTimeout(() => {
+        mainWindow.webContents.send('login', true);
+      }, 500);
+    }
+  } catch (e) {
+    if (password) {
+      let loginTimeout;
+      grinWallet = grin.commands.startOwner(password);
 
-    grinWallet.all.on('data', (data) => {
-      console.error(data.toString('utf8'));
-      clearTimeout(loginTimeout);
-      mainWindow.webContents.send('login', false);
-    });
+      // If `grin-wallet owner_api` errors out, try to kill `grinWallet`
+      // if it exists and stop the login transition.
+      grinWallet.all.on('data', (data) => {
+        console.error(data.toString('utf8'));
+        clearTimeout(loginTimeout);
+        grinWallet.kill('SIGTERM', { forceKillAfterTimeout: 2000 });
+        mainWindow.webContents.send('login', false);
+      });
 
-    loginTimeout = setTimeout(() => {
-      mainWindow.webContents.send('login', true);
-    }, 500);
+      // Only login after 500 ms to check if `owner_api` starts.
+      loginTimeout = setTimeout(() => {
+        mainWindow.webContents.send('login', true);
+      }, 500);
+    }
   }
 });
 
@@ -80,8 +93,6 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow();
+    grinServer = grin.commands.startServer();
   }
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

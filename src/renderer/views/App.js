@@ -8,7 +8,7 @@ import Big from 'big.js';
 import { ipcRenderer } from 'electron';
 
 import grin from 'client/grin';
-import { matchAny } from 'utils/util';
+import { matchAny, setIntervalX } from 'utils/util';
 import { animations, animationPaths } from 'utils/animations';
 import useHistory from 'hooks/useHistory';
 import Amount from 'pages/Amount/AmountPage';
@@ -36,6 +36,7 @@ function App(props) {
 
   const [doesWalletExist, setDoesWalletExist] = useState(props.wallet);
   const [isOwnerActive, setIsOwnerActive] = useState(false);
+  const [isVerifyingPassword, setIsVerifyingPassword] = useState(false);
   const [amount, setAmount] = useState('0');
   const [startOwner, setStartOwner] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -55,6 +56,7 @@ function App(props) {
   const onClickLogin = (password) => {
     // Send `password` to main.js to check if `owner_api` starts
     if (password) {
+      setIsVerifyingPassword(true);
       ipcRenderer.send('start-owner', password);
     }
   };
@@ -63,7 +65,7 @@ function App(props) {
     history.goBack();
   }
 
-  function esc() {
+  function esc(event) {
     if (event.keyCode === 27) {
       close();
     }
@@ -88,6 +90,7 @@ function App(props) {
     ipcRenderer.on('login', (e, arg) => {
       if (arg) {
         setIsOwnerActive(true);
+        setIsVerifyingPassword(false);
         history.push('/', { leave: 'zoom', scale: '1.15' });
       }
     });
@@ -137,7 +140,12 @@ function App(props) {
             />
             <Route
               path="/password"
-              render={() => <PasswordPage onClickLogin={onClickLogin} />}
+              render={() => (
+                <PasswordPage
+                  onClickLogin={onClickLogin}
+                  isVerifyingPassword={isVerifyingPassword}
+                />
+              )}
             />
             <Route
               path="/result/:id?"

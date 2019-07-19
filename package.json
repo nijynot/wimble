@@ -1,5 +1,5 @@
 {
-  "name": "grin-wallet-gui",
+  "name": "wimble",
   "version": "0.1.0",
   "description": "",
   "main": "dist/main.js",
@@ -12,7 +12,7 @@
     "grin-wallet": "./bin/grin-wallet owner_api"
   },
   "build": {
-    "appId": "moe.grin",
+    "appId": "com.wimble",
     "productName": "Wimble"
   },
   "repository": {
@@ -33,7 +33,6 @@
     "babel-loader": "^8.0.5",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.0",
-    "electron": "^4.0.5",
     "eslint": "^5.14.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.2.0",
@@ -51,6 +50,7 @@
     "classnames": "^2.2.6",
     "consolidated-events": "^2.0.2",
     "date-fns": "^1.30.1",
+    "electron": "^5.0.7",
     "execa": "^2.0.3",
     "fs-extra": "^8.1.0",
     "grin-client": "git+https://github.com/nijynot/grin-client-js.git",

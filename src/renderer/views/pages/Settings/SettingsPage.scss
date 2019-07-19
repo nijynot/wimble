@@ -18,10 +18,12 @@
 }
 .Settings_field {
   display: flex;
+  &.column {
+    flex-direction: column;
+  }
 }
 .Settings_field-text {
   flex-grow: 1;
-  margin-right: 16px;
 }
 .Settings_field-name {
   font-size: 15px;
@@ -33,4 +35,30 @@
 }
 .Settings_field-action {
   flex-shrink: 0;
+  margin-left: 16px;
+}
+.Settings_ctrl {
+  width: 100%;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 64px;
+  outline: 0;
+  font-size: 13px;
+}
+.Settings_btn {
+  border-radius: 64px;
+  background-color: #101010;
+  color: white;
+  padding: 7px 14px;
+  font-size: 11px;
+  border: 0;
+  font-weight: 500;
+  margin-top: 8px;
+  outline: 0;
+  transition: color .2s, background-color .2s;
+  &:hover {
+    background-color: #FEF102;
+    color: black;
+  }
 }
