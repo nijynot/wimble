@@ -5,7 +5,3 @@ exports.app = (function() {
     return require('electron').remote.app;
   }
 })();
-
-// exports.app = {
-//   app: (typeof window === 'undefined') ? require('electron').app : require('electron').remote.app,
-// };

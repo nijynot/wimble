@@ -15,7 +15,7 @@ export default function IntroductionPage() {
         Enjoy Wimble and Grin.<br />
       </p>
       <span className="Introduction_contact">
-        For any bugs or suggestions, please contact nijynot@protonmail.com on Gitter.
+        For any bugs or suggestions, please file issues at the nijynot/wimble repo on GitHub.
       </span>
     </div>
   );

@@ -19,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/nijynot/grin-wallet-gui.git"
   },
-  "author": "",
+  "author": "nijynot",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/nijynot/grin-wallet-gui/issues"

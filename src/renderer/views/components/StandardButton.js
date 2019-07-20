@@ -5,12 +5,12 @@ import { Link, withRouter, matchPath } from 'react-router-dom';
 import cx from 'classnames';
 import Big from 'big.js';
 import { useSpring, animated } from 'react-spring';
-import { remote } from 'electron';
+import { remote, ipcRenderer } from 'electron';
 import fs from 'fs-extra';
 
 import { app } from 'utils/app';
 import grin from 'client/grin';
-import { perfectMatch, match, validateAmount, toNanoGrin } from 'utils/util';
+import { perfectMatch, match, validateAmount, toNanoGrin, DOTFILES } from 'utils/util';
 import { animations } from 'utils/animations';
 import ToastContext from 'contexts/ToastContext';
 import useInterval from 'hooks/useInterval';
@@ -27,6 +27,8 @@ function StandardButton({
   finalizeSlate,
   setReceiveSlate,
   setFinalizeSlate,
+  password,
+  confirmPassword,
   ...props
 }) {
   const { pathname } = location;
@@ -62,7 +64,7 @@ function StandardButton({
           const locked = await grin.wallet.txLockOutputs(slate, 0);
           if (locked) {
             fs.outputJsonSync(
-              `${app.getPath('home')}/.wimble/main/wallet_data/wimble_txs/${slate.id}.tx`,
+              `${app.getPath('home')}/.grin/main/wallet_data/wimble_txs/${slate.id}.tx`,
               slate
             );
             setLoading(false);
@@ -118,7 +120,7 @@ function StandardButton({
         grin.wallet.finalizeTx(finalizeSlate).then((slate) => {
           setFinalizeSlate(null);
           fs.outputJsonSync(
-            `${app.getPath('home')}/.wimble/main/wallet_data/wimble_txs/${slate.id}.final.tx`,
+            `${app.getPath('home')}/.grin/main/wallet_data/wimble_txs/${slate.id}.final.tx`,
             slate
           );
           toasts.push({ text: `Finalization successful!` });
@@ -144,7 +146,7 @@ function StandardButton({
         grin.wallet.receiveTx(receiveSlate).then((slate) => {
           setReceiveSlate(null);
           fs.outputJsonSync(
-            `${app.getPath('home')}/.wimble/main/wallet_data/wimble_txs/${slate.id}.response.tx`,
+            `${app.getPath('home')}/.grin/main/wallet_data/wimble_txs/${slate.id}.response.tx`,
             slate
           );
           toasts.push({ text: `Receive successful!` });
@@ -153,7 +155,6 @@ function StandardButton({
           console.log(e);
           toasts.push({
             text: `Error: Could not receive slate.`,
-            // log: e,
             className: 'error',
           });
         });
@@ -168,7 +169,7 @@ function StandardButton({
       text: 'Create a new wallet',
       className: 'black wide',
       onClick: ({ history }) => {
-        history.push('/seed', { enter: 'fade', leave: 'fade', scale: '1' });
+        history.push('/init', { enter: 'fade', leave: 'fade', scale: '1' });
       },
       secondary: {
         text: 'I already have a wallet',
@@ -177,15 +178,39 @@ function StandardButton({
         },
       },
     },
+    init: {
+      text: 'Create wallet',
+      className: 'black',
+      onClick: ({ history, password }) => {
+        // Check if `wallet.seed` exists, if it does not, init a new wallet.
+        fs.ensureFile(`${remote.app.getPath('home')}/.grin/main/wallet_data/wallet.seed`).then((res) => {
+          grin.commands.initWallet(password).then((seed) => {
+            setDoesWalletExist(true);
+            history.push('/seed', { leave: 'fade', scale: '1', seed });
+          }).catch((e) => {
+            toasts.push({
+              text: 'Something went wrong when initializing wallet.',
+              className: 'error',
+            });
+          });
+        });
+      },
+      disabled: ({ password, confirmPassword }) => {
+        if (
+          password === '' ||
+          confirmPassword === '' ||
+          (password !== confirmPassword)
+        ) {
+          return true;
+        }
+      },
+    },
     seed: {
       text: 'Continue',
       className: 'black',
-      onClick: ({ history }) => {
-        // Check if `wallet.seed` exists, if it does not, create a init a new wallet.
-        fs.ensureFile(remote.app.getPath('home') + '/.wimble/main/wallet_data/wallet.seed').then((res) => {
-          setDoesWalletExist(true);
-          history.push('/introduction', { leave: 'fade', scale: '1' });
-        });
+      onClick: ({ history, password }) => {
+        ipcRenderer.send('start-owner', password, false);
+        history.push('/introduction', { leave: 'fade', scale: '1' });
       },
       disabled: ({ history }) => {
         if (history.location.state && history.location.state.approved) {
@@ -249,6 +274,8 @@ function StandardButton({
       return buttons.settings;
     } else if (match(pathname, '/password')) {
       return buttons.password;
+    } else if (match(pathname, '/init')) {
+      return buttons.init;
     }
   }
 
@@ -271,6 +298,8 @@ function StandardButton({
             amount,
             receiveSlate,
             finalizeSlate,
+            password,
+            confirmPassword,
           })) || false}
           onClick={(event) => {
             if (!loading) {
@@ -282,6 +311,7 @@ function StandardButton({
                 txId,
                 receiveSlate,
                 finalizeSlate,
+                password,
               });
             }
           }}

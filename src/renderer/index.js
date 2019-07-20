@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import { remote } from 'electron';
 import fs from 'fs-extra';
 
+// import { DOTFILES } from 'utils/util';
 import App from './views/App';
 import HomePage from './views/pages/Home/HomePage';
 require('./views/reset.css');
 require('./views/index.scss');
 
-fs.pathExists(`/${remote.app.getPath('home')}/.wimble/main/wallet_data/wallet.seed`, (err, exists) => {
+fs.pathExists(`${remote.app.getPath('home')}/.grin/main/wallet_data/wallet.seed`, (err, exists) => {
   if (err) console.error(err);
   ReactDOM.render(
     <App wallet={exists} />,

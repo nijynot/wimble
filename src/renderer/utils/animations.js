@@ -10,6 +10,7 @@ export const animationPaths = [
   '/send',
   '/receive',
   '/welcome',
+  '/init',
   '/seed',
   '/introduction',
   '/restore',

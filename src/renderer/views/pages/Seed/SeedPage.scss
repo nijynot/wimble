@@ -27,15 +27,13 @@
   padding: 10px 12px;
   min-height: 200px;
   transition: all .2s ease;
-  display: flex;
+  display: block;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  &.seed {
-    display: block;
-  }
   p {
     color: #888;
+    font-size: 14px;
   }
 }
 .Seed_word {

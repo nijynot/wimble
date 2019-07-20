@@ -23,6 +23,7 @@ import SettingsPage from './pages/Settings/SettingsPage';
 import ReceivePage from './pages/Receive/ReceivePage';
 import FinalizePage from './pages/Finalize/FinalizePage';
 import WelcomePage from './pages/Welcome/WelcomePage';
+import InitPage from './pages/Init/InitPage';
 import SeedPage from './pages/Seed/SeedPage';
 import IntroductionPage from './pages/Introduction/IntroductionPage';
 import RestorePage from './pages/Restore/RestorePage';
@@ -37,6 +38,8 @@ function App(props) {
   const history = useHistory(props.history);
   const toasts = useContext(ToastContext);
 
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [doesWalletExist, setDoesWalletExist] = useState(props.wallet);
   const [isOwnerActive, setIsOwnerActive] = useState(false);
   const [isVerifyingPassword, setIsVerifyingPassword] = useState(false);
@@ -92,11 +95,11 @@ function App(props) {
     document.addEventListener('keydown', esc, false);
 
     // Navigate to `/` if password was correct and `owner_api` was started.
-    ipcRenderer.on('login', (e, arg) => {
+    ipcRenderer.on('login', (e, arg, redirect) => {
       if (arg) {
         setIsOwnerActive(true);
         setIsVerifyingPassword(false);
-        history.push('/', { leave: 'zoom', scale: '1.15' });
+        if (redirect) history.push('/', { leave: 'zoom', scale: '1.15' });
       } else {
         setIsVerifyingPassword(false);
       }
@@ -134,6 +137,17 @@ function App(props) {
             <Route
               path="/welcome"
               render={() => <WelcomePage />}
+            />
+            <Route
+              path="/init"
+              render={() => (
+                <InitPage
+                  password={password}
+                  confirmPassword={confirmPassword}
+                  setPassword={setPassword}
+                  setConfirmPassword={setConfirmPassword}
+                />
+              )}
             />
             <Route
               path="/seed"
@@ -211,6 +225,8 @@ function App(props) {
         finalizeSlate={finalizeSlate}
         setReceiveSlate={setReceiveSlate}
         setFinalizeSlate={setFinalizeSlate}
+        password={password}
+        confirmPassword={confirmPassword}
       />
     </>
   );

@@ -40,44 +40,40 @@ function createWindow () {
   });
 }
 
-ipcMain.on('start-owner', async (e, password) => {
-  try {
-    // Try if `owner_api` is already running, if it is, login directly.
-    const status = await grin.wallet.status();
-    if (status) {
-      loginTimeout = setTimeout(() => {
-        mainWindow.webContents.send('login', true);
-      }, 500);
-    }
-  } catch (e) {
-    if (password) {
-      let loginTimeout;
-      grinWallet = grin.commands.startOwner(password);
+ipcMain.on('start-owner', async (e, password, redirect = true) => {
+  if (password) {
+    let loginTimeout;
+    grinWallet = grin.commands.startOwner(password);
 
-      // Only login after 500 ms to check if `owner_api` starts.
-      loginTimeout = setTimeout(() => {
-        mainWindow.webContents.send('login', true);
-      }, 500);
+    // Only login after 500 ms to check if `owner_api` starts.
+    loginTimeout = setTimeout(() => {
+      mainWindow.webContents.send('login', true, redirect);
+    }, 500);
 
-      // If `grin-wallet owner_api` errors out, stop `loginTimeout` and
-      // kill `grin-wallet`.
-      grinWallet.all.on('data', (data) => {
-        console.error(data.toString('utf8'));
-        if (data.toString('utf8') === 'Invalid Arguments: Error decrypting wallet seed (check provided password)\n') {
-          mainWindow.webContents.send('toast', {
-            text: `Failed to decrypt wallet seed, retry with another password.`,
-            className: 'error',
-          });
-        }
-        clearTimeout(loginTimeout);
-        grinWallet.kill('SIGTERM', { forceKillAfterTimeout: 2000 });
-        mainWindow.webContents.send('login', false);
-        // mainWindow.webContents.send('toast', {
-        //   text: `Error: Could not start \`grin-wallet\`.`,
-        //   className: 'error',
-        // });
-      });
-    }
+    // If `grin-wallet owner_api` errors out, stop `loginTimeout` and
+    // kill `grin-wallet`.
+    grinWallet.all.on('data', (data) => {
+      console.error(data.toString('utf8'));
+      if (data.toString('utf8') === 'Invalid Arguments: Error decrypting wallet seed (check provided password)\n') {
+        mainWindow.webContents.send('toast', {
+          text: `Failed to decrypt wallet seed, retry with another password.`,
+          className: 'error',
+        });
+      } else {
+        mainWindow.webContents.send('toast', {
+          text: `Error: Could not start \`grin-wallet\`.`,
+          className: 'error',
+        });
+      }
+      clearTimeout(loginTimeout);
+      grinWallet.kill('SIGTERM', { forceKillAfterTimeout: 2000 });
+      mainWindow.webContents.send('login', false);
+    });
+  } else {
+    mainWindow.webContents.send('toast', {
+      text: `Error: Could not start \`grin-wallet\`.`,
+      className: 'error',
+    });
   }
 });
 

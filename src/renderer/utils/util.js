@@ -9,6 +9,7 @@ export const PRICE = '3.2';
 export const GRIN = '1000000000';
 export const MAX_GRIN = '1000000000';
 export const NANO_GRIN = '1';
+export const DOTFILES = '.grin';
 
 export function isNumeric(num) {
   return !isNaN(num);
@@ -202,7 +203,7 @@ export function toUSD(amount) {
  * @returns {Promise.<Object>|null}
  */
 export function retrieveSlate(uuid) {
-  const basePath = `${app.getPath('home')}/.wimble/main/wallet_data/wimble_txs`;
+  const basePath = `${app.getPath('home')}/.grin/main/wallet_data/wimble_txs`;
   if (fs.pathExistsSync(`${basePath}/${uuid}.final.tx`)) {
     return fs.readJsonSync(`${basePath}/${uuid}.final.tx`);
   } else if (fs.pathExistsSync(`${basePath}/${uuid}.response.tx`)) {
@@ -214,7 +215,7 @@ export function retrieveSlate(uuid) {
 }
 
 export function formatSlateFilename(uuid) {
-  const basePath = `${app.getPath('home')}/.wimble/main/wallet_data/wimble_txs`;
+  const basePath = `${app.getPath('home')}/.grin/main/wallet_data/wimble_txs`;
   if (fs.pathExistsSync(`${basePath}/${uuid}.final.tx`)) {
     return `${uuid}.final.tx`;
   } else if (fs.pathExistsSync(`${basePath}/${uuid}.response.tx`)) {

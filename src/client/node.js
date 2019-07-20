@@ -1,7 +1,8 @@
 import fs from 'fs-extra';
 import { app } from 'utils/app';
+// import { DOTFILES } from 'utils/util';
 
-const apiSecret = fs.readFileSync(`${app.getPath('home')}/.wimble/main/.api_secret`).toString().trim();
+const apiSecret = fs.readFileSync(`${app.getPath('home')}/.grin/main/.api_secret`).toString().trim();
 const auth = `grin:${apiSecret}`;
 
 function chain() {

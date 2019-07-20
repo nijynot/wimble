@@ -14,7 +14,9 @@ const example = 'foster approve pen ancient engage bomb fantasy life short stuff
 
 function SeedPage(props) {
   const [approved, setApproved] = useState(false);
-  const [seed, setSeed] = useState('');
+  const [seed, setSeed] = useState(
+    (props.history.location.state && props.history.location.state.seed) || []
+  );
   const [loading, setLoading] = useState(false);
   const fade = useSpring({
     opacity: seed ? '1' : '0',
@@ -36,11 +38,11 @@ function SeedPage(props) {
   return (
     <div className="Seed">
       <Wimble />
-      <Back onClick={() => props.history.goBack()} />
+      {/*<Back onClick={() => props.history.goBack()} />*/}
       <h2>Recovery phrase</h2>
       <p>Write down your recovery phrase.</p>
-      <div className={cx('Seed_phrase', { seed })}>
-        {(seed) ? seed.split(' ').map((word, i) => (
+      <div className={cx('Seed_phrase')}>
+        {(seed) ? seed.map((word, i) => (
           <span
             className="Seed_word"
             onClick={() => clipboard.writeText(word)}
@@ -71,7 +73,7 @@ function SeedPage(props) {
       }}>
         <button
           className="Seed_copy-all-btn"
-          onClick={() => clipboard.writeText(seed)}
+          onClick={() => clipboard.writeText(seed.join(' '))}
         >Copy all</button>
         <div className="Seed_line"></div>
         <div className="Seed_approval">
