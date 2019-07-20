@@ -4,6 +4,10 @@ import { app } from 'utils/app';
 const apiSecret = fs.readFileSync(`${app.getPath('home')}/.wimble/main/.api_secret`).toString().trim();
 const auth = `grin:${apiSecret}`;
 
+/**
+ * Get summary of wallet.
+ * @returns {Promise.<Object>}
+ */
 function retrieve_summary_info() {
   return fetch('http://127.0.0.1:3420/v2/owner', {
     method: 'POST',
@@ -22,7 +26,7 @@ function retrieve_summary_info() {
  * Retreive txs with an optional transaction id.
  * @param {number} txId
  * @param {string} txSlateId - UUID
- * @returns {Object[]}
+ * @returns {Promise.<Object[]>}
  */
 function retrieve_txs(txId, txSlateId) {
   if (
@@ -50,7 +54,6 @@ function retrieve_txs(txId, txSlateId) {
   if (typeof txId === 'number') {
     parameters = `true,${parseInt(txId, 10)},null`;
   } else if (typeof txSlateId === 'string' && txSlateId.length === 36) {
-    console.log(4);
     parameters = `true,null,${txSlateId}`;
   } else {
     parameters = 'true,null,null';
@@ -74,7 +77,7 @@ function retrieve_txs(txId, txSlateId) {
  * @param {boolean} includeSpent
  * @param {boolean} refreshFromNode
  * @param {number} txId
- * @returns {Object[]}
+ * @returns {Promise.<Object[]>}
  */
 function retrieve_outputs(includeSpent = true, refreshFromNode = true, txId) {
   if (
@@ -173,7 +176,7 @@ function init_send_tx(options) {
  * Locks the outputs of a slate.
  * @param {Object} slate
  * @param {number} participantId
- * @returns {boolean}
+ * @returns {Promise.<boolean>}
  */
 function tx_lock_outputs(slate, participantId) {
   const body = {
@@ -203,7 +206,7 @@ function tx_lock_outputs(slate, participantId) {
  * Cancel a transaction.
  * @param {number} txId
  * @param {string} txSlateId - UUID
- * @returns {boolean}
+ * @returns {Promise.<boolean>}
  */
 function cancel_tx(txId, txSlateId) {
   if (
@@ -267,7 +270,7 @@ function cancel_tx(txId, txSlateId) {
  * @param {Object} slate
  * @param {string} destAcctName
  * @param {string} message
- * @returns {Object}
+ * @returns {Promise.<Object>}
  */
 function receive_tx(slate, destAcctName = null, message = null) {
   if (typeof slate !== 'object') {
@@ -297,7 +300,7 @@ function receive_tx(slate, destAcctName = null, message = null) {
 /**
  * Finalize a transaction given a response slate.
  * @param {Object} slate
- * @returns {Object}
+ * @returns {Promise.<Object>}
  */
 function finalize_tx(slate) {
   if (typeof slate !== 'object') {
@@ -327,7 +330,7 @@ function finalize_tx(slate) {
 /**
  * Verify message signature in the slate.
  * @param {Object} slate
- * @returns {boolean}
+ * @returns {Promise.<boolean>}
  */
 function verify_slate_messages(slate) {
   const body = {
@@ -384,6 +387,37 @@ function check_repair(deleteUnconfirmed) {
   });
 }
 
+/**
+ * Posts a completed transaction to the listening node for
+ * validation and inclusion in a block for mining.
+ * @param {Object} slate
+ * @param {boolean} fluff - Will skip dandelion if `true`.
+ * @returns {Promise.<boolean>}
+ */
+function post_tx(slate, fluff) {
+  const body = {
+    jsonrpc: '2.0',
+    method: 'post_tx',
+    id: '1',
+    params: [slate, fluff],
+  };
+
+  return fetch('http://127.0.0.1:3420/v2/owner', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
+    },
+    body: JSON.stringify(body),
+  }).then((res) => {
+    return res.json();
+  }).then((res) => {
+    if (res.result && (res.result.Ok === null)) {
+      return true;
+    }
+    return false;
+  });
+}
+
 export default {
   retrieveSummaryInfo: retrieve_summary_info,
   retrieveTxs: retrieve_txs,
@@ -393,4 +427,5 @@ export default {
   cancelTx: cancel_tx,
   receiveTx: receive_tx,
   finalizeTx: finalize_tx,
+  postTx: post_tx,
 };

@@ -26,6 +26,7 @@ function TransactionsPage(props) {
       <Close onClick={props.close} />
       {txs && txs.map((tx) => (
         <SmallTransactionCard
+          key={tx.id}
           tx={tx}
           onClick={() => history.push(
             `/tx/${tx.id}`,

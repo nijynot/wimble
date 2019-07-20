@@ -44,6 +44,7 @@ module.exports = {
       'bin': path.resolve(__dirname, 'bin'),
       'client': path.resolve(__dirname, 'src/client'),
       'commands': path.resolve(__dirname, 'src/commands'),
+      'contexts': path.resolve(__dirname, 'src/renderer/views/contexts'),
     },
   }
 };

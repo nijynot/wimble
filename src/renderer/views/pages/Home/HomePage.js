@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Link, withRouter } from 'react-router-dom';
 import Big from 'big.js';
+import uuid from 'uuid/v4';
 
 import useInterval from 'hooks/useInterval';
 import grin from 'client/grin';

@@ -1,0 +1,25 @@
+.Toast {
+  margin: 32px;
+}
+.Toast_toast {
+  display: block;
+  width: 100%;
+  background-color: #101010;
+  padding: 16px 20px;
+  border-radius: 8px;
+  color: white;
+  pointer-events: all;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.4em;
+  code {
+    color: #888;
+    font-family: Courier, monospace;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  &.error {
+    background-color: #ff1500;
+  }
+}

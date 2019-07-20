@@ -94,3 +94,31 @@
     color: black;
   }
 }
+.Finalize_uploaded-file {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px dashed #eaeaea;
+  border-radius: 16px;
+  width: calc(100% - 32px);
+  margin: 0 16px 16px 16px;
+  height: 120px;
+  font-size: 11px;
+}
+.Finalize_remove-file-btn {
+  border-radius: 64px;
+  background-color: #101010;
+  color: white;
+  padding: 7px 14px;
+  font-size: 11px;
+  border: 0;
+  font-weight: 500;
+  margin-top: 8px;
+  outline: 0;
+  transition: color .2s, background-color .2s;
+  &:hover {
+    background-color: #FEF102;
+    color: black;
+  }
+}

@@ -82,6 +82,16 @@ body {
   overflow: hidden;
   pointer-events: none;
 }
+#toast-root {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  // height: 50%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 10000000;
+}
 button {
   font-family: 'Inter UI';
   font-size: 15px;

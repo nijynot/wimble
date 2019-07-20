@@ -10,6 +10,8 @@ import { ipcRenderer } from 'electron';
 import grin from 'client/grin';
 import { matchAny, setIntervalX } from 'utils/util';
 import { animations, animationPaths } from 'utils/animations';
+import ToastContext from 'contexts/ToastContext';
+import Toast from 'components/Toast';
 import useHistory from 'hooks/useHistory';
 import Amount from 'pages/Amount/AmountPage';
 import StandardButton from 'components/StandardButton';
@@ -33,6 +35,7 @@ Big.PE = 30;
 function App(props) {
   const { location } = props;
   const history = useHistory(props.history);
+  const toasts = useContext(ToastContext);
 
   const [doesWalletExist, setDoesWalletExist] = useState(props.wallet);
   const [isOwnerActive, setIsOwnerActive] = useState(false);
@@ -40,6 +43,8 @@ function App(props) {
   const [amount, setAmount] = useState('0');
   const [startOwner, setStartOwner] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [receiveSlate, setReceiveSlate] = useState(null);
+  const [finalizeSlate, setFinalizeSlate] = useState(null);
   const transitions = useTransition(
     { ...location },
     location => location.pathname,
@@ -92,7 +97,14 @@ function App(props) {
         setIsOwnerActive(true);
         setIsVerifyingPassword(false);
         history.push('/', { leave: 'zoom', scale: '1.15' });
+      } else {
+        setIsVerifyingPassword(false);
       }
+    });
+
+    // Listen to toasts from `main.js` process.
+    ipcRenderer.on('toast', (e, arg) => {
+      if (arg) toasts.push(arg);
     });
     return function() {
       document.removeEventListener('keydown', esc, false);
@@ -105,6 +117,7 @@ function App(props) {
         <div className="App-drag"></div>
       </div>
       <Route path="/" render={() => (
+        // Only navigate to `Home` if `wallet.seed` exists and `grin-wallet owner_api` is running.
         (doesWalletExist && isOwnerActive) ? (
           <div className={cx('App', { hide: location.pathname !== '/' })}>
             <HomePage />
@@ -161,7 +174,12 @@ function App(props) {
             />
             <Route
               path="/finalize"
-              render={() => <FinalizePage close={() => close()} />}
+              render={() => (
+                <FinalizePage
+                  close={() => close()}
+                  setFinalizeSlate={setFinalizeSlate}
+                />
+              )}
             />
             <Route
               path="/send"
@@ -175,7 +193,12 @@ function App(props) {
             />
             <Route
               path="/receive"
-              render={() => <ReceivePage close={() => close()} />}
+              render={() => (
+                <ReceivePage
+                  close={() => close()}
+                  setReceiveSlate={setReceiveSlate}
+                />
+              )}
             />
           </Switch>
         </animated.div>
@@ -184,6 +207,10 @@ function App(props) {
         amount={amount}
         setAmount={setAmount}
         setDoesWalletExist={setDoesWalletExist}
+        receiveSlate={receiveSlate}
+        finalizeSlate={finalizeSlate}
+        setReceiveSlate={setReceiveSlate}
+        setFinalizeSlate={setFinalizeSlate}
       />
     </>
   );
@@ -195,7 +222,9 @@ export default function Root(props) {
     <Router
       basename={window.location.pathname}
     >
-      <AppWithRouter {...props} />
+      <Toast>
+        <AppWithRouter {...props} />
+      </Toast>
     </Router>
   );
 }

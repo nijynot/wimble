@@ -16,5 +16,5 @@ export default function Spinner({ active, ...props }) {
 }
 
 Spinner.propTypes = {
-  active: PropTypes.boolean,
+  active: PropTypes.bool,
 };

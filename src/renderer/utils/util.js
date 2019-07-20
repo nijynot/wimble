@@ -64,6 +64,9 @@ export function formatTxType(txType) {
 
 export function formatTxStatus(tx) {
   if (tx.tx_type === 'TxSent') {
+    if (formatSlateFilename(tx.tx_slate_id).includes('final')) {
+      return (tx.confirmed) ? 'Transaction completed' : <>Waiting for<br />confirmation</>;
+    }
     return (tx.confirmed) ? 'Transaction completed' : <>Waiting for<br />response slate</>;
   } else if (tx.tx_type === 'TxReceived') {
     return (tx.confirmed) ? 'Transaction completed' : 'Waiting for finalization';
@@ -199,7 +202,7 @@ export function toUSD(amount) {
  * @returns {Promise.<Object>|null}
  */
 export function retrieveSlate(uuid) {
-  const basePath = `${app.getPath('home')}/.grin/main/wallet_data/wimble_txs`;
+  const basePath = `${app.getPath('home')}/.wimble/main/wallet_data/wimble_txs`;
   if (fs.pathExistsSync(`${basePath}/${uuid}.final.tx`)) {
     return fs.readJsonSync(`${basePath}/${uuid}.final.tx`);
   } else if (fs.pathExistsSync(`${basePath}/${uuid}.response.tx`)) {
@@ -211,7 +214,7 @@ export function retrieveSlate(uuid) {
 }
 
 export function formatSlateFilename(uuid) {
-  const basePath = `${app.getPath('home')}/.grin/main/wallet_data/wimble_txs`;
+  const basePath = `${app.getPath('home')}/.wimble/main/wallet_data/wimble_txs`;
   if (fs.pathExistsSync(`${basePath}/${uuid}.final.tx`)) {
     return `${uuid}.final.tx`;
   } else if (fs.pathExistsSync(`${basePath}/${uuid}.response.tx`)) {
@@ -222,8 +225,17 @@ export function formatSlateFilename(uuid) {
   return null;
 }
 
-export function isBase64(string) {
+export function isBase64(str) {
   return Buffer.from(str, 'base64').toString('base64') === str;
+}
+
+export function isJSON(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
 }
 
 export function isCancelled(tx) {

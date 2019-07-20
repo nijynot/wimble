@@ -64,28 +64,28 @@ function AmountPage({
         </div>
         <div className="Amount_number-row">
           {['7', '8', '9'].map(num => (
-            <button className="Amount_number" onClick={() => input({ key: num })}>
+            <button key={num} className="Amount_number" onClick={() => input({ key: num })}>
               {num}
             </button>
           ))}
         </div>
         <div className="Amount_number-row">
           {['4', '5', '6'].map(num => (
-            <button className="Amount_number" onClick={() => input({ key: num })}>
+            <button key={num} className="Amount_number" onClick={() => input({ key: num })}>
               {num}
             </button>
           ))}
         </div>
         <div className="Amount_number-row">
           {['1', '2', '3'].map(num => (
-            <button className="Amount_number" onClick={() => input({ key: num })}>
+            <button key={num} className="Amount_number" onClick={() => input({ key: num })}>
               {num}
             </button>
           ))}
         </div>
         <div className="Amount_number-row">
           {['.', '0', 'del'].map(num => (
-            <button className="Amount_number" onClick={() => input({ key: num })}>
+            <button key={num} className="Amount_number" onClick={() => input({ key: num })}>
               {num}
             </button>
           ))}

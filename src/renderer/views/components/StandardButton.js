@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ReactDOM, { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Link, withRouter, matchPath } from 'react-router-dom';
@@ -12,6 +12,7 @@ import { app } from 'utils/app';
 import grin from 'client/grin';
 import { perfectMatch, match, validateAmount, toNanoGrin } from 'utils/util';
 import { animations } from 'utils/animations';
+import ToastContext from 'contexts/ToastContext';
 import useInterval from 'hooks/useInterval';
 import useHistory from 'hooks/useHistory';
 require('./StandardButton.scss');
@@ -22,12 +23,17 @@ function StandardButton({
   setAmount,
   setDoesWalletExist,
   txId,
+  receiveSlate,
+  finalizeSlate,
+  setReceiveSlate,
+  setFinalizeSlate,
   ...props
 }) {
   const { pathname } = location;
+  const toasts = useContext(ToastContext);
   const history = useHistory(props.history);
   const [loading, setLoading] = useState(false);
-  const spring = useSpring({ ...animations.standardSlideInFromBottom });
+  const spring = useSpring({ delay: 200, ...animations.standardSlideInFromBottom });
   const buttons = {
     home: {
       text: 'Send',
@@ -56,28 +62,26 @@ function StandardButton({
           const locked = await grin.wallet.txLockOutputs(slate, 0);
           if (locked) {
             fs.outputJsonSync(
-              `${app.getPath('home')}/.grin/main/wallet_data/wimble_txs/${slate.id}.tx`,
+              `${app.getPath('home')}/.wimble/main/wallet_data/wimble_txs/${slate.id}.tx`,
               slate
             );
             setLoading(false);
             history.push(`/result/${slate.id}`, { enter: 'fade', leave: 'fade', scale: '1' });
           } else {
-            console.log('not locked!');
-            // history.push('/404', { enter: 'fade', leave: 'fade', scale: '1' });
+            setLoading(false);
+            toasts.push({
+              text: 'Failed to lock outputs. Make sure you\'re sending valid amounts.',
+              className: 'error',
+            });
           }
         } catch (e) {
           console.log(e);
           setLoading(false);
-          // history.push('/404', { enter: 'fade', leave: 'fade', scale: '1' });
+          toasts.push({
+            text: 'Error: Something went wrong with `Creating transaction`.',
+            className: 'error',
+          });
         }
-        // setTimeout(() => {
-        //   setLoading(false);
-        //   history.push('/result', { enter: 'fade', leave: 'fade', scale: '1' });
-        // }, 800);
-        // if (validateAmount(Big(amount))) {
-        //   grin.initSendTx({ amount }).then((res) => {
-        //   })
-        // }
       },
     },
     result: {
@@ -110,14 +114,54 @@ function StandardButton({
     finalize: {
       text: 'Finalize',
       className: 'black',
-      onClick: ({ history }) => {
-        history.push('/', { enter: 'zoom', leave: 'zoom', scale: '1.15' });
+      onClick: ({ history, finalizeSlate }) => {
+        grin.wallet.finalizeTx(finalizeSlate).then((slate) => {
+          setFinalizeSlate(null);
+          fs.outputJsonSync(
+            `${app.getPath('home')}/.wimble/main/wallet_data/wimble_txs/${slate.id}.final.tx`,
+            slate
+          );
+          toasts.push({ text: `Finalization successful!` });
+          history.push(`/tx/${slate.id}`, { enter: 'fade', leave: 'fade', scale: '1' });
+        }).catch((e) => {
+          console.log(e);
+          toasts.push({
+            text: `Error: Could not finalize slate.`,
+            className: 'error',
+          });
+        });
+      },
+      disabled: ({ finalizeSlate }) => {
+        if (!finalizeSlate) {
+          return true;
+        }
       },
     },
     receive: {
       text: 'Receive',
       className: 'black',
-      onClick: ({ history }) => {
+      onClick: ({ history, receiveSlate }) => {
+        grin.wallet.receiveTx(receiveSlate).then((slate) => {
+          setReceiveSlate(null);
+          fs.outputJsonSync(
+            `${app.getPath('home')}/.wimble/main/wallet_data/wimble_txs/${slate.id}.response.tx`,
+            slate
+          );
+          toasts.push({ text: `Receive successful!` });
+          history.push(`/tx/${slate.id}`, { enter: 'fade', leave: 'fade', scale: '1' });
+        }).catch((e) => {
+          console.log(e);
+          toasts.push({
+            text: `Error: Could not receive slate.`,
+            // log: e,
+            className: 'error',
+          });
+        });
+      },
+      disabled: ({ receiveSlate }) => {
+        if (!receiveSlate) {
+          return true;
+        }
       },
     },
     welcome: {
@@ -137,7 +181,8 @@ function StandardButton({
       text: 'Continue',
       className: 'black',
       onClick: ({ history }) => {
-        fs.ensureFile(remote.app.getPath('home') + '/.wimble/main/wallet_data/wallet.seed').then((err) => {
+        // Check if `wallet.seed` exists, if it does not, create a init a new wallet.
+        fs.ensureFile(remote.app.getPath('home') + '/.wimble/main/wallet_data/wallet.seed').then((res) => {
           setDoesWalletExist(true);
           history.push('/introduction', { leave: 'fade', scale: '1' });
         });
@@ -221,10 +266,23 @@ function StandardButton({
             [button.className]: true,
             loading: loading,
           })}
-          disabled={(button.disabled && button.disabled({ history, amount })) || false}
+          disabled={(button.disabled && button.disabled({
+            history,
+            amount,
+            receiveSlate,
+            finalizeSlate,
+          })) || false}
           onClick={(event) => {
             if (!loading) {
-              button.onClick({ event, history, amount, setAmount, txId });
+              button.onClick({
+                event,
+                history,
+                amount,
+                setAmount,
+                txId,
+                receiveSlate,
+                finalizeSlate,
+              });
             }
           }}
         >
@@ -257,6 +315,10 @@ StandardButton.propTypes = {
   onClick: PropTypes.func,
   parameter: PropTypes.any,
   amount: PropTypes.string,
+  receiveSlate: PropTypes.object,
+  finalizeSlate: PropTypes.object,
+  setReceiveSlate: PropTypes.func,
+  setFinalizeSlate: PropTypes.func,
   txId: PropTypes.string,
   setAmount: PropTypes.func,
   setDoesWalletExist: PropTypes.func,

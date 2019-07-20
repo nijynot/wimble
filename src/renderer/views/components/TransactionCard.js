@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import moment from 'moment';
@@ -22,12 +22,16 @@ import {
   isCancelled,
 } from 'utils/util';
 import { app } from 'utils/app';
+import ToastContext from 'contexts/ToastContext';
 import useHistory from 'hooks/useHistory';
 import Spinner from 'svg/Spinner';
 require('./TransactionCard.scss');
 
 function TransactionCard({ tx, ...props }) {
   const history = useHistory(props.history);
+  const toasts = useContext(ToastContext);
+
+  const [loadingRepost, setLoadingRepost] = useState(false);
   const [loadingCancel, setLoadingCancel] = useState(false);
   const [cancelled, setCancelled] = useState(false);
   const [expand, setExpand] = useState(false);
@@ -62,6 +66,35 @@ function TransactionCard({ tx, ...props }) {
       }).catch((e) => {
         console.log(e);
         setLoadingCancel(false);
+        toasts.push({
+          text: 'Failed to cancel transaction.',
+          className: 'error',
+        });
+      });
+    }
+  };
+
+  const onClickRepost = () => {
+    if (!loadingRepost) {
+      setLoadingRepost(true);
+      const slate = retrieveSlate(tx.tx_slate_id);
+      grin.wallet.postTx(slate, true).then((res) => {
+        if (res) {
+          setTimeout(() => setLoadingRepost(false), 200);
+        } else {
+          toasts.push({
+            text: 'Failed to repost transaction.',
+            className: 'error',
+          });
+          setTimeout(() => setLoadingRepost(false), 200);
+        }
+      }).catch((e) => {
+        console.log(e);
+        setLoadingRepost(false);
+        toasts.push({
+          text: 'Failed to repost transaction.',
+          className: 'error',
+        });
       });
     }
   };
@@ -137,8 +170,8 @@ function TransactionCard({ tx, ...props }) {
               <div className="TransactionCard_row">
                 <label>OUTPUTS {tx && `(IN: ${tx.num_inputs}, OUT: ${tx.num_outputs})`}</label>
                 <div className="TransactionCard_cell">
-                  {(outputs.length > 0) ?outputs.map((output, i) => (
-                    <div className="TransactionCard_output">[{i}]: {output.commit}</div>
+                  {(outputs.length > 0) ? outputs.map((output, i) => (
+                    <div key={output.commit} className="TransactionCard_output">[{i}]: {output.commit}</div>
                   )) : 'N/A'}
                 </div>
               </div>
@@ -147,6 +180,14 @@ function TransactionCard({ tx, ...props }) {
                 <div className="TransactionCard_cell">{tx && tx.fee && toGrin(tx.fee) || 'N/A'}</div>
               </div>
             </div>
+            {(tx && !tx.confirmed) && (
+              <button
+                className={cx('TransactionCard_repost-btn')}
+                onClick={() => onClickRepost()}
+              >
+                {(!loadingRepost) ? 'Repost without Dandelion' : <Spinner active />}
+              </button>
+            )}
             {(tx && !tx.confirmed && !isCancelled(tx)) && (
               <button
                 className={cx('TransactionCard_cancel-btn')}
