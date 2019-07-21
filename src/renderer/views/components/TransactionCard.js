@@ -64,7 +64,6 @@ function TransactionCard({ tx, ...props }) {
           }, 200);
         }
       }).catch((e) => {
-        console.log(e);
         setLoadingCancel(false);
         toasts.push({
           text: 'Failed to cancel transaction.',
@@ -76,15 +75,11 @@ function TransactionCard({ tx, ...props }) {
 
   const onClickRepost = () => {
     (async() => {
-      console.log('test');
       if (!loadingRepost) {
         try {
           setLoadingRepost(true);
-          console.log(tx.id);
           const loggedTx = await grin.wallet.retrieveTxs(parseInt(tx.id, 10));
-          console.log(loggedTx);
           const storedTx = await grin.wallet.getStoredTx(loggedTx[0]);
-          console.log(storedTx);
           const reposted = await grin.wallet.postTx(storedTx, true);
           if (reposted) {
             setTimeout(() => setLoadingRepost(false), 200);
@@ -96,7 +91,6 @@ function TransactionCard({ tx, ...props }) {
             });
           }
         } catch (e) {
-          console.log(e);
           setTimeout(() => setLoadingRepost(false), 200);
           toasts.push({
             text: 'Failed to repost transaction.',

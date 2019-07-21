@@ -20,13 +20,13 @@ function TransactionPage({ id, match, ...props }) {
       grin.wallet.retrieveTxs(null, id).then((res) => {
         setTx(res.reverse()[0]);
       });
-    } else {
+    } else if (match && match.params.id) {
       id = match && match.params.id || null;
       grin.wallet.retrieveTxs(parseInt(id, 10)).then((res) => {
         setTx(res.reverse()[0]);
       });
     }
-  }, []);
+  }, [match.params]);
 
   return (
     <div className="TransactionPage">
