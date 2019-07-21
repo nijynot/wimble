@@ -27,6 +27,7 @@ function createWindow () {
     titleBarStyle: 'hidden',
     // autoHideMenuBar: true,
     frame: (process.platform === 'darwin') ? false : true,
+    icon: path.join(__dirname, 'assets/wimble.png'),
   });
 
   // Load index.html
