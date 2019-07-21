@@ -19,6 +19,7 @@
 }
 .SmallTransactionCard_header {
   display: flex;
+  flex-wrap: wrap;
   font-size: 13px;
   margin-bottom: 16px;
   transition: all .45s cubic-bezier(.19, 1, .22, 1);
