@@ -11,6 +11,7 @@
     "build": "npm run webpack && npm run start",
     "grin": "./bin/grin",
     "grin-wallet": "./bin/grin-wallet owner_api",
+    "package": "npm run package-darwin",
     "package-darwin": "npm run webpack && electron-packager ./ Wimble --out=release --platform=darwin --arch=x64 --overwrite"
   },
   "build": {

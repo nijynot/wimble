@@ -3,34 +3,32 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import execa from 'execa';
 import { useSpring, animated } from 'react-spring';
+import { ipcRenderer } from 'electron';
 
 import Wimble from 'svg/Wimble';
 import Spinner from 'svg/Spinner';
 require('./PasswordPage.scss');
 
 function PasswordPage({ onClickLogin, ...props }) {
+  const [serverStarted, setServerStarted] = useState(false);
   const [password, setPassword] = useState('');
   const springLogo = useSpring({
-    delay: 2500,
     from: {
       position: 'absolute',
       top: '30%',
-      opacity: 1,
       transform: 'translateY(-50%) scale(2.5)',
     },
     to: {
-      top: '0px',
-      opacity: 1,
-      transform: 'translateY(-50%) scale(1)',
+      top: serverStarted ? '0px' : '30%',
+      transform: serverStarted ? 'translateY(-50%) scale(1)' : 'translateY(-50%) scale(2.5)',
     },
   });
   const springPassword = useSpring({
-    delay: 2500,
     from: {
       opacity: 0,
     },
     to: {
-      opacity: 1,
+      opacity: serverStarted ? 1 : 0,
     },
   });
 
@@ -39,6 +37,12 @@ function PasswordPage({ onClickLogin, ...props }) {
       onClickLogin(password);
     }
   }
+
+  useEffect(() => {
+    ipcRenderer.on('server-started', (e, started) => {
+      if (started) setServerStarted(true);
+    });
+  }, []);
 
   return (
     <div className="Password">

@@ -45,7 +45,7 @@ const SERVER = {
     },
   },
   logging: {
-    log_to_stdout: false,
+    log_to_stdout: true,
     stdout_log_level: 'Warning',
     log_to_file: true,
     file_log_level: 'Info',

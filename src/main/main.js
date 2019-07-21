@@ -104,6 +104,13 @@ app.on('ready', () => {
 
   createWindow();
   grinServer = grin.commands.startServer();
+
+  grinServer.all.on('data', (data) => {
+    const output = data.toString('utf8');
+    if (output.includes('Grin server started.')) {
+      mainWindow.webContents.send('server-started', true);
+    }
+  });
 });
 
 // Quit when all windows are closed.
