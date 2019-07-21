@@ -19,9 +19,6 @@ function startServer() {
   );
 }
 
-function stopOwner(process) {
-}
-
 function initWallet(password) {
   if (typeof password !== 'string' || password === '') {
     throw new Error(`Expected \`password\` to be a non-empty string, but got ${password}.`);

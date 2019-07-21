@@ -391,16 +391,16 @@ function check_repair(deleteUnconfirmed) {
 /**
  * Posts a completed transaction to the listening node for
  * validation and inclusion in a block for mining.
- * @param {Object} slate
+ * @param {Object} tx - Should be a .grintx file from saved_txs
  * @param {boolean} fluff - Will skip dandelion if `true`.
  * @returns {Promise.<boolean>}
  */
-function post_tx(slate, fluff) {
+function post_tx(tx, fluff) {
   const body = {
     jsonrpc: '2.0',
     method: 'post_tx',
     id: '1',
-    params: [slate, fluff],
+    params: [tx, fluff],
   };
 
   return fetch('http://127.0.0.1:3420/v2/owner', {
@@ -419,6 +419,32 @@ function post_tx(slate, fluff) {
   });
 }
 
+/**
+ * Returns a stored transaction that can used for reposting.
+ * @param {Object} tx - Has to be in the `TxLogEntry` format.
+ * @returns {Object}
+ */
+function get_stored_tx(tx) {
+  const body = {
+    jsonrpc: '2.0',
+    method: 'get_stored_tx',
+    id: '1',
+    params: [tx],
+  };
+
+  return fetch('http://127.0.0.1:3420/v2/owner', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
+    },
+    body: JSON.stringify(body),
+  }).then((res) => {
+    return res.json();
+  }).then((res) => {
+    return res.result.Ok;
+  });
+}
+
 export default {
   retrieveSummaryInfo: retrieve_summary_info,
   retrieveTxs: retrieve_txs,
@@ -429,4 +455,5 @@ export default {
   receiveTx: receive_tx,
   finalizeTx: finalize_tx,
   postTx: post_tx,
+  getStoredTx: get_stored_tx,
 };

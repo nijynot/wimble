@@ -75,28 +75,36 @@ function TransactionCard({ tx, ...props }) {
   };
 
   const onClickRepost = () => {
-    if (!loadingRepost) {
-      setLoadingRepost(true);
-      const slate = retrieveSlate(tx.tx_slate_id);
-      grin.wallet.postTx(slate, true).then((res) => {
-        if (res) {
+    (async() => {
+      console.log('test');
+      if (!loadingRepost) {
+        try {
+          setLoadingRepost(true);
+          console.log(tx.id);
+          const loggedTx = await grin.wallet.retrieveTxs(parseInt(tx.id, 10));
+          console.log(loggedTx);
+          const storedTx = await grin.wallet.getStoredTx(loggedTx[0]);
+          console.log(storedTx);
+          const reposted = await grin.wallet.postTx(storedTx, true);
+          if (reposted) {
+            setTimeout(() => setLoadingRepost(false), 200);
+          } else {
+            setTimeout(() => setLoadingRepost(false), 200);
+            toasts.push({
+              text: 'Failed to repost transaction.',
+              className: 'error',
+            });
+          }
+        } catch (e) {
+          console.log(e);
           setTimeout(() => setLoadingRepost(false), 200);
-        } else {
           toasts.push({
             text: 'Failed to repost transaction.',
             className: 'error',
           });
-          setTimeout(() => setLoadingRepost(false), 200);
         }
-      }).catch((e) => {
-        console.log(e);
-        setLoadingRepost(false);
-        toasts.push({
-          text: 'Failed to repost transaction.',
-          className: 'error',
-        });
-      });
-    }
+      }
+    })();
   };
 
   useEffect(() => {

@@ -171,12 +171,12 @@ function StandardButton({
       onClick: ({ history }) => {
         history.push('/init', { enter: 'fade', leave: 'fade', scale: '1' });
       },
-      secondary: {
-        text: 'I already have a wallet',
-        onClick: ({ history }) => {
-          history.push('/restore', { enter: 'fade', leave: 'fade', scale: '1' });
-        },
-      },
+      // secondary: {
+      //   text: 'I already have a wallet',
+      //   onClick: ({ history }) => {
+      //     history.push('/restore', { enter: 'fade', leave: 'fade', scale: '1' });
+      //   },
+      // },
     },
     init: {
       text: 'Create wallet',
