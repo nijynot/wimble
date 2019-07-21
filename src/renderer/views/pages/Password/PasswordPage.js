@@ -15,11 +15,11 @@ function PasswordPage({ onClickLogin, ...props }) {
   const springLogo = useSpring({
     from: {
       position: 'absolute',
-      top: '30%',
+      top: '27%',
       transform: 'translateY(-50%) scale(2.5)',
     },
     to: {
-      top: serverStarted ? '0px' : '30%',
+      top: serverStarted ? '0px' : '27%',
       transform: serverStarted ? 'translateY(-50%) scale(1)' : 'translateY(-50%) scale(2.5)',
     },
   });
