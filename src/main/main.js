@@ -1,9 +1,16 @@
+import path from 'path';
+import fs from 'fs-extra';
 const { app, BrowserWindow, dialog, ipcMain, remote } = require('electron');
+import toml from '@iarna/toml';
+import config from 'utils/config';
+
 import grin from 'client/grin';
 
 let mainWindow;
 let grinServer;
 let grinWallet;
+
+require('./menu.js');
 
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -81,6 +88,20 @@ ipcMain.on('start-owner', async (e, password, redirect = true) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  if (!fs.pathExistsSync(path.resolve(__dirname, 'grin-server.toml'))) {
+    fs.outputFileSync(
+      path.resolve(__dirname, 'grin-server.toml'),
+      toml.stringify(config.SERVER)
+    );
+  }
+
+  if (!fs.pathExistsSync(path.resolve(__dirname, 'grin-wallet.toml'))) {
+    fs.outputFileSync(
+      path.resolve(__dirname, 'grin-wallet.toml'),
+      toml.stringify(config.WALLET)
+    );
+  }
+
   createWindow();
   grinServer = grin.commands.startServer();
 });

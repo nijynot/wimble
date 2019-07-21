@@ -1,15 +1,17 @@
 {
   "name": "wimble",
+  "productName": "Wimble",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "webpack": "webpack --mode=development --config ./webpack.renderer.config.js --config ./webpack.main.config.js",
     "build": "npm run webpack && npm run start",
     "grin": "./bin/grin",
-    "grin-wallet": "./bin/grin-wallet owner_api"
+    "grin-wallet": "./bin/grin-wallet owner_api",
+    "package-darwin": "npm run webpack && electron-packager ./ Wimble --out=release --platform=darwin --arch=x64 --overwrite"
   },
   "build": {
     "appId": "com.wimble",
@@ -17,14 +19,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nijynot/grin-wallet-gui.git"
+    "url": "git+https://github.com/nijynot/wimble.git"
   },
   "author": "nijynot",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nijynot/grin-wallet-gui/issues"
+    "url": "https://github.com/nijynot/wimble/issues"
   },
-  "homepage": "https://github.com/nijynot/grin-wallet-gui#readme",
+  "homepage": "https://github.com/nijynot/wimble#readme",
   "devDependencies": {
     "@babel/core": "^7.3.3",
     "@babel/plugin-transform-runtime": "^7.5.0",
@@ -33,6 +35,8 @@
     "babel-loader": "^8.0.5",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.0",
+    "electron": "^5.0.7",
+    "electron-packager": "^14.0.2",
     "eslint": "^5.14.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.2.0",
@@ -46,13 +50,13 @@
     "webpack-dev-server": "^3.2.0"
   },
   "dependencies": {
+    "@iarna/toml": "^2.2.3",
     "big.js": "^5.2.2",
     "classnames": "^2.2.6",
     "date-fns": "^1.30.1",
-    "electron": "^5.0.7",
     "execa": "^2.0.3",
     "fs-extra": "^8.1.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.2",

@@ -5,8 +5,7 @@ module.exports = {
     main: './src/main/main.js',
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: './../../dist/',
+    path: path.resolve(__dirname, './'),
     filename: '[name].js',
   },
   target: 'electron-main',

@@ -1,10 +1,11 @@
+import path from 'path';
 import execa from 'execa';
 import { app } from 'electron';
 // import { DOTFILES } from 'utils/util';
 
 function startOwner(password) {
   return execa(
-    './bin/grin-wallet',
+    path.resolve(__dirname, 'bin/grin-wallet'),
     ['-p', password, 'owner_api'],
     { buffer: false }
   );
@@ -12,8 +13,8 @@ function startOwner(password) {
 
 function startServer() {
   return execa(
-    './bin/grin',
-    ['server', '--config_file', `./grin-server.toml`, 'run'],
+    path.resolve(__dirname, 'bin/grin'),
+    ['server', '--config_file', path.resolve(__dirname, 'grin-server.toml'), 'run'],
     { buffer: false }
   );
 }
@@ -27,7 +28,7 @@ function initWallet(password) {
   }
 
   const subprocess = execa(
-    './bin/grin-wallet',
+    path.resolve(__dirname, 'bin/grin-wallet'),
     ['init'],
   );
 
