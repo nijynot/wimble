@@ -1,7 +1,6 @@
 # Wimble
 > Wallet reinvented for Grin.
 
-## Introduction
 Grin does not have addresses built-in which makes transacting more convoluted.
 Thus, Wimble takes a new approach by only supporting file- and text (base64) based transactions coupled together with an intuitive interface.
 
@@ -24,7 +23,7 @@ $ npm run package
 Then navigate to the `release` folder to find the built apps.
 
 ## Side-note
-Wimble reads and writes to the `.grin` folder, and uses configs that are stored inside the application.  
+Wimble read and writes to the `.grin` folder, and uses configs that are stored inside the application.  
 Wimble ***only*** supports file- and text (base64) based transactions.  
 Wimble uses both the `grin` and the `grin-wallet` binaries.  
 
