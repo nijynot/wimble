@@ -22,6 +22,11 @@ $ npm run package
 ```
 Then navigate to the `release` folder to find the built apps.
 
+## Screenshots
+
+<img src="https://raw.githubusercontent.com/nijynot/wimble/master/screenshots/splash.png" height="500"/> <img src="https://raw.githubusercontent.com/nijynot/wimble/master/screenshots/home-hidden.png" height="500"/> <img src="https://raw.githubusercontent.com/nijynot/wimble/master/screenshots/home-show.png" height="500"/> <img src="https://raw.githubusercontent.com/nijynot/wimble/master/screenshots/send.png" height="500"/> <img src="https://raw.githubusercontent.com/nijynot/wimble/master/screenshots/slate.png" height="500"/> <img src="https://raw.githubusercontent.com/nijynot/wimble/master/screenshots/txs.png" height="500"/>
+
+
 ## Side-note
 Wimble read and writes to the `.grin` folder, and uses configs that are stored inside the application.  
 Wimble ***only*** supports file- and text (base64) based transactions.  
